@@ -20,35 +20,48 @@ namespace AppLibrary
 
         private void FormDauSach_Load(object sender, EventArgs e)
         {
-            this.tableAdapterManager.Connection.ConnectionString = Program.connstr;
+            dsQLVT.EnforceConstraints = false;
+            this.taChiTietNganTu.Connection.ConnectionString =Program.connstr;
+            this.taChiTietNganTu.Fill(this.dsQLVT.CHITIETNGANTU);
+            this.taDSTheLoai.Connection.ConnectionString =Program.connstr;
+            this.taDSTheLoai.Fill(this.dsQLVT.DSTHELOAI);
+            this.taDSNgonNgu.Connection.ConnectionString =Program.connstr;
+            this.taDSNgonNgu.Fill(this.dsQLVT.DSNGONNGU);
+            this.tamDauSach.Connection.ConnectionString = Program.connstr;
+            this.taDauSach.Fill(this.dsQLVT.DAUSACH);
+            this.taSach.Connection.ConnectionString = Program.connstr;
+            this.taSach.Fill(this.dsQLVT.SACH);
+        }
+
+        private void cbNgonNgu_SelectedIndexChanged(object sender, EventArgs e)
+        {
             try
             {
-                this.tableAdapterManager.Connection.ConnectionString = Program.connstr;
-                this.dAUSACHTableAdapter.Fill(this.qLTVDataSet.DAUSACH);
-
+                txtMaNgonNgu.Text = cbNgonNgu.SelectedValue?.ToString() ?? string.Empty;
             }
-            catch (System.Data.ConstraintException ex)
+            catch { }
+        }
+
+        private void cbTheLoai_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
             {
-                MessageBox.Show("Lỗi dữ liệu: " + ex.Message);
+                txtMaTheLoai.Text = cbTheLoai.SelectedValue?.ToString() ?? string.Empty;
             }
+            catch { }
         }
 
-        private void dAUSACHGridControl_Click(object sender, EventArgs e)
+        private void btnThemSach_Click(object sender, EventArgs e)
         {
-
+            bdsSach.AddNew();
         }
 
-        private void dAUSACHBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+        private void btnGhiSach_Click(object sender, EventArgs e)
         {
-            this.Validate();
-            this.dAUSACHBindingSource.EndEdit();
-            this.tableAdapterManager.UpdateAll(this.qLTVDataSet);
-
-        }
-
-        private void gc_DauSach_Paint(object sender, PaintEventArgs e)
-        {
-
+            try 
+            {
+                this.taSach.Update(this.dsQLVT.SACH);
+            } catch (Exception){ }
         }
     }
 

@@ -4,6 +4,10 @@
 
     partial class QLTVDataSet
     {
+        partial class DSNGONNGUDataTable
+        {
+        }
+
         partial class THELOAIDataTable
         {
         }

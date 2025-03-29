@@ -7,6 +7,7 @@ using DevExpress.Skins;
 using System.Data.SqlClient;
 using System.Data;
 using DevExpress.XtraSplashScreen;
+using DevExpress.XtraWaitForm;
 
 namespace AppLibrary
 {
@@ -20,7 +21,7 @@ namespace AppLibrary
         public static readonly string ServerName = "DESKTOP-8MGRMNI"; // Tên server SQL
         public static readonly string DatabaseName = "QLTV"; // Tên database cần làm việc
         public static string UserName = "";
-        public static string LoginName = "Hoa"; // Tên đăng nhập vào SQL Server
+        public static string LoginName = "DG"; // Tên đăng nhập vào SQL Server
         public static string LoginPassword = "123456"; // Mật khẩu đăng nhập
 
         public static String mGroup = "DOCGIA";
@@ -141,6 +142,7 @@ namespace AppLibrary
             }
         }
 
+        public static Form CurrentMainForm; // Lưu tham chiếu FormMain hiện tại
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -149,7 +151,10 @@ namespace AppLibrary
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+
+            CurrentMainForm = new FormMain();
+            CurrentMainForm.Show(); // Hiển thị FormMain ban đầu
+            Application.Run(); // Chạy ứng dụng mà không chỉ định form chính
         }
     }
 }
