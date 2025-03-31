@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDauSach));
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.bar2 = new DevExpress.XtraBars.Bar();
             this.btnThem = new DevExpress.XtraBars.BarButtonItem();
@@ -190,34 +191,34 @@
             this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
             this.barDockControlTop.Manager = this.barManager1;
             this.barDockControlTop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.barDockControlTop.Size = new System.Drawing.Size(1435, 41);
+            this.barDockControlTop.Size = new System.Drawing.Size(1435, 35);
             // 
             // barDockControlBottom
             // 
             this.barDockControlBottom.CausesValidation = false;
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 688);
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 690);
             this.barDockControlBottom.Manager = this.barManager1;
             this.barDockControlBottom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.barDockControlBottom.Size = new System.Drawing.Size(1435, 24);
+            this.barDockControlBottom.Size = new System.Drawing.Size(1435, 22);
             // 
             // barDockControlLeft
             // 
             this.barDockControlLeft.CausesValidation = false;
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.barDockControlLeft.Location = new System.Drawing.Point(0, 41);
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 35);
             this.barDockControlLeft.Manager = this.barManager1;
             this.barDockControlLeft.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 647);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 655);
             // 
             // barDockControlRight
             // 
             this.barDockControlRight.CausesValidation = false;
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControlRight.Location = new System.Drawing.Point(1435, 41);
+            this.barDockControlRight.Location = new System.Drawing.Point(1435, 35);
             this.barDockControlRight.Manager = this.barManager1;
             this.barDockControlRight.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 647);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 655);
             // 
             // barButtonItem9
             // 
@@ -244,15 +245,19 @@
             this.dAUSACHGridControl.DataSource = this.dAUSACHBindingSource;
             this.dAUSACHGridControl.Dock = System.Windows.Forms.DockStyle.Top;
             this.dAUSACHGridControl.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(9, 9, 9, 9);
-            this.dAUSACHGridControl.Location = new System.Drawing.Point(0, 41);
+            gridLevelNode1.RelationName = "Level1";
+            this.dAUSACHGridControl.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
+            gridLevelNode1});
+            this.dAUSACHGridControl.Location = new System.Drawing.Point(0, 35);
             this.dAUSACHGridControl.MainView = this.gridView1;
             this.dAUSACHGridControl.Margin = new System.Windows.Forms.Padding(9, 9, 9, 9);
             this.dAUSACHGridControl.MenuManager = this.barManager1;
             this.dAUSACHGridControl.Name = "dAUSACHGridControl";
-            this.dAUSACHGridControl.Size = new System.Drawing.Size(1435, 300);
+            this.dAUSACHGridControl.Size = new System.Drawing.Size(1435, 316);
             this.dAUSACHGridControl.TabIndex = 12;
             this.dAUSACHGridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
+            this.dAUSACHGridControl.Click += new System.EventHandler(this.dAUSACHGridControl_Click_1);
             // 
             // gridView1
             // 
@@ -269,130 +274,130 @@
             this.colNHAXB,
             this.colMANGONNGU,
             this.colMATL});
-            this.gridView1.DetailHeight = 1180;
+            this.gridView1.DetailHeight = 1242;
             this.gridView1.GridControl = this.dAUSACHGridControl;
             this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsEditForm.PopupEditFormWidth = 2700;
+            this.gridView1.OptionsEditForm.PopupEditFormWidth = 2625;
             // 
             // colISBN
             // 
             this.colISBN.Caption = "Mã đầu sách";
             this.colISBN.FieldName = "ISBN";
-            this.colISBN.MinWidth = 100;
+            this.colISBN.MinWidth = 97;
             this.colISBN.Name = "colISBN";
             this.colISBN.Visible = true;
             this.colISBN.VisibleIndex = 0;
-            this.colISBN.Width = 378;
+            this.colISBN.Width = 367;
             // 
             // colTENSACH
             // 
             this.colTENSACH.Caption = "Tên sách";
             this.colTENSACH.FieldName = "TENSACH";
-            this.colTENSACH.MinWidth = 100;
+            this.colTENSACH.MinWidth = 97;
             this.colTENSACH.Name = "colTENSACH";
             this.colTENSACH.Visible = true;
             this.colTENSACH.VisibleIndex = 1;
-            this.colTENSACH.Width = 378;
+            this.colTENSACH.Width = 367;
             // 
             // colKHOSACH
             // 
             this.colKHOSACH.Caption = "Khổ sách";
             this.colKHOSACH.FieldName = "KHOSACH";
-            this.colKHOSACH.MinWidth = 100;
+            this.colKHOSACH.MinWidth = 97;
             this.colKHOSACH.Name = "colKHOSACH";
             this.colKHOSACH.Visible = true;
             this.colKHOSACH.VisibleIndex = 2;
-            this.colKHOSACH.Width = 378;
+            this.colKHOSACH.Width = 367;
             // 
             // colNOIDUNG
             // 
             this.colNOIDUNG.Caption = "Nội dung";
             this.colNOIDUNG.FieldName = "NOIDUNG";
-            this.colNOIDUNG.MinWidth = 100;
+            this.colNOIDUNG.MinWidth = 97;
             this.colNOIDUNG.Name = "colNOIDUNG";
             this.colNOIDUNG.Visible = true;
             this.colNOIDUNG.VisibleIndex = 3;
-            this.colNOIDUNG.Width = 378;
+            this.colNOIDUNG.Width = 367;
             // 
             // colHINHANHPATH
             // 
             this.colHINHANHPATH.Caption = "Hình ảnh";
             this.colHINHANHPATH.FieldName = "HINHANHPATH";
-            this.colHINHANHPATH.MinWidth = 100;
+            this.colHINHANHPATH.MinWidth = 97;
             this.colHINHANHPATH.Name = "colHINHANHPATH";
             this.colHINHANHPATH.Visible = true;
             this.colHINHANHPATH.VisibleIndex = 4;
-            this.colHINHANHPATH.Width = 378;
+            this.colHINHANHPATH.Width = 367;
             // 
             // colNGAYXUATBAN
             // 
             this.colNGAYXUATBAN.Caption = "Ngày xuất bản";
             this.colNGAYXUATBAN.FieldName = "NGAYXUATBAN";
-            this.colNGAYXUATBAN.MinWidth = 100;
+            this.colNGAYXUATBAN.MinWidth = 97;
             this.colNGAYXUATBAN.Name = "colNGAYXUATBAN";
             this.colNGAYXUATBAN.Visible = true;
             this.colNGAYXUATBAN.VisibleIndex = 5;
-            this.colNGAYXUATBAN.Width = 378;
+            this.colNGAYXUATBAN.Width = 367;
             // 
             // colLANXUATBAN
             // 
             this.colLANXUATBAN.Caption = "Lần xuất bản";
             this.colLANXUATBAN.FieldName = "LANXUATBAN";
-            this.colLANXUATBAN.MinWidth = 100;
+            this.colLANXUATBAN.MinWidth = 97;
             this.colLANXUATBAN.Name = "colLANXUATBAN";
             this.colLANXUATBAN.Visible = true;
             this.colLANXUATBAN.VisibleIndex = 6;
-            this.colLANXUATBAN.Width = 378;
+            this.colLANXUATBAN.Width = 367;
             // 
             // colSOTRANG
             // 
             this.colSOTRANG.Caption = "Số trang";
             this.colSOTRANG.FieldName = "SOTRANG";
-            this.colSOTRANG.MinWidth = 100;
+            this.colSOTRANG.MinWidth = 97;
             this.colSOTRANG.Name = "colSOTRANG";
             this.colSOTRANG.Visible = true;
             this.colSOTRANG.VisibleIndex = 7;
-            this.colSOTRANG.Width = 378;
+            this.colSOTRANG.Width = 367;
             // 
             // colGIA
             // 
             this.colGIA.Caption = "Giá";
             this.colGIA.FieldName = "GIA";
-            this.colGIA.MinWidth = 100;
+            this.colGIA.MinWidth = 97;
             this.colGIA.Name = "colGIA";
             this.colGIA.Visible = true;
             this.colGIA.VisibleIndex = 8;
-            this.colGIA.Width = 378;
+            this.colGIA.Width = 367;
             // 
             // colNHAXB
             // 
             this.colNHAXB.Caption = "Nhà xuất bản";
             this.colNHAXB.FieldName = "NHAXB";
-            this.colNHAXB.MinWidth = 100;
+            this.colNHAXB.MinWidth = 97;
             this.colNHAXB.Name = "colNHAXB";
             this.colNHAXB.Visible = true;
             this.colNHAXB.VisibleIndex = 9;
-            this.colNHAXB.Width = 378;
+            this.colNHAXB.Width = 367;
             // 
             // colMANGONNGU
             // 
             this.colMANGONNGU.Caption = "Mã ngôn ngữ";
             this.colMANGONNGU.FieldName = "MANGONNGU";
-            this.colMANGONNGU.MinWidth = 100;
+            this.colMANGONNGU.MinWidth = 97;
             this.colMANGONNGU.Name = "colMANGONNGU";
             this.colMANGONNGU.Visible = true;
             this.colMANGONNGU.VisibleIndex = 10;
-            this.colMANGONNGU.Width = 378;
+            this.colMANGONNGU.Width = 367;
             // 
             // colMATL
             // 
             this.colMATL.Caption = "Mã thể loại";
             this.colMATL.FieldName = "MATL";
-            this.colMATL.MinWidth = 100;
+            this.colMATL.MinWidth = 97;
             this.colMATL.Name = "colMATL";
             this.colMATL.Visible = true;
             this.colMATL.VisibleIndex = 11;
-            this.colMATL.Width = 378;
+            this.colMATL.Width = 367;
             // 
             // tableAdapterManager
             // 
@@ -413,7 +418,7 @@
             // FormDauSach
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1435, 712);
             this.Controls.Add(this.dAUSACHGridControl);

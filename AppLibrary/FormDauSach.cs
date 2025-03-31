@@ -20,7 +20,7 @@ namespace AppLibrary
 
         private void FormDauSach_Load(object sender, EventArgs e)
         {
-            this.tableAdapterManager.Connection.ConnectionString = Program.connstr;
+           
             try
             {
                 this.tableAdapterManager.Connection.ConnectionString = Program.connstr;
@@ -47,6 +47,11 @@ namespace AppLibrary
         }
 
         private void gc_DauSach_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dAUSACHGridControl_Click_1(object sender, EventArgs e)
         {
 
         }
