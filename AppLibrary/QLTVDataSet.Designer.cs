@@ -52,23 +52,23 @@ namespace AppLibrary {
         
         private CHITIETNGANTUDataTable tableCHITIETNGANTU;
         
-        private global::System.Data.DataRelation relationFK_CTPHIEUMUON_SACH;
+        private global::System.Data.DataRelation relationFK_CTPHIEUMUON_NHANVIEN;
         
         private global::System.Data.DataRelation relationFK_CTPHIEUMUON_PHIEUMUON;
         
-        private global::System.Data.DataRelation relationFK_CTPHIEUMUON_NHANVIEN;
-        
-        private global::System.Data.DataRelation relationFK_PHIEUMUON_DOCGIA;
+        private global::System.Data.DataRelation relationFK_CTPHIEUMUON_SACH;
         
         private global::System.Data.DataRelation relationFK_PHIEUMUON_NHANVIEN;
+        
+        private global::System.Data.DataRelation relationFK_PHIEUMUON_DOCGIA;
         
         private global::System.Data.DataRelation relationFK_SACH_NGANTU;
         
         private global::System.Data.DataRelation relationFK_TACGIA_SACH_TACGIA;
         
-        private global::System.Data.DataRelation relationFK_DAUSACH_NGONNGU;
-        
         private global::System.Data.DataRelation relationFK_DAUSACH_THELOAI;
+        
+        private global::System.Data.DataRelation relationFK_DAUSACH_NGONNGU;
         
         private global::System.Data.DataRelation relationFK_SACH_DAUSACH;
         
@@ -528,15 +528,15 @@ namespace AppLibrary {
                     this.tableCHITIETNGANTU.InitVars();
                 }
             }
-            this.relationFK_CTPHIEUMUON_SACH = this.Relations["FK_CTPHIEUMUON_SACH"];
-            this.relationFK_CTPHIEUMUON_PHIEUMUON = this.Relations["FK_CTPHIEUMUON_PHIEUMUON"];
             this.relationFK_CTPHIEUMUON_NHANVIEN = this.Relations["FK_CTPHIEUMUON_NHANVIEN"];
-            this.relationFK_PHIEUMUON_DOCGIA = this.Relations["FK_PHIEUMUON_DOCGIA"];
+            this.relationFK_CTPHIEUMUON_PHIEUMUON = this.Relations["FK_CTPHIEUMUON_PHIEUMUON"];
+            this.relationFK_CTPHIEUMUON_SACH = this.Relations["FK_CTPHIEUMUON_SACH"];
             this.relationFK_PHIEUMUON_NHANVIEN = this.Relations["FK_PHIEUMUON_NHANVIEN"];
+            this.relationFK_PHIEUMUON_DOCGIA = this.Relations["FK_PHIEUMUON_DOCGIA"];
             this.relationFK_SACH_NGANTU = this.Relations["FK_SACH_NGANTU"];
             this.relationFK_TACGIA_SACH_TACGIA = this.Relations["FK_TACGIA_SACH_TACGIA"];
-            this.relationFK_DAUSACH_NGONNGU = this.Relations["FK_DAUSACH_NGONNGU"];
             this.relationFK_DAUSACH_THELOAI = this.Relations["FK_DAUSACH_THELOAI"];
+            this.relationFK_DAUSACH_NGONNGU = this.Relations["FK_DAUSACH_NGONNGU"];
             this.relationFK_SACH_DAUSACH = this.Relations["FK_SACH_DAUSACH"];
             this.relationFK_TACGIA_SACH_DAUSACH = this.Relations["FK_TACGIA_SACH_DAUSACH"];
         }
@@ -578,9 +578,9 @@ namespace AppLibrary {
             this.tableCHITIETNGANTU = new CHITIETNGANTUDataTable();
             base.Tables.Add(this.tableCHITIETNGANTU);
             global::System.Data.ForeignKeyConstraint fkc;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_CTPHIEUMUON_SACH", new global::System.Data.DataColumn[] {
-                        this.tableSACH.MASACHColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCT_PHIEUMUON.MASACHColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_CTPHIEUMUON_NHANVIEN", new global::System.Data.DataColumn[] {
+                        this.tableNHANVIEN.MANVColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCT_PHIEUMUON.MANVNSColumn});
             this.tableCT_PHIEUMUON.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
@@ -592,10 +592,17 @@ namespace AppLibrary {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_CTPHIEUMUON_NHANVIEN", new global::System.Data.DataColumn[] {
-                        this.tableNHANVIEN.MANVColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCT_PHIEUMUON.MANVNSColumn});
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_CTPHIEUMUON_SACH", new global::System.Data.DataColumn[] {
+                        this.tableSACH.MASACHColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCT_PHIEUMUON.MASACHColumn});
             this.tableCT_PHIEUMUON.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.None;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_PHIEUMUON_NHANVIEN", new global::System.Data.DataColumn[] {
+                        this.tableNHANVIEN.MANVColumn}, new global::System.Data.DataColumn[] {
+                        this.tablePHIEUMUON.MANVColumn});
+            this.tablePHIEUMUON.Constraints.Add(fkc);
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
@@ -606,13 +613,6 @@ namespace AppLibrary {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_PHIEUMUON_NHANVIEN", new global::System.Data.DataColumn[] {
-                        this.tableNHANVIEN.MANVColumn}, new global::System.Data.DataColumn[] {
-                        this.tablePHIEUMUON.MANVColumn});
-            this.tablePHIEUMUON.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.None;
-            fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("FK_SACH_NGANTU", new global::System.Data.DataColumn[] {
                         this.tableNGANTU.MANGANTUColumn}, new global::System.Data.DataColumn[] {
                         this.tableSACH.MANGANTUColumn});
@@ -627,13 +627,6 @@ namespace AppLibrary {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.None;
-            fkc = new global::System.Data.ForeignKeyConstraint("FK_DAUSACH_NGONNGU", new global::System.Data.DataColumn[] {
-                        this.tableNGONNGU.MANGONNGUColumn}, new global::System.Data.DataColumn[] {
-                        this.tableDAUSACH.MANGONNGUColumn});
-            this.tableDAUSACH.Constraints.Add(fkc);
-            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
-            fkc.DeleteRule = global::System.Data.Rule.None;
-            fkc.UpdateRule = global::System.Data.Rule.Cascade;
             fkc = new global::System.Data.ForeignKeyConstraint("FK_DAUSACH_THELOAI", new global::System.Data.DataColumn[] {
                         this.tableTHELOAI.MATLColumn}, new global::System.Data.DataColumn[] {
                         this.tableDAUSACH.MATLColumn});
@@ -641,26 +634,33 @@ namespace AppLibrary {
             fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
             fkc.DeleteRule = global::System.Data.Rule.None;
             fkc.UpdateRule = global::System.Data.Rule.Cascade;
-            this.relationFK_CTPHIEUMUON_SACH = new global::System.Data.DataRelation("FK_CTPHIEUMUON_SACH", new global::System.Data.DataColumn[] {
-                        this.tableSACH.MASACHColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCT_PHIEUMUON.MASACHColumn}, false);
-            this.Relations.Add(this.relationFK_CTPHIEUMUON_SACH);
-            this.relationFK_CTPHIEUMUON_PHIEUMUON = new global::System.Data.DataRelation("FK_CTPHIEUMUON_PHIEUMUON", new global::System.Data.DataColumn[] {
-                        this.tablePHIEUMUON.MAPHIEUColumn}, new global::System.Data.DataColumn[] {
-                        this.tableCT_PHIEUMUON.MAPHIEUColumn}, false);
-            this.Relations.Add(this.relationFK_CTPHIEUMUON_PHIEUMUON);
+            fkc = new global::System.Data.ForeignKeyConstraint("FK_DAUSACH_NGONNGU", new global::System.Data.DataColumn[] {
+                        this.tableNGONNGU.MANGONNGUColumn}, new global::System.Data.DataColumn[] {
+                        this.tableDAUSACH.MANGONNGUColumn});
+            this.tableDAUSACH.Constraints.Add(fkc);
+            fkc.AcceptRejectRule = global::System.Data.AcceptRejectRule.None;
+            fkc.DeleteRule = global::System.Data.Rule.None;
+            fkc.UpdateRule = global::System.Data.Rule.Cascade;
             this.relationFK_CTPHIEUMUON_NHANVIEN = new global::System.Data.DataRelation("FK_CTPHIEUMUON_NHANVIEN", new global::System.Data.DataColumn[] {
                         this.tableNHANVIEN.MANVColumn}, new global::System.Data.DataColumn[] {
                         this.tableCT_PHIEUMUON.MANVNSColumn}, false);
             this.Relations.Add(this.relationFK_CTPHIEUMUON_NHANVIEN);
-            this.relationFK_PHIEUMUON_DOCGIA = new global::System.Data.DataRelation("FK_PHIEUMUON_DOCGIA", new global::System.Data.DataColumn[] {
-                        this.tableDOCGIA.MADGColumn}, new global::System.Data.DataColumn[] {
-                        this.tablePHIEUMUON.MADGColumn}, false);
-            this.Relations.Add(this.relationFK_PHIEUMUON_DOCGIA);
+            this.relationFK_CTPHIEUMUON_PHIEUMUON = new global::System.Data.DataRelation("FK_CTPHIEUMUON_PHIEUMUON", new global::System.Data.DataColumn[] {
+                        this.tablePHIEUMUON.MAPHIEUColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCT_PHIEUMUON.MAPHIEUColumn}, false);
+            this.Relations.Add(this.relationFK_CTPHIEUMUON_PHIEUMUON);
+            this.relationFK_CTPHIEUMUON_SACH = new global::System.Data.DataRelation("FK_CTPHIEUMUON_SACH", new global::System.Data.DataColumn[] {
+                        this.tableSACH.MASACHColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCT_PHIEUMUON.MASACHColumn}, false);
+            this.Relations.Add(this.relationFK_CTPHIEUMUON_SACH);
             this.relationFK_PHIEUMUON_NHANVIEN = new global::System.Data.DataRelation("FK_PHIEUMUON_NHANVIEN", new global::System.Data.DataColumn[] {
                         this.tableNHANVIEN.MANVColumn}, new global::System.Data.DataColumn[] {
                         this.tablePHIEUMUON.MANVColumn}, false);
             this.Relations.Add(this.relationFK_PHIEUMUON_NHANVIEN);
+            this.relationFK_PHIEUMUON_DOCGIA = new global::System.Data.DataRelation("FK_PHIEUMUON_DOCGIA", new global::System.Data.DataColumn[] {
+                        this.tableDOCGIA.MADGColumn}, new global::System.Data.DataColumn[] {
+                        this.tablePHIEUMUON.MADGColumn}, false);
+            this.Relations.Add(this.relationFK_PHIEUMUON_DOCGIA);
             this.relationFK_SACH_NGANTU = new global::System.Data.DataRelation("FK_SACH_NGANTU", new global::System.Data.DataColumn[] {
                         this.tableNGANTU.MANGANTUColumn}, new global::System.Data.DataColumn[] {
                         this.tableSACH.MANGANTUColumn}, false);
@@ -669,14 +669,14 @@ namespace AppLibrary {
                         this.tableTACGIA.MATACGIAColumn}, new global::System.Data.DataColumn[] {
                         this.tableTACGIA_SACH.MATACGIAColumn}, false);
             this.Relations.Add(this.relationFK_TACGIA_SACH_TACGIA);
-            this.relationFK_DAUSACH_NGONNGU = new global::System.Data.DataRelation("FK_DAUSACH_NGONNGU", new global::System.Data.DataColumn[] {
-                        this.tableNGONNGU.MANGONNGUColumn}, new global::System.Data.DataColumn[] {
-                        this.tableDAUSACH.MANGONNGUColumn}, false);
-            this.Relations.Add(this.relationFK_DAUSACH_NGONNGU);
             this.relationFK_DAUSACH_THELOAI = new global::System.Data.DataRelation("FK_DAUSACH_THELOAI", new global::System.Data.DataColumn[] {
                         this.tableTHELOAI.MATLColumn}, new global::System.Data.DataColumn[] {
                         this.tableDAUSACH.MATLColumn}, false);
             this.Relations.Add(this.relationFK_DAUSACH_THELOAI);
+            this.relationFK_DAUSACH_NGONNGU = new global::System.Data.DataRelation("FK_DAUSACH_NGONNGU", new global::System.Data.DataColumn[] {
+                        this.tableNGONNGU.MANGONNGUColumn}, new global::System.Data.DataColumn[] {
+                        this.tableDAUSACH.MANGONNGUColumn}, false);
+            this.Relations.Add(this.relationFK_DAUSACH_NGONNGU);
             this.relationFK_SACH_DAUSACH = new global::System.Data.DataRelation("FK_SACH_DAUSACH", new global::System.Data.DataColumn[] {
                         this.tableDAUSACH.ISBNColumn}, new global::System.Data.DataColumn[] {
                         this.tableSACH.ISBNColumn}, false);
@@ -5421,12 +5421,12 @@ namespace AppLibrary {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public SACHRow SACHRow {
+            public NHANVIENRow NHANVIENRow {
                 get {
-                    return ((SACHRow)(this.GetParentRow(this.Table.ParentRelations["FK_CTPHIEUMUON_SACH"])));
+                    return ((NHANVIENRow)(this.GetParentRow(this.Table.ParentRelations["FK_CTPHIEUMUON_NHANVIEN"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_CTPHIEUMUON_SACH"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_CTPHIEUMUON_NHANVIEN"]);
                 }
             }
             
@@ -5443,12 +5443,12 @@ namespace AppLibrary {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public NHANVIENRow NHANVIENRow {
+            public SACHRow SACHRow {
                 get {
-                    return ((NHANVIENRow)(this.GetParentRow(this.Table.ParentRelations["FK_CTPHIEUMUON_NHANVIEN"])));
+                    return ((SACHRow)(this.GetParentRow(this.Table.ParentRelations["FK_CTPHIEUMUON_SACH"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_CTPHIEUMUON_NHANVIEN"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_CTPHIEUMUON_SACH"]);
                 }
             }
             
@@ -6246,23 +6246,23 @@ namespace AppLibrary {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public DOCGIARow DOCGIARow {
-                get {
-                    return ((DOCGIARow)(this.GetParentRow(this.Table.ParentRelations["FK_PHIEUMUON_DOCGIA"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_PHIEUMUON_DOCGIA"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public NHANVIENRow NHANVIENRow {
                 get {
                     return ((NHANVIENRow)(this.GetParentRow(this.Table.ParentRelations["FK_PHIEUMUON_NHANVIEN"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_PHIEUMUON_NHANVIEN"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public DOCGIARow DOCGIARow {
+                get {
+                    return ((DOCGIARow)(this.GetParentRow(this.Table.ParentRelations["FK_PHIEUMUON_DOCGIA"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_PHIEUMUON_DOCGIA"]);
                 }
             }
             
@@ -6961,23 +6961,23 @@ namespace AppLibrary {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public NGONNGURow NGONNGURow {
-                get {
-                    return ((NGONNGURow)(this.GetParentRow(this.Table.ParentRelations["FK_DAUSACH_NGONNGU"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_DAUSACH_NGONNGU"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public THELOAIRow THELOAIRow {
                 get {
                     return ((THELOAIRow)(this.GetParentRow(this.Table.ParentRelations["FK_DAUSACH_THELOAI"])));
                 }
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_DAUSACH_THELOAI"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public NGONNGURow NGONNGURow {
+                get {
+                    return ((NGONNGURow)(this.GetParentRow(this.Table.ParentRelations["FK_DAUSACH_NGONNGU"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_DAUSACH_NGONNGU"]);
                 }
             }
             
@@ -12855,11 +12855,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
             tableMapping.ColumnMappings.Add("TENNGONNGU", "TENNGONNGU");
             tableMapping.ColumnMappings.Add("MANGONNGU", "MANGONNGU");
             this._adapter.TableMappings.Add(tableMapping);
-            this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[NGONNGU] WHERE (([MANGONNGU] = @Original_MANGONNGU))";
-            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MANGONNGU", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MANGONNGU", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12902,57 +12897,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
             QLTVDataSet.DSNGONNGUDataTable dataTable = new QLTVDataSet.DSNGONNGUDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(QLTVDataSet.DSNGONNGUDataTable dataTable) {
-            return this.Adapter.Update(dataTable);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(QLTVDataSet dataSet) {
-            return this.Adapter.Update(dataSet, "DSNGONNGU");
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow dataRow) {
-            return this.Adapter.Update(new global::System.Data.DataRow[] {
-                        dataRow});
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow[] dataRows) {
-            return this.Adapter.Update(dataRows);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_MANGONNGU) {
-            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_MANGONNGU));
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
-            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.DeleteCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.DeleteCommand.Connection.Close();
-                }
-            }
         }
     }
     
@@ -13080,19 +13024,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
             tableMapping.ColumnMappings.Add("TENTHELOAI", "TENTHELOAI");
             tableMapping.ColumnMappings.Add("MATL", "MATL");
             this._adapter.TableMappings.Add(tableMapping);
-            this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[THELOAI] WHERE (([MATL] = @Original_MATL))";
-            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MATL", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MATL", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE [dbo].[THELOAI] SET [MATL] = @MATL WHERE (([MATL] = @Original_MATL));\r\nSEL" +
-                "ECT THELOAI + \' - \' + LTRIM(MATL) AS TENTHELOAI, MATL FROM THELOAI WHERE (MATL =" +
-                " @MATL) ORDER BY MATL, THELOAI";
-            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MATL", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MATL", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MATL", global::System.Data.SqlDbType.VarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MATL", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13135,103 +13066,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
             QLTVDataSet.DSTHELOAIDataTable dataTable = new QLTVDataSet.DSTHELOAIDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(QLTVDataSet.DSTHELOAIDataTable dataTable) {
-            return this.Adapter.Update(dataTable);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(QLTVDataSet dataSet) {
-            return this.Adapter.Update(dataSet, "DSTHELOAI");
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow dataRow) {
-            return this.Adapter.Update(new global::System.Data.DataRow[] {
-                        dataRow});
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow[] dataRows) {
-            return this.Adapter.Update(dataRows);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(string Original_MATL) {
-            if ((Original_MATL == null)) {
-                throw new global::System.ArgumentNullException("Original_MATL");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[0].Value = ((string)(Original_MATL));
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
-            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.DeleteCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.DeleteCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string MATL, string Original_MATL) {
-            if ((MATL == null)) {
-                throw new global::System.ArgumentNullException("MATL");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(MATL));
-            }
-            if ((Original_MATL == null)) {
-                throw new global::System.ArgumentNullException("Original_MATL");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Original_MATL));
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
-            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.UpdateCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.UpdateCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string Original_MATL) {
-            return this.Update(Original_MATL, Original_MATL);
         }
     }
     
@@ -13519,10 +13353,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
         
         private DAUSACHTableAdapter _dAUSACHTableAdapter;
         
-        private DSNGONNGUTableAdapter _dSNGONNGUTableAdapter;
-        
-        private DSTHELOAITableAdapter _dSTHELOAITableAdapter;
-        
         private CHITIETNGANTUTableAdapter _cHITIETNGANTUTableAdapter;
         
         private bool _backupDataSetBeforeUpdate;
@@ -13699,34 +13529,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
         [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
             "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
             "a", "System.Drawing.Design.UITypeEditor")]
-        public DSNGONNGUTableAdapter DSNGONNGUTableAdapter {
-            get {
-                return this._dSNGONNGUTableAdapter;
-            }
-            set {
-                this._dSNGONNGUTableAdapter = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
-            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
-            "a", "System.Drawing.Design.UITypeEditor")]
-        public DSTHELOAITableAdapter DSTHELOAITableAdapter {
-            get {
-                return this._dSTHELOAITableAdapter;
-            }
-            set {
-                this._dSTHELOAITableAdapter = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
-            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
-            "a", "System.Drawing.Design.UITypeEditor")]
         public CHITIETNGANTUTableAdapter CHITIETNGANTUTableAdapter {
             get {
                 return this._cHITIETNGANTUTableAdapter;
@@ -13799,14 +13601,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
                             && (this._dAUSACHTableAdapter.Connection != null))) {
                     return this._dAUSACHTableAdapter.Connection;
                 }
-                if (((this._dSNGONNGUTableAdapter != null) 
-                            && (this._dSNGONNGUTableAdapter.Connection != null))) {
-                    return this._dSNGONNGUTableAdapter.Connection;
-                }
-                if (((this._dSTHELOAITableAdapter != null) 
-                            && (this._dSTHELOAITableAdapter.Connection != null))) {
-                    return this._dSTHELOAITableAdapter.Connection;
-                }
                 if (((this._cHITIETNGANTUTableAdapter != null) 
                             && (this._cHITIETNGANTUTableAdapter.Connection != null))) {
                     return this._cHITIETNGANTUTableAdapter.Connection;
@@ -13855,12 +13649,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
                     count = (count + 1);
                 }
                 if ((this._dAUSACHTableAdapter != null)) {
-                    count = (count + 1);
-                }
-                if ((this._dSNGONNGUTableAdapter != null)) {
-                    count = (count + 1);
-                }
-                if ((this._dSTHELOAITableAdapter != null)) {
                     count = (count + 1);
                 }
                 if ((this._cHITIETNGANTUTableAdapter != null)) {
@@ -13976,24 +13764,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._dSNGONNGUTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.DSNGONNGU.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._dSNGONNGUTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._dSTHELOAITableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.DSTHELOAI.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._dSTHELOAITableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._cHITIETNGANTUTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.CHITIETNGANTU.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
@@ -14101,22 +13871,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._dSNGONNGUTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.DSNGONNGU.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._dSNGONNGUTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._dSTHELOAITableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.DSTHELOAI.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._dSTHELOAITableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._cHITIETNGANTUTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.CHITIETNGANTU.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
@@ -14140,22 +13894,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._cHITIETNGANTUTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._dSTHELOAITableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.DSTHELOAI.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._dSTHELOAITableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._dSNGONNGUTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.DSNGONNGU.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._dSNGONNGUTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -14341,16 +14079,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
                 throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
                         "tring.");
             }
-            if (((this._dSNGONNGUTableAdapter != null) 
-                        && (this.MatchTableAdapterConnection(this._dSNGONNGUTableAdapter.Connection) == false))) {
-                throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
-                        "tring.");
-            }
-            if (((this._dSTHELOAITableAdapter != null) 
-                        && (this.MatchTableAdapterConnection(this._dSTHELOAITableAdapter.Connection) == false))) {
-                throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
-                        "tring.");
-            }
             if (((this._cHITIETNGANTUTableAdapter != null) 
                         && (this.MatchTableAdapterConnection(this._cHITIETNGANTUTableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
@@ -14487,24 +14215,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
                         adaptersWithAcceptChangesDuringUpdate.Add(this._dAUSACHTableAdapter.Adapter);
                     }
                 }
-                if ((this._dSNGONNGUTableAdapter != null)) {
-                    revertConnections.Add(this._dSNGONNGUTableAdapter, this._dSNGONNGUTableAdapter.Connection);
-                    this._dSNGONNGUTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
-                    this._dSNGONNGUTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
-                    if (this._dSNGONNGUTableAdapter.Adapter.AcceptChangesDuringUpdate) {
-                        this._dSNGONNGUTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
-                        adaptersWithAcceptChangesDuringUpdate.Add(this._dSNGONNGUTableAdapter.Adapter);
-                    }
-                }
-                if ((this._dSTHELOAITableAdapter != null)) {
-                    revertConnections.Add(this._dSTHELOAITableAdapter, this._dSTHELOAITableAdapter.Connection);
-                    this._dSTHELOAITableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
-                    this._dSTHELOAITableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
-                    if (this._dSTHELOAITableAdapter.Adapter.AcceptChangesDuringUpdate) {
-                        this._dSTHELOAITableAdapter.Adapter.AcceptChangesDuringUpdate = false;
-                        adaptersWithAcceptChangesDuringUpdate.Add(this._dSTHELOAITableAdapter.Adapter);
-                    }
-                }
                 if ((this._cHITIETNGANTUTableAdapter != null)) {
                     revertConnections.Add(this._cHITIETNGANTUTableAdapter, this._cHITIETNGANTUTableAdapter.Connection);
                     this._cHITIETNGANTUTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
@@ -14615,14 +14325,6 @@ SELECT ISBN, TENSACH, KHOSACH, NOIDUNG, HINHANHPATH, NGAYXUATBAN, LANXUATBAN, SO
                 if ((this._dAUSACHTableAdapter != null)) {
                     this._dAUSACHTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._dAUSACHTableAdapter]));
                     this._dAUSACHTableAdapter.Transaction = null;
-                }
-                if ((this._dSNGONNGUTableAdapter != null)) {
-                    this._dSNGONNGUTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._dSNGONNGUTableAdapter]));
-                    this._dSNGONNGUTableAdapter.Transaction = null;
-                }
-                if ((this._dSTHELOAITableAdapter != null)) {
-                    this._dSTHELOAITableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._dSTHELOAITableAdapter]));
-                    this._dSTHELOAITableAdapter.Transaction = null;
                 }
                 if ((this._cHITIETNGANTUTableAdapter != null)) {
                     this._cHITIETNGANTUTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._cHITIETNGANTUTableAdapter]));

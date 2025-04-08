@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraSplashScreen;
+﻿using DevExpress.XtraLayout.Customization;
+using DevExpress.XtraSplashScreen;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using AppLibrary.Report;
 
 namespace AppLibrary
 {
@@ -80,6 +82,12 @@ namespace AppLibrary
             OpenForm(typeof(FormDocGia));
         }
 
+        private void btnDanhSachDocGia_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(Frpt_DanhSachDocGia));
+
+        }
+
         // Tùy chỉnh cài đặt của overlay form cho FormMain
         OverlayWindowOptions options = new OverlayWindowOptions(
             backColor: Color.Black,   // Màu nền của overlay là màu đen
@@ -114,7 +122,7 @@ namespace AppLibrary
         {
             this.sslb_ma.Text = Program.UserName;
             this.sslb_ten.Text = Program.mHoten;
-            this.sslb_nhom.Text = Program.mGroup=="DOCGIA"?"ĐỘC GIẢ":"NHÂN VIÊN";
+            this.sslb_nhom.Text = Program.mGroup == "DOCGIA" ? "ĐỘC GIẢ" : "NHÂN VIÊN";
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -177,5 +185,7 @@ namespace AppLibrary
                 Application.Exit();
             }
         }
+
+
     }
 }

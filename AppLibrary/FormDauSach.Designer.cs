@@ -97,19 +97,19 @@
             this.bdsSach = new System.Windows.Forms.BindingSource(this.components);
             this.taSach = new AppLibrary.QLTVDataSetTableAdapters.SACHTableAdapter();
             this.sACHDataGridView = new System.Windows.Forms.DataGridView();
+            this.bdsChiTietNganTu = new System.Windows.Forms.BindingSource(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.btnThemSach = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnGhiSach = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnXoaSach = new System.Windows.Forms.ToolStripMenuItem();
+            this.taDSNgonNgu = new AppLibrary.QLTVDataSetTableAdapters.DSNGONNGUTableAdapter();
+            this.taDSTheLoai = new AppLibrary.QLTVDataSetTableAdapters.DSTHELOAITableAdapter();
+            this.taChiTietNganTu = new AppLibrary.QLTVDataSetTableAdapters.CHITIETNGANTUTableAdapter();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewCheckBoxColumn2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.bdsChiTietNganTu = new System.Windows.Forms.BindingSource(this.components);
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.btnThemSach = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnXoaSach = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnGhiSach = new System.Windows.Forms.ToolStripMenuItem();
-            this.taDSNgonNgu = new AppLibrary.QLTVDataSetTableAdapters.DSNGONNGUTableAdapter();
-            this.taDSTheLoai = new AppLibrary.QLTVDataSetTableAdapters.DSTHELOAITableAdapter();
-            this.taChiTietNganTu = new AppLibrary.QLTVDataSetTableAdapters.CHITIETNGANTUTableAdapter();
             tENSACHLabel = new System.Windows.Forms.Label();
             kHOSACHLabel = new System.Windows.Forms.Label();
             nOIDUNGLabel = new System.Windows.Forms.Label();
@@ -578,8 +578,6 @@
             this.tamDauSach.CT_PHIEUMUONTableAdapter = null;
             this.tamDauSach.DAUSACHTableAdapter = this.taDauSach;
             this.tamDauSach.DOCGIATableAdapter = null;
-            this.tamDauSach.DSNGONNGUTableAdapter = null;
-            this.tamDauSach.DSTHELOAITableAdapter = null;
             this.tamDauSach.NGANTUTableAdapter = null;
             this.tamDauSach.NGONNGUTableAdapter = null;
             this.tamDauSach.NHANVIENTableAdapter = null;
@@ -663,6 +661,7 @@
             this.cbTheLoai.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.bdsDauSach, "MATL", true));
             this.cbTheLoai.DataSource = this.bdsDSTheLoai;
             this.cbTheLoai.DisplayMember = "TENTHELOAI";
+            this.cbTheLoai.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTheLoai.FormattingEnabled = true;
             this.cbTheLoai.Location = new System.Drawing.Point(320, 172);
             this.cbTheLoai.Name = "cbTheLoai";
@@ -689,6 +688,7 @@
             this.cbNgonNgu.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.bdsDauSach, "MANGONNGU", true));
             this.cbNgonNgu.DataSource = this.bdsDSNgonNgu;
             this.cbNgonNgu.DisplayMember = "TENNGONNGU";
+            this.cbNgonNgu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbNgonNgu.FormattingEnabled = true;
             this.cbNgonNgu.Location = new System.Drawing.Point(320, 127);
             this.cbNgonNgu.Name = "cbNgonNgu";
@@ -849,6 +849,53 @@
             this.sACHDataGridView.Size = new System.Drawing.Size(848, 338);
             this.sACHDataGridView.TabIndex = 17;
             // 
+            // bdsChiTietNganTu
+            // 
+            this.bdsChiTietNganTu.DataMember = "CHITIETNGANTU";
+            this.bdsChiTietNganTu.DataSource = this.dsQLVT;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnThemSach,
+            this.btnGhiSach,
+            this.btnXoaSach});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 100);
+            // 
+            // btnThemSach
+            // 
+            this.btnThemSach.Name = "btnThemSach";
+            this.btnThemSach.Size = new System.Drawing.Size(168, 32);
+            this.btnThemSach.Text = "Thêm sách";
+            this.btnThemSach.Click += new System.EventHandler(this.btnThemSach_Click);
+            // 
+            // btnGhiSach
+            // 
+            this.btnGhiSach.Name = "btnGhiSach";
+            this.btnGhiSach.Size = new System.Drawing.Size(168, 32);
+            this.btnGhiSach.Text = "Ghi sách";
+            this.btnGhiSach.Click += new System.EventHandler(this.btnGhiSach_Click);
+            // 
+            // btnXoaSach
+            // 
+            this.btnXoaSach.Name = "btnXoaSach";
+            this.btnXoaSach.Size = new System.Drawing.Size(168, 32);
+            this.btnXoaSach.Text = "Xóa sách";
+            // 
+            // taDSNgonNgu
+            // 
+            this.taDSNgonNgu.ClearBeforeFill = true;
+            // 
+            // taDSTheLoai
+            // 
+            this.taDSTheLoai.ClearBeforeFill = true;
+            // 
+            // taChiTietNganTu
+            // 
+            this.taChiTietNganTu.ClearBeforeFill = true;
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.DataPropertyName = "MASACH";
@@ -892,54 +939,7 @@
             this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.dataGridViewTextBoxColumn3.ValueMember = "MANGANTU";
-            this.dataGridViewTextBoxColumn3.Width = 150;
-            // 
-            // bdsChiTietNganTu
-            // 
-            this.bdsChiTietNganTu.DataMember = "CHITIETNGANTU";
-            this.bdsChiTietNganTu.DataSource = this.dsQLVT;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnThemSach,
-            this.btnGhiSach,
-            this.btnXoaSach});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 133);
-            // 
-            // btnThemSach
-            // 
-            this.btnThemSach.Name = "btnThemSach";
-            this.btnThemSach.Size = new System.Drawing.Size(240, 32);
-            this.btnThemSach.Text = "Thêm sách";
-            this.btnThemSach.Click += new System.EventHandler(this.btnThemSach_Click);
-            // 
-            // btnXoaSach
-            // 
-            this.btnXoaSach.Name = "btnXoaSach";
-            this.btnXoaSach.Size = new System.Drawing.Size(240, 32);
-            this.btnXoaSach.Text = "Xóa sách";
-            // 
-            // btnGhiSach
-            // 
-            this.btnGhiSach.Name = "btnGhiSach";
-            this.btnGhiSach.Size = new System.Drawing.Size(240, 32);
-            this.btnGhiSach.Text = "Ghi sách";
-            this.btnGhiSach.Click += new System.EventHandler(this.btnGhiSach_Click);
-            // 
-            // taDSNgonNgu
-            // 
-            this.taDSNgonNgu.ClearBeforeFill = true;
-            // 
-            // taDSTheLoai
-            // 
-            this.taDSTheLoai.ClearBeforeFill = true;
-            // 
-            // taChiTietNganTu
-            // 
-            this.taChiTietNganTu.ClearBeforeFill = true;
+            this.dataGridViewTextBoxColumn3.Width = 2000;
             // 
             // FormDauSach
             // 
@@ -1054,14 +1054,14 @@
         private QLTVDataSetTableAdapters.DSTHELOAITableAdapter taDSTheLoai;
         private System.Windows.Forms.BindingSource bdsChiTietNganTu;
         private QLTVDataSetTableAdapters.CHITIETNGANTUTableAdapter taChiTietNganTu;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem btnThemSach;
+        private System.Windows.Forms.ToolStripMenuItem btnXoaSach;
+        private System.Windows.Forms.ToolStripMenuItem btnGhiSach;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn2;
         private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem btnThemSach;
-        private System.Windows.Forms.ToolStripMenuItem btnXoaSach;
-        private System.Windows.Forms.ToolStripMenuItem btnGhiSach;
     }
 }
