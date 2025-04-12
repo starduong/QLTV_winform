@@ -88,6 +88,21 @@ namespace AppLibrary
 
         }
 
+        private void btnDanhMucDauSach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(Frpt_DanhSachDauSach));
+        }
+
+        private void btnDGMuonSachQuaHan_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(Frpt_DanhSachDGMuonSachQuaHan));
+        }
+
+        private void btnDauSachMuonNhieuNhat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(Frpt_DanhSachTopNDauSachMuonNhieuNhat));
+        }
+
         // Tùy chỉnh cài đặt của overlay form cho FormMain
         OverlayWindowOptions options = new OverlayWindowOptions(
             backColor: Color.Black,   // Màu nền của overlay là màu đen
@@ -186,6 +201,6 @@ namespace AppLibrary
             }
         }
 
-
+        
     }
 }

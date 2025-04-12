@@ -45,9 +45,9 @@
             this.barButtonItem14 = new DevExpress.XtraBars.BarButtonItem();
             this.btnNhanVien = new DevExpress.XtraBars.BarButtonItem();
             this.btnDanhSachDocGia = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem17 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem18 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem19 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnDanhMucDauSach = new DevExpress.XtraBars.BarButtonItem();
+            this.btnDGMuonSachQuaHan = new DevExpress.XtraBars.BarButtonItem();
+            this.btnDauSachMuonNhieuNhat = new DevExpress.XtraBars.BarButtonItem();
             this.btnDauSach = new DevExpress.XtraBars.BarButtonItem();
             this.btnDocGia = new DevExpress.XtraBars.BarButtonItem();
             this.btn_phieumuonsach = new DevExpress.XtraBars.BarButtonItem();
@@ -101,9 +101,9 @@
             this.barButtonItem14,
             this.btnNhanVien,
             this.btnDanhSachDocGia,
-            this.barButtonItem17,
-            this.barButtonItem18,
-            this.barButtonItem19,
+            this.btnDanhMucDauSach,
+            this.btnDGMuonSachQuaHan,
+            this.btnDauSachMuonNhieuNhat,
             this.btnDauSach,
             this.btnDocGia,
             this.btn_phieumuonsach,
@@ -229,30 +229,33 @@
             this.btnDanhSachDocGia.AllowHtmlText = DevExpress.Utils.DefaultBoolean.False;
             this.btnDanhSachDocGia.Caption = "DANH SÁCH ĐỘC GIẢ";
             this.btnDanhSachDocGia.Id = 16;
-            this.btnDanhSachDocGia.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem16.ImageOptions.LargeImage")));
+            this.btnDanhSachDocGia.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnDanhSachDocGia.ImageOptions.LargeImage")));
             this.btnDanhSachDocGia.Name = "btnDanhSachDocGia";
             this.btnDanhSachDocGia.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDanhSachDocGia_ItemClick);
             // 
-            // barButtonItem17
+            // btnDanhMucDauSach
             // 
-            this.barButtonItem17.Caption = "DANH MỤC ĐẦU SÁCH ";
-            this.barButtonItem17.Id = 17;
-            this.barButtonItem17.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem17.ImageOptions.LargeImage")));
-            this.barButtonItem17.Name = "barButtonItem17";
+            this.btnDanhMucDauSach.Caption = "DANH MỤC ĐẦU SÁCH ";
+            this.btnDanhMucDauSach.Id = 17;
+            this.btnDanhMucDauSach.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnDanhMucDauSach.ImageOptions.LargeImage")));
+            this.btnDanhMucDauSach.Name = "btnDanhMucDauSach";
+            this.btnDanhMucDauSach.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDanhMucDauSach_ItemClick);
             // 
-            // barButtonItem18
+            // btnDGMuonSachQuaHan
             // 
-            this.barButtonItem18.Caption = "ĐỘC GIẢ MƯỢN SÁCH QUÁ HẠN";
-            this.barButtonItem18.Id = 18;
-            this.barButtonItem18.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem18.ImageOptions.LargeImage")));
-            this.barButtonItem18.Name = "barButtonItem18";
+            this.btnDGMuonSachQuaHan.Caption = "ĐỘC GIẢ MƯỢN SÁCH QUÁ HẠN";
+            this.btnDGMuonSachQuaHan.Id = 18;
+            this.btnDGMuonSachQuaHan.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem18.ImageOptions.LargeImage")));
+            this.btnDGMuonSachQuaHan.Name = "btnDGMuonSachQuaHan";
+            this.btnDGMuonSachQuaHan.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDGMuonSachQuaHan_ItemClick);
             // 
-            // barButtonItem19
+            // btnDauSachMuonNhieuNhat
             // 
-            this.barButtonItem19.Caption = "ĐẦU SÁCH MƯỢN NHIỀU NHẤT";
-            this.barButtonItem19.Id = 19;
-            this.barButtonItem19.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem19.ImageOptions.LargeImage")));
-            this.barButtonItem19.Name = "barButtonItem19";
+            this.btnDauSachMuonNhieuNhat.Caption = "ĐẦU SÁCH MƯỢN NHIỀU NHẤT";
+            this.btnDauSachMuonNhieuNhat.Id = 19;
+            this.btnDauSachMuonNhieuNhat.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem19.ImageOptions.LargeImage")));
+            this.btnDauSachMuonNhieuNhat.Name = "btnDauSachMuonNhieuNhat";
+            this.btnDauSachMuonNhieuNhat.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDauSachMuonNhieuNhat_ItemClick);
             // 
             // btnDauSach
             // 
@@ -396,9 +399,9 @@
             // ribbonPageGroup3
             // 
             this.ribbonPageGroup3.ItemLinks.Add(this.btnDanhSachDocGia);
-            this.ribbonPageGroup3.ItemLinks.Add(this.barButtonItem17, true);
-            this.ribbonPageGroup3.ItemLinks.Add(this.barButtonItem18, true);
-            this.ribbonPageGroup3.ItemLinks.Add(this.barButtonItem19, true);
+            this.ribbonPageGroup3.ItemLinks.Add(this.btnDanhMucDauSach, true);
+            this.ribbonPageGroup3.ItemLinks.Add(this.btnDGMuonSachQuaHan, true);
+            this.ribbonPageGroup3.ItemLinks.Add(this.btnDauSachMuonNhieuNhat, true);
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             // 
             // documentManagerMain
@@ -495,9 +498,9 @@
         private DevExpress.XtraBars.BarButtonItem btnNhanVien;
         private DevExpress.XtraBars.BarButtonItem btnDocGia1;
         private DevExpress.XtraBars.BarButtonItem btnDanhSachDocGia;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem17;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem18;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem19;
+        private DevExpress.XtraBars.BarButtonItem btnDanhMucDauSach;
+        private DevExpress.XtraBars.BarButtonItem btnDGMuonSachQuaHan;
+        private DevExpress.XtraBars.BarButtonItem btnDauSachMuonNhieuNhat;
         private DevExpress.XtraBars.BarButtonItem btnDauSach;
         private DevExpress.XtraBars.BarButtonItem btnDocGia;
         private DevExpress.XtraBars.Docking2010.DocumentManager documentManagerMain;

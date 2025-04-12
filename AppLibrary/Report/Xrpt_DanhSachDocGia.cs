@@ -13,5 +13,8 @@ namespace AppLibrary.Report
 			InitializeComponent();
 		}
 
-	}
+        private void xrTableRow_BeforePrint(object sender, CancelEventArgs e)
+        {
+        }
+    }
 }

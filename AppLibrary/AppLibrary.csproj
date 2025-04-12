@@ -115,17 +115,53 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QLTVDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Report\Frpt_DanhSachTopNDauSachMuonNhieuNhat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\Frpt_DanhSachTopNDauSachMuonNhieuNhat.Designer.cs">
+      <DependentUpon>Frpt_DanhSachTopNDauSachMuonNhieuNhat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\Frpt_DanhSachDauSach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\Frpt_DanhSachDauSach.Designer.cs">
+      <DependentUpon>Frpt_DanhSachDauSach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\Frpt_DanhSachDGMuonSachQuaHan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\Frpt_DanhSachDGMuonSachQuaHan.Designer.cs">
+      <DependentUpon>Frpt_DanhSachDGMuonSachQuaHan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\Frpt_DanhSachDocGia.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\Frpt_DanhSachDocGia.Designer.cs">
       <DependentUpon>Frpt_DanhSachDocGia.cs</DependentUpon>
     </Compile>
+    <Compile Include="Report\Xrpt_DanhSachDauSach.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\Xrpt_DanhSachDauSach.Designer.cs">
+      <DependentUpon>Xrpt_DanhSachDauSach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\Xrpt_DanhSachDGMuonSachQuaHan.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\Xrpt_DanhSachDGMuonSachQuaHan.Designer.cs">
+      <DependentUpon>Xrpt_DanhSachDGMuonSachQuaHan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\Xrpt_DanhSachDocGia.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Report\Xrpt_DanhSachDocGia.Designer.cs">
       <DependentUpon>Xrpt_DanhSachDocGia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\Xrpt_DanhSachTopNDauSachMuonNhieuNhat.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\Xrpt_DanhSachTopNDauSachMuonNhieuNhat.Designer.cs">
+      <DependentUpon>Xrpt_DanhSachTopNDauSachMuonNhieuNhat.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="FormDangNhap.resx">
       <DependentUpon>FormDangNhap.cs</DependentUpon>
@@ -148,11 +184,29 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\Frpt_DanhSachTopNDauSachMuonNhieuNhat.resx">
+      <DependentUpon>Frpt_DanhSachTopNDauSachMuonNhieuNhat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Frpt_DanhSachDauSach.resx">
+      <DependentUpon>Frpt_DanhSachDauSach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Frpt_DanhSachDGMuonSachQuaHan.resx">
+      <DependentUpon>Frpt_DanhSachDGMuonSachQuaHan.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\Frpt_DanhSachDocGia.resx">
       <DependentUpon>Frpt_DanhSachDocGia.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\Xrpt_DanhSachDauSach.resx">
+      <DependentUpon>Xrpt_DanhSachDauSach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Xrpt_DanhSachDGMuonSachQuaHan.resx">
+      <DependentUpon>Xrpt_DanhSachDGMuonSachQuaHan.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\Xrpt_DanhSachDocGia.resx">
       <DependentUpon>Xrpt_DanhSachDocGia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\Xrpt_DanhSachTopNDauSachMuonNhieuNhat.resx">
+      <DependentUpon>Xrpt_DanhSachTopNDauSachMuonNhieuNhat.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="Properties\Settings.settings">

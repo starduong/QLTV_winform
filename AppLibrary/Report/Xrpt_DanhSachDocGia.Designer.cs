@@ -56,7 +56,7 @@
             this.tableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell7 = new DevExpress.XtraReports.UI.XRTableCell();
             this.Detail = new DevExpress.XtraReports.UI.DetailBand();
-            this.table2 = new DevExpress.XtraReports.UI.XRTable();
+            this.xrTableRow = new DevExpress.XtraReports.UI.XRTable();
             this.tableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
             this.xrTableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell8 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -76,7 +76,7 @@
             this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.table2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xrTableRow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // TopMargin
@@ -355,26 +355,28 @@
             // Detail
             // 
             this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.table2});
+            this.xrTableRow});
             this.Detail.HeightF = 25F;
             this.Detail.Name = "Detail";
             // 
-            // table2
+            // xrTableRow
             // 
-            this.table2.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.table2.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+            this.xrTableRow.BorderColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.xrTableRow.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
             | DevExpress.XtraPrinting.BorderSide.Right) 
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
-            this.table2.BorderWidth = 1F;
-            this.table2.LocationFloat = new DevExpress.Utils.PointFloat(25.52109F, 0F);
-            this.table2.Name = "table2";
-            this.table2.OddStyleName = "DetailData3_Odd";
-            this.table2.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
+            this.xrTableRow.BorderWidth = 1F;
+            this.xrTableRow.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "BackColor", "iif([TRANGTHAI] == \'Bị Khóa\', \'LightGray\', \'Transparent\')\n")});
+            this.xrTableRow.LocationFloat = new DevExpress.Utils.PointFloat(25.52109F, 0F);
+            this.xrTableRow.Name = "xrTableRow";
+            this.xrTableRow.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.tableRow2});
-            this.table2.SizeF = new System.Drawing.SizeF(731.2567F, 25F);
-            this.table2.StylePriority.UseBorderColor = false;
-            this.table2.StylePriority.UseBorders = false;
-            this.table2.StylePriority.UseBorderWidth = false;
+            this.xrTableRow.SizeF = new System.Drawing.SizeF(731.2567F, 25F);
+            this.xrTableRow.StylePriority.UseBorderColor = false;
+            this.xrTableRow.StylePriority.UseBorders = false;
+            this.xrTableRow.StylePriority.UseBorderWidth = false;
+            this.xrTableRow.BeforePrint += new DevExpress.XtraReports.UI.BeforePrintEventHandler(this.xrTableRow_BeforePrint);
             // 
             // tableRow2
             // 
@@ -522,7 +524,7 @@
             | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.tableCell14.BorderWidth = 1F;
             this.tableCell14.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[TrangThai]")});
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[TRANGTHAI]")});
             this.tableCell14.Name = "tableCell14";
             this.tableCell14.StyleName = "DetailData1";
             this.tableCell14.StylePriority.UseBorderColor = false;
@@ -651,7 +653,7 @@
             this.Watermarks.AddRange(new DevExpress.XtraPrinting.Drawing.Watermark[] {
             xrWatermark1});
             ((System.ComponentModel.ISupportInitialize)(this.table1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.table2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xrTableRow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -675,7 +677,7 @@
         private DevExpress.XtraReports.UI.XRTableCell tableCell6;
         private DevExpress.XtraReports.UI.XRTableCell tableCell7;
         private DevExpress.XtraReports.UI.DetailBand Detail;
-        private DevExpress.XtraReports.UI.XRTable table2;
+        private DevExpress.XtraReports.UI.XRTable xrTableRow;
         private DevExpress.XtraReports.UI.XRTableRow tableRow2;
         private DevExpress.XtraReports.UI.XRTableCell tableCell8;
         private DevExpress.XtraReports.UI.XRTableCell tableCell9;
