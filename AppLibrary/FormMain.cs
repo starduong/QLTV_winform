@@ -62,7 +62,7 @@ namespace AppLibrary
 
         private void btnTacGia_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-
+            OpenForm(typeof(FormTacGia));
         }
 
         private void btnTheLoaiSach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
