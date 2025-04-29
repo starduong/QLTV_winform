@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.Label gIOITINHLabel;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormNhanVien));
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.bar2 = new DevExpress.XtraBars.Bar();
@@ -60,11 +61,10 @@
             this.colDIENTHOAI = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colEMAIL = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
+            this.checkEditNu = new DevExpress.XtraEditors.CheckEdit();
+            this.gIOITINHCheckEditNAM = new DevExpress.XtraEditors.CheckEdit();
             this.textEditEMAIL = new DevExpress.XtraEditors.TextEdit();
             this.label7 = new System.Windows.Forms.Label();
-            this.radioButtonNU = new System.Windows.Forms.RadioButton();
-            this.radioButtonNAM = new System.Windows.Forms.RadioButton();
-            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.textEditHO = new DevExpress.XtraEditors.TextEdit();
             this.textEditTEN = new DevExpress.XtraEditors.TextEdit();
@@ -75,6 +75,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textEditMANV = new DevExpress.XtraEditors.TextEdit();
+            gIOITINHLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ds_QLTV)).BeginInit();
@@ -83,6 +84,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkEditNu.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gIOITINHCheckEditNAM.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditEMAIL.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditHO.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditTEN.Properties)).BeginInit();
@@ -90,6 +93,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.textEditDIACHI.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditMANV.Properties)).BeginInit();
             this.SuspendLayout();
+            // 
+            // gIOITINHLabel
+            // 
+            gIOITINHLabel.AutoSize = true;
+            gIOITINHLabel.Location = new System.Drawing.Point(79, 145);
+            gIOITINHLabel.Name = "gIOITINHLabel";
+            gIOITINHLabel.Size = new System.Drawing.Size(63, 16);
+            gIOITINHLabel.TabIndex = 16;
+            gIOITINHLabel.Text = "Giới tính :";
             // 
             // barManager1
             // 
@@ -205,7 +217,7 @@
             // 
             this.barDockControlBottom.CausesValidation = false;
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 505);
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 716);
             this.barDockControlBottom.Manager = this.barManager1;
             this.barDockControlBottom.Margin = new System.Windows.Forms.Padding(2);
             this.barDockControlBottom.Size = new System.Drawing.Size(1318, 22);
@@ -217,7 +229,7 @@
             this.barDockControlLeft.Location = new System.Drawing.Point(0, 35);
             this.barDockControlLeft.Manager = this.barManager1;
             this.barDockControlLeft.Margin = new System.Windows.Forms.Padding(2);
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 470);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 681);
             // 
             // barDockControlRight
             // 
@@ -226,7 +238,7 @@
             this.barDockControlRight.Location = new System.Drawing.Point(1318, 35);
             this.barDockControlRight.Manager = this.barManager1;
             this.barDockControlRight.Margin = new System.Windows.Forms.Padding(2);
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 470);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 681);
             // 
             // barButtonItem9
             // 
@@ -248,7 +260,7 @@
             this.panelControl1.Location = new System.Drawing.Point(0, 35);
             this.panelControl1.Margin = new System.Windows.Forms.Padding(20, 22, 20, 22);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(1318, 39);
+            this.panelControl1.Size = new System.Drawing.Size(1318, 38);
             this.panelControl1.TabIndex = 4;
             // 
             // ds_QLTV
@@ -286,16 +298,15 @@
             this.nHANVIENGridControl.DataSource = this.bds_NhanVien;
             this.nHANVIENGridControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.nHANVIENGridControl.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(20, 22, 20, 22);
-            this.nHANVIENGridControl.Location = new System.Drawing.Point(0, 74);
+            this.nHANVIENGridControl.Location = new System.Drawing.Point(0, 73);
             this.nHANVIENGridControl.MainView = this.gridView1;
             this.nHANVIENGridControl.Margin = new System.Windows.Forms.Padding(20, 22, 20, 22);
             this.nHANVIENGridControl.MenuManager = this.barManager1;
             this.nHANVIENGridControl.Name = "nHANVIENGridControl";
-            this.nHANVIENGridControl.Size = new System.Drawing.Size(1318, 220);
+            this.nHANVIENGridControl.Size = new System.Drawing.Size(1318, 432);
             this.nHANVIENGridControl.TabIndex = 6;
             this.nHANVIENGridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
-            this.nHANVIENGridControl.Click += new System.EventHandler(this.nHANVIENGridControl_Click);
             // 
             // gridView1
             // 
@@ -384,11 +395,11 @@
             // 
             // panelControl2
             // 
+            this.panelControl2.Controls.Add(this.checkEditNu);
+            this.panelControl2.Controls.Add(gIOITINHLabel);
+            this.panelControl2.Controls.Add(this.gIOITINHCheckEditNAM);
             this.panelControl2.Controls.Add(this.textEditEMAIL);
             this.panelControl2.Controls.Add(this.label7);
-            this.panelControl2.Controls.Add(this.radioButtonNU);
-            this.panelControl2.Controls.Add(this.radioButtonNAM);
-            this.panelControl2.Controls.Add(this.label6);
             this.panelControl2.Controls.Add(this.label5);
             this.panelControl2.Controls.Add(this.textEditHO);
             this.panelControl2.Controls.Add(this.textEditTEN);
@@ -400,14 +411,36 @@
             this.panelControl2.Controls.Add(this.label1);
             this.panelControl2.Controls.Add(this.textEditMANV);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelControl2.Location = new System.Drawing.Point(0, 294);
+            this.panelControl2.Location = new System.Drawing.Point(0, 505);
             this.panelControl2.Margin = new System.Windows.Forms.Padding(20, 22, 20, 22);
             this.panelControl2.Name = "panelControl2";
             this.panelControl2.Size = new System.Drawing.Size(1318, 211);
             this.panelControl2.TabIndex = 7;
             // 
+            // checkEditNu
+            // 
+            this.checkEditNu.Location = new System.Drawing.Point(198, 143);
+            this.checkEditNu.MenuManager = this.barManager1;
+            this.checkEditNu.Name = "checkEditNu";
+            this.checkEditNu.Properties.Caption = "Nữ";
+            this.checkEditNu.Size = new System.Drawing.Size(94, 20);
+            this.checkEditNu.TabIndex = 18;
+            this.checkEditNu.CheckedChanged += new System.EventHandler(this.checkEditNu_CheckedChanged);
+            // 
+            // gIOITINHCheckEditNAM
+            // 
+            this.gIOITINHCheckEditNAM.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bds_NhanVien, "GIOITINH", true));
+            this.gIOITINHCheckEditNAM.Location = new System.Drawing.Point(148, 143);
+            this.gIOITINHCheckEditNAM.MenuManager = this.barManager1;
+            this.gIOITINHCheckEditNAM.Name = "gIOITINHCheckEditNAM";
+            this.gIOITINHCheckEditNAM.Properties.Caption = "Nam";
+            this.gIOITINHCheckEditNAM.Size = new System.Drawing.Size(180, 19);
+            this.gIOITINHCheckEditNAM.TabIndex = 17;
+            this.gIOITINHCheckEditNAM.CheckedChanged += new System.EventHandler(this.gIOITINHCheckEditNAM_CheckedChanged);
+            // 
             // textEditEMAIL
             // 
+            this.textEditEMAIL.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bds_NhanVien, "EMAIL", true));
             this.textEditEMAIL.Location = new System.Drawing.Point(812, 137);
             this.textEditEMAIL.MenuManager = this.barManager1;
             this.textEditEMAIL.Name = "textEditEMAIL";
@@ -423,37 +456,6 @@
             this.label7.TabIndex = 15;
             this.label7.Text = "Số điện thoại :";
             // 
-            // radioButtonNU
-            // 
-            this.radioButtonNU.AutoSize = true;
-            this.radioButtonNU.Location = new System.Drawing.Point(209, 140);
-            this.radioButtonNU.Name = "radioButtonNU";
-            this.radioButtonNU.Size = new System.Drawing.Size(46, 20);
-            this.radioButtonNU.TabIndex = 14;
-            this.radioButtonNU.TabStop = true;
-            this.radioButtonNU.Text = "Nữ";
-            this.radioButtonNU.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonNAM
-            // 
-            this.radioButtonNAM.AutoSize = true;
-            this.radioButtonNAM.Location = new System.Drawing.Point(148, 140);
-            this.radioButtonNAM.Name = "radioButtonNAM";
-            this.radioButtonNAM.Size = new System.Drawing.Size(55, 20);
-            this.radioButtonNAM.TabIndex = 13;
-            this.radioButtonNAM.TabStop = true;
-            this.radioButtonNAM.Text = "Nam";
-            this.radioButtonNAM.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(79, 140);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 16);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "Giới tính :";
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -465,6 +467,7 @@
             // 
             // textEditHO
             // 
+            this.textEditHO.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bds_NhanVien, "HONV", true));
             this.textEditHO.Location = new System.Drawing.Point(148, 47);
             this.textEditHO.MenuManager = this.barManager1;
             this.textEditHO.Name = "textEditHO";
@@ -473,6 +476,7 @@
             // 
             // textEditTEN
             // 
+            this.textEditTEN.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bds_NhanVien, "TENNV", true));
             this.textEditTEN.Location = new System.Drawing.Point(148, 94);
             this.textEditTEN.MenuManager = this.barManager1;
             this.textEditTEN.Name = "textEditTEN";
@@ -481,6 +485,7 @@
             // 
             // textEditDIENTHOAI
             // 
+            this.textEditDIENTHOAI.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bds_NhanVien, "DIENTHOAI", true));
             this.textEditDIENTHOAI.Location = new System.Drawing.Point(812, 94);
             this.textEditDIENTHOAI.MenuManager = this.barManager1;
             this.textEditDIENTHOAI.Name = "textEditDIENTHOAI";
@@ -489,6 +494,7 @@
             // 
             // textEditDIACHI
             // 
+            this.textEditDIACHI.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bds_NhanVien, "DIACHI", true));
             this.textEditDIACHI.Location = new System.Drawing.Point(812, 47);
             this.textEditDIACHI.MenuManager = this.barManager1;
             this.textEditDIACHI.Name = "textEditDIACHI";
@@ -543,7 +549,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1318, 527);
+            this.ClientSize = new System.Drawing.Size(1318, 738);
             this.Controls.Add(this.nHANVIENGridControl);
             this.Controls.Add(this.panelControl2);
             this.Controls.Add(this.panelControl1);
@@ -564,6 +570,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
             this.panelControl2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkEditNu.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gIOITINHCheckEditNAM.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditEMAIL.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditHO.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditTEN.Properties)).EndInit();
@@ -611,16 +619,15 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private DevExpress.XtraEditors.TextEdit textEditHO;
         private DevExpress.XtraEditors.TextEdit textEditTEN;
         private DevExpress.XtraEditors.TextEdit textEditDIENTHOAI;
         private DevExpress.XtraEditors.TextEdit textEditDIACHI;
-        private System.Windows.Forms.RadioButton radioButtonNU;
-        private System.Windows.Forms.RadioButton radioButtonNAM;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraEditors.TextEdit textEditEMAIL;
         private System.Windows.Forms.Label label7;
+        private DevExpress.XtraEditors.CheckEdit gIOITINHCheckEditNAM;
+        private DevExpress.XtraEditors.CheckEdit checkEditNu;
     }
 }

@@ -32,21 +32,139 @@ namespace AppLibrary
             this.tam_NhanVien.Connection.ConnectionString = Program.connstr;
             this.ta_NhanVien.Fill(this.ds_QLTV.NHANVIEN);
             nHANVIENGridControl.DataSource = bds_NhanVien;
-            // Khóa chỉnh sửa trên gridView1
             gridView1.OptionsBehavior.Editable = false;
-            
-            // Gán sự kiện FocusedRowChanged cho gridView1
+
+            // Gán sự kiện đổi dòng
             gridView1.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(gridView1_FocusedRowChanged);
+
+            // Các cột mã nhân viên không cho chỉnh sửa
             colMANV.OptionsColumn.AllowEdit = false;
             colMANV.OptionsColumn.ReadOnly = true;
             textEditMANV.ReadOnly = true;
+
+            // Khóa tất cả các TextBox ban đầu
+            SetInputControlsReadOnly(true);
+
+            // Clear dữ liệu
+            ClearInputFields();
+
+            // Không chọn dòng nào khi mới mở form
+           
+
+            // Trạng thái nút
+            btnThem.Enabled = true;
+            btnGhi.Enabled = false;
+            btnXoa.Enabled = false;
+            btnRefresh.Enabled = true;
+            btnPhucHoi.Enabled = false;
+
+            isAdding = false;
         }
+
+        // Các hàm hỗ trợ
+        private void ClearInputFields()
+        {
+            textEditMANV.Text = "";
+            textEditHO.Text = "";
+            textEditTEN.Text = "";
+            textEditDIACHI.Text = "";
+            textEditDIENTHOAI.Text = "";
+            textEditEMAIL.Text = "";
+            gIOITINHCheckEditNAM.Checked = false;
+            checkEditNu.Checked = false;
+        }
+
+        private void SetInputControlsReadOnly(bool isReadOnly)
+        {
+            textEditHO.ReadOnly = isReadOnly;
+            textEditTEN.ReadOnly = isReadOnly;
+            textEditDIACHI.ReadOnly = isReadOnly;
+            textEditDIENTHOAI.ReadOnly = isReadOnly;
+            textEditEMAIL.ReadOnly = isReadOnly;
+            gIOITINHCheckEditNAM.ReadOnly = isReadOnly;
+            checkEditNu.ReadOnly = isReadOnly;
+        }
+
         private class UndoAction
         {
             public string ActionType { get; set; } // INSERT, DELETE, UPDATE
-            public Dictionary<string, object> Data { get; set; }
+            public List<Dictionary<string, object>> DataList { get; set; } = new List<Dictionary<string, object>>();
         }
 
+
+        
+
+
+        private void gridView1_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
+        {
+            
+            if (bds_NhanVien.Current != null)
+            {
+                DataRowView row = (DataRowView)bds_NhanVien.Current;
+                textEditMANV.Text = row["MANV"].ToString();
+                textEditHO.Text = row["HONV"].ToString();
+                textEditTEN.Text = row["TENNV"].ToString();
+                textEditDIACHI.Text = row["DIACHI"].ToString();
+                textEditDIENTHOAI.Text = row["DIENTHOAI"].ToString();
+                textEditEMAIL.Text = row["EMAIL"].ToString();
+                // Hiển thị giới tính lên RadioButton
+                if (row["GIOITINH"] != DBNull.Value)
+                {
+                    if(Convert.ToBoolean(row["GIOITINH"]))
+                    {
+                        gIOITINHCheckEditNAM.Checked = true;
+                        checkEditNu.Checked = false;
+                    }
+                    else
+                    {
+                        gIOITINHCheckEditNAM.Checked = false;
+                        checkEditNu.Checked = true;
+                    }
+                }
+                else
+                {
+                    gIOITINHCheckEditNAM.Checked = false;
+                    checkEditNu.Checked = false;
+                }
+                btnGhi.Enabled = true;
+                textEditHO.ReadOnly = false;
+                textEditTEN.ReadOnly = false;
+                textEditDIACHI.ReadOnly = false;
+                textEditDIENTHOAI.ReadOnly = false;
+                textEditEMAIL.ReadOnly = false;
+                gIOITINHCheckEditNAM.ReadOnly = false;
+                checkEditNu.ReadOnly = false;
+               
+            }
+            else
+            {
+                // Xóa các điều khiển khi không có dòng nào được chọn
+                textEditMANV.Text = "";
+                textEditHO.Text = "";
+                textEditTEN.Text = "";
+                textEditDIACHI.Text = "";
+                textEditDIENTHOAI.Text = "";
+                textEditEMAIL.Text = "";
+                gIOITINHCheckEditNAM.Checked = false;
+                checkEditNu.Checked = false;
+                textEditHO.ReadOnly = true;
+                textEditTEN.ReadOnly = true;
+                textEditDIACHI.ReadOnly = true;
+                textEditDIENTHOAI.ReadOnly = true;
+                textEditEMAIL.ReadOnly = true;
+                gIOITINHCheckEditNAM.ReadOnly = true;
+                checkEditNu.ReadOnly = true;
+            }
+            if (textEditMANV.Text == Program.UserName)
+            {
+                btnXoa.Enabled = false;
+            }
+            else
+            {
+                btnXoa.Enabled = true;
+            }
+
+        }
         private int LayMaNvTiepTheo()
         {
             int nextManv = 0;
@@ -64,84 +182,51 @@ namespace AppLibrary
             return nextManv;
         }
 
-
-        private void gridView1_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
+        private void btnThem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            isAdding = false;
-            if (bds_NhanVien.Current != null)
+            try
             {
-                DataRowView row = (DataRowView)bds_NhanVien.Current;
-                textEditMANV.Text = row["MANV"].ToString();
-                textEditHO.Text = row["HONV"].ToString();
-                textEditTEN.Text = row["TENNV"].ToString();
-                textEditDIACHI.Text = row["DIACHI"].ToString();
-                textEditDIENTHOAI.Text = row["DIENTHOAI"].ToString();
-                textEditEMAIL.Text = row["EMAIL"].ToString();
-                // Hiển thị giới tính lên RadioButton
-                if (row["GIOITINH"] != DBNull.Value)
-                {
-                    bool gioiTinh = Convert.ToBoolean(row["GIOITINH"]);
-                    radioButtonNAM.Checked = gioiTinh;
-                    radioButtonNU.Checked = !gioiTinh;
-                }
-                else
-                {
-                    radioButtonNAM.Checked = false;
-                    radioButtonNU.Checked = false;
-                }
+                // 1. Đánh dấu đang trong trạng thái Thêm
+                isAdding = true;
 
-                btnGhi.Enabled = true;
-            }
-            else
-            {
-                // Xóa các điều khiển khi không có dòng nào được chọn
-                textEditMANV.Text = "";
+                // 2. Thêm dòng mới vào BindingSource
+                bds_NhanVien.AddNew();
+
+                // 3. Gán mã nhân viên mới
+                int nextManv = LayMaNvTiepTheo();
+                DataRowView newRow = (DataRowView)bds_NhanVien.Current;
+                newRow["MANV"] = nextManv;
+                textEditMANV.Text = nextManv.ToString();
+
+                // 4. Clear các field còn lại
                 textEditHO.Text = "";
                 textEditTEN.Text = "";
                 textEditDIACHI.Text = "";
                 textEditDIENTHOAI.Text = "";
-                textEditEMAIL.Text = "";  
-                radioButtonNAM.Checked = false;
-                radioButtonNU.Checked = false;
+                textEditEMAIL.Text = "";
+                gIOITINHCheckEditNAM.Checked = false;
+                checkEditNu.Checked = false;
+
+                // 5. Enable nhập liệu
+                SetInputControlsReadOnly(false);
+
+                // 6. Disable GridControl (không cho chọn dòng khác)
+                nHANVIENGridControl.Enabled = false;
+
+                // 7. Cập nhật trạng thái nút
+                btnThem.Enabled = false;
+                btnXoa.Enabled = false;
+                btnRefresh.Enabled = false;
+                btnGhi.Enabled = true;
+                btnPhucHoi.Enabled = true;
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thêm nhân viên mới: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-       
 
-        private void btnThem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-            // 1. Thêm bản ghi mới vào BindingSource
-            bds_NhanVien.AddNew();
-
-            int nextManv = LayMaNvTiepTheo();
-
-            // Cập nhật lại MANV cho dòng mới (dù không lưu vào DB – để hiển thị trên GridControl)
-            DataRowView newRow = (DataRowView)bds_NhanVien.Current;
-            newRow["MANV"] = nextManv;
-            textEditMANV.Text = nextManv.ToString();
-            textEditHO.Text = "";
-            textEditTEN.Text = "";
-            textEditDIACHI.Text = "";
-            textEditDIENTHOAI.Text = "";
-            textEditEMAIL.Text = "";
-            radioButtonNAM.Checked = false;
-            radioButtonNU.Checked = false;
-            // Push hành động insert (chưa có dữ liệu, sẽ cập nhật khi ghi)
-            undoStack.Push(new UndoAction
-            {
-                ActionType = "INSERT",
-                Data = new Dictionary<string, object>()
-            });
-
-            // 5. Vô hiệu hóa các nút không cần thiết
-            btnThem.Enabled = false;
-            btnXoa.Enabled = false;
-            btnRefresh.Enabled = false;
-            btnGhi.Enabled = true;
-            btnPhucHoi.Enabled = true;
-            // 6. Tập trung vào TextEdit để người dùng nhập dữ liệu
-            textEditHO.Focus();
-            isAdding = true;
-        }
         // Kiểm tra định dạng email
         private bool IsValidEmail(string email)
         {
@@ -162,7 +247,7 @@ namespace AppLibrary
             return System.Text.RegularExpressions.Regex.IsMatch(phoneNumber, @"^0\d{9}$");
         }
 
-        private void btnGhi_ItemClick(object sender, ItemClickEventArgs e)
+        private void btnGhi_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             try
             {
@@ -171,84 +256,98 @@ namespace AppLibrary
                     MessageBox.Show("Vui lòng nhập đầy đủ Họ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (
-                    string.IsNullOrWhiteSpace(textEditTEN.Text))
+                if (string.IsNullOrWhiteSpace(textEditTEN.Text))
                 {
-                    MessageBox.Show("Vui lòng nhập đầy đủ Tên v!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Vui lòng nhập đầy đủ Tên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (
-                    string.IsNullOrWhiteSpace(textEditDIACHI.Text))
+                if (string.IsNullOrWhiteSpace(textEditDIACHI.Text))
                 {
                     MessageBox.Show("Vui lòng nhập đầy đủ Địa chỉ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (!radioButtonNAM.Checked && !radioButtonNU.Checked)
-                {
-                    MessageBox.Show("Vui lòng chọn giới tính!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
                 if (!string.IsNullOrWhiteSpace(textEditEMAIL.Text) && !IsValidEmail(textEditEMAIL.Text))
                 {
                     MessageBox.Show("Email không đúng định dạng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
                 if (!string.IsNullOrWhiteSpace(textEditDIENTHOAI.Text) && !IsValidPhoneNumber(textEditDIENTHOAI.Text))
                 {
                     MessageBox.Show("Số điện thoại không đúng định dạng!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                if (gIOITINHCheckEditNAM.Checked == checkEditNu.Checked)
+                {
+                    MessageBox.Show("Vui lòng chọn giới tính Nam hoặc Nữ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
+                // --- THỰC HIỆN GHI ---
                 DataRowView currentRow = (DataRowView)bds_NhanVien.Current;
 
-                if (!isAdding)
+                if (isAdding)
                 {
-                    var oldData = new Dictionary<string, object>();
-                    foreach (DataColumn column in currentRow.Row.Table.Columns)
+                    // Nếu đang thêm mới (đã push Undo INSERT trước đó), cập nhật lại dữ liệu vào UndoStack
+                    var newData = new Dictionary<string, object>
                     {
-                        oldData[column.ColumnName] = currentRow.Row[column];
-                    }
-                    undoStack.Push(new UndoAction
+                        ["MANV"] = currentRow["MANV"],
+                        ["HONV"] = textEditHO.Text,
+                        ["TENNV"] = textEditTEN.Text,
+                        ["DIACHI"] = textEditDIACHI.Text,
+                        ["DIENTHOAI"] = textEditDIENTHOAI.Text,
+                        ["EMAIL"] = textEditEMAIL.Text,
+                        ["GIOITINH"] = gIOITINHCheckEditNAM.Checked
+                    };
+                    var undoAction = new UndoAction
                     {
-                        ActionType = "UPDATE",
-                        Data = oldData
-                    });
+                        ActionType = "INSERT",
+                        DataList = new List<Dictionary<string, object>> { newData }
+                    };
+
+                    undoStack.Push(undoAction);
                 }
-                else if (undoStack.Count > 0 && undoStack.Peek().ActionType == "INSERT")
+                else
                 {
-                    UndoAction action = undoStack.Pop();
-                    var newData = new Dictionary<string, object>();
-                    newData["MANV"] = textEditMANV.Text;
-                    newData["HONV"] = textEditHO.Text;
-                    newData["TENNV"] = textEditTEN.Text;
-                    newData["DIACHI"] = textEditDIACHI.Text;
-                    newData["DIENTHOAI"] = textEditDIENTHOAI.Text;
-                    newData["EMAIL"] = textEditEMAIL.Text;
-                    newData["GIOITINH"] = radioButtonNAM.Checked;
-                    action.Data = newData;
-                    undoStack.Push(action);
+                    // Nếu đang sửa, lưu lại trạng thái cũ vào UndoStack
+                    var updateAction = new UndoAction { ActionType = "UPDATE" };
+
+                    foreach (DataRow row in ds_QLTV.NHANVIEN.Rows)
+                    {
+                        if (row.RowState == DataRowState.Modified)
+                        {
+                            var oldData = new Dictionary<string, object>();
+                            foreach (DataColumn col in ds_QLTV.NHANVIEN.Columns)
+                            {
+                                oldData[col.ColumnName] = row[col, DataRowVersion.Original]; // Lưu dữ liệu gốc
+                            }
+                            updateAction.DataList.Add(oldData);
+                        }
+                    }
+
+                    if (updateAction.DataList.Count > 0)
+                        undoStack.Push(updateAction);
                 }
 
-                currentRow["HONV"] = textEditHO.Text;
-                currentRow["TENNV"] = textEditTEN.Text;
-                currentRow["GIOITINH"] = radioButtonNAM.Checked ? 1 : 0;
-                currentRow["DIACHI"] = textEditDIACHI.Text;
-                currentRow["EMAIL"] = textEditEMAIL.Text;
-                currentRow["DIENTHOAI"] = textEditDIENTHOAI.Text;
+               
 
                 bds_NhanVien.EndEdit();
                 ta_NhanVien.Update(ds_QLTV.NHANVIEN);
+
+                // Reload lại dữ liệu từ Database
                 ds_QLTV.NHANVIEN.Clear();
                 ta_NhanVien.Fill(ds_QLTV.NHANVIEN);
 
-                MessageBox.Show(isAdding ? "Đã thêm nhân viên mới!" : "Cập nhật thông tin thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // --- Reset trạng thái ---
+                isAdding = false;
+                nHANVIENGridControl.Enabled = true;
+
                 btnThem.Enabled = true;
                 btnXoa.Enabled = true;
                 btnRefresh.Enabled = true;
                 btnGhi.Enabled = false;
-                isAdding = false;
+                btnPhucHoi.Enabled = undoStack.Count > 0;
+
+                MessageBox.Show("Ghi thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -256,10 +355,7 @@ namespace AppLibrary
             }
         }
 
-        private void nHANVIENGridControl_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void btnRefresh_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
@@ -268,6 +364,7 @@ namespace AppLibrary
                 // Reload dữ liệu từ cơ sở dữ liệu
                 ds_QLTV.NHANVIEN.Clear();
                 ta_NhanVien.Fill(ds_QLTV.NHANVIEN);
+                nHANVIENGridControl.Enabled = true;
 
                 // Xóa các điều khiển
                 textEditMANV.Text = "";
@@ -276,13 +373,20 @@ namespace AppLibrary
                 textEditDIACHI.Text = "";
                 textEditDIENTHOAI.Text = "";
                 textEditEMAIL.Text = "";
-                radioButtonNAM.Checked = false;
-                radioButtonNU.Checked = false;
+                gIOITINHCheckEditNAM.Checked = false;
                 btnThem.Enabled = true;
-                btnXoa.Enabled = true;
+                btnXoa.Enabled = false;
                 btnRefresh.Enabled = true;
-                btnGhi.Enabled = true;
+                btnGhi.Enabled = false;
                 btnPhucHoi.Enabled = true;
+                textEditMANV.ReadOnly = true;
+                textEditHO.ReadOnly = true;
+                textEditTEN.ReadOnly = true;
+                textEditDIACHI.ReadOnly = true;
+                textEditDIENTHOAI.ReadOnly = true;
+                textEditEMAIL.ReadOnly = true;
+                gIOITINHCheckEditNAM.ReadOnly = true;
+                checkEditNu.ReadOnly = true;
                 // Chọn lại dòng đầu tiên (nếu có)
                 if (bds_NhanVien.Count > 0)
                 {
@@ -379,7 +483,7 @@ namespace AppLibrary
                     undoStack.Push(new UndoAction
                     {
                         ActionType = "DELETE",
-                        Data = data
+                        DataList = new List<Dictionary<string, object>> { data }
                     });
 
                     bds_NhanVien.RemoveCurrent();
@@ -395,66 +499,98 @@ namespace AppLibrary
                     MessageBox.Show("Lỗi khi xóa nhân viên: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            btnPhucHoi.Enabled = true;
         }
 
 
-        private void btnPhucHoi_ItemClick(object sender, ItemClickEventArgs e)
+        private void btnPhucHoi_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (undoStack.Count == 0)
+            try
             {
-                MessageBox.Show("Không có thao tác nào để phục hồi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+                
+                if (isAdding)
+                {
+                    bds_NhanVien.CancelEdit();
+                    
 
-            UndoAction action = undoStack.Pop();
-            var data = action.Data;
+                    nHANVIENGridControl.Enabled = true;
 
-            switch (action.ActionType)
-            {
-                case "INSERT":
-                    if (data == null || data.Count == 0)
-                    {
-                        // Người dùng đã nhấn Thêm nhưng chưa ghi -> chỉ cần refresh
-                        btnRefresh_ItemClick(sender, e);
-                        return;
-                    }
-                    else
-                    {
-                        // Đã ghi rồi, cần xóa dòng vừa ghi
-                        Program.ExecuteSqlNonQuery($"DELETE FROM NHANVIEN WHERE MANV = {data["MANV"]}");
-                    }
-                    break;
+                    btnThem.Enabled = true;
+                    btnXoa.Enabled = true;
+                    btnRefresh.Enabled = true;
+                    btnGhi.Enabled = false;
+                    btnPhucHoi.Enabled = undoStack.Count > 0;
+                    
+                    MessageBox.Show("Hủy thao tác thêm mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    isAdding = false;
+                    return;
+                }
+                if (undoStack.Count == 0)
+                {
+                    MessageBox.Show("Không có thao tác nào để phục hồi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
 
-                case "DELETE":
-                    Program.ExecuteSqlNonQuery($@"
-                        INSERT INTO NHANVIEN (HONV, TENNV, GIOITINH, DIACHI, DIENTHOAI, EMAIL)
-                        VALUES (
-                            N'{data["HONV"]}',
-                            N'{data["TENNV"]}',
-                            '{(Convert.ToBoolean(data["GIOITINH"]) ? 1 : 0)}',
-                            N'{data["DIACHI"]}',
-                            '{data["DIENTHOAI"]}',
-                            '{data["EMAIL"]}'
-                        )");
-                    break;
+               
+                // Lấy hành động mới nhất
+                UndoAction action = undoStack.Pop();
 
-                case "UPDATE":
-                    Program.ExecuteSqlNonQuery($@"
-                        UPDATE NHANVIEN SET
+                switch (action.ActionType)
+                {
+                    case "INSERT":
+                        // Undo INSERT => XÓA
+                        foreach (var data in action.DataList)
+                        {
+                            Program.ExecuteSqlNonQuery($"DELETE FROM NHANVIEN WHERE MANV = {data["MANV"]}");
+                        }
+                        break;
+
+                    case "DELETE":
+                        foreach (var data in action.DataList)
+                        {
+                            Program.ExecuteSqlNonQuery($@"
+                                SET IDENTITY_INSERT NHANVIEN ON;
+                                INSERT INTO NHANVIEN (MANV, HONV, TENNV, GIOITINH, DIACHI, DIENTHOAI, EMAIL)
+                                VALUES ({data["MANV"]}, N'{data["HONV"]}', N'{data["TENNV"]}',
+                                        '{(Convert.ToBoolean(data["GIOITINH"]) ? 1 : 0)}',
+                                        N'{data["DIACHI"]}', '{data["DIENTHOAI"]}', '{data["EMAIL"]}');
+                                SET IDENTITY_INSERT NHANVIEN OFF;
+                            ");
+                                            }
+                        break;
+
+
+                    case "UPDATE":
+                        // Undo UPDATE => cập nhật lại dữ liệu cũ
+                        foreach (var data in action.DataList)
+                        {
+                            Program.ExecuteSqlNonQuery($@"
+                            UPDATE NHANVIEN SET
                             HONV = N'{data["HONV"]}',
                             TENNV = N'{data["TENNV"]}',
                             GIOITINH = '{(Convert.ToBoolean(data["GIOITINH"]) ? 1 : 0)}',
                             DIACHI = N'{data["DIACHI"]}',
                             DIENTHOAI = '{data["DIENTHOAI"]}',
                             EMAIL = '{data["EMAIL"]}'
-                        WHERE MANV = {data["MANV"]}");
-                    break;
+                            WHERE MANV = {data["MANV"]}");
+                        }
+                        break;
+                }
+
+                // Sau khi Undo, load lại dữ liệu
+                ds_QLTV.NHANVIEN.Clear();
+                ta_NhanVien.Fill(ds_QLTV.NHANVIEN);
+
+                btnPhucHoi.Enabled = undoStack.Count > 0;
+
+                MessageBox.Show("Phục hồi thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            ds_QLTV.NHANVIEN.Clear();
-            ta_NhanVien.Fill(ds_QLTV.NHANVIEN);
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi phục hồi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void btnThoat_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -464,5 +600,26 @@ namespace AppLibrary
             }
 
         }
+
+        private void gIOITINHCheckEditNAM_CheckedChanged(object sender, EventArgs e)
+        {
+            if (gIOITINHCheckEditNAM.Checked)
+            {
+                checkEditNu.CheckedChanged -= checkEditNu_CheckedChanged; // tạm bỏ event
+                checkEditNu.Checked = false;
+                checkEditNu.CheckedChanged += checkEditNu_CheckedChanged; // gán lại event
+            }
+        }
+
+        private void checkEditNu_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkEditNu.Checked)
+            {
+                gIOITINHCheckEditNAM.CheckedChanged -= gIOITINHCheckEditNAM_CheckedChanged;
+                gIOITINHCheckEditNAM.Checked = false;
+                gIOITINHCheckEditNAM.CheckedChanged += gIOITINHCheckEditNAM_CheckedChanged;
+            }
+        }
+
     }
 }

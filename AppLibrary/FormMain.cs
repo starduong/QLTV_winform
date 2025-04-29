@@ -139,5 +139,10 @@ namespace AppLibrary
 
             formDangNhap.ShowDialog();
         }
+
+        private void btn_phieumuonsach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(FormPHIEUMUONSACH));
+        }
     }
 }

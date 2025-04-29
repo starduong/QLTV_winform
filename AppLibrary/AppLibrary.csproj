@@ -59,12 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormDangNhap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +89,12 @@
     <Compile Include="FormNhanVien.Designer.cs">
       <DependentUpon>FormNhanVien.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPHIEUMUONSACH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPHIEUMUONSACH.Designer.cs">
+      <DependentUpon>FormPHIEUMUONSACH.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTacGia.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,9 +116,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QLTVDataSet.xsd</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormDangNhap.resx">
       <DependentUpon>FormDangNhap.cs</DependentUpon>
     </EmbeddedResource>
@@ -133,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormNhanVien.resx">
       <DependentUpon>FormNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPHIEUMUONSACH.resx">
+      <DependentUpon>FormPHIEUMUONSACH.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTacGia.resx">
       <DependentUpon>FormTacGia.cs</DependentUpon>

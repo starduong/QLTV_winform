@@ -244,16 +244,16 @@
             // 
             this.dAUSACHGridControl.DataSource = this.dAUSACHBindingSource;
             this.dAUSACHGridControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dAUSACHGridControl.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(9, 9, 9, 9);
+            this.dAUSACHGridControl.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
             gridLevelNode1.RelationName = "Level1";
             this.dAUSACHGridControl.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
             gridLevelNode1});
             this.dAUSACHGridControl.Location = new System.Drawing.Point(0, 35);
             this.dAUSACHGridControl.MainView = this.gridView1;
-            this.dAUSACHGridControl.Margin = new System.Windows.Forms.Padding(9, 9, 9, 9);
+            this.dAUSACHGridControl.Margin = new System.Windows.Forms.Padding(9);
             this.dAUSACHGridControl.MenuManager = this.barManager1;
             this.dAUSACHGridControl.Name = "dAUSACHGridControl";
-            this.dAUSACHGridControl.Size = new System.Drawing.Size(1435, 316);
+            this.dAUSACHGridControl.Size = new System.Drawing.Size(1435, 427);
             this.dAUSACHGridControl.TabIndex = 12;
             this.dAUSACHGridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
