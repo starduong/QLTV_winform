@@ -44,6 +44,7 @@
     <Reference Include="DevExpress.Printing.v24.1.Core" />
     <Reference Include="DevExpress.RichEdit.v24.1.Core, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.RichEdit.v24.1.Export, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.TreeMap.v24.1.Core, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v24.1" />
     <Reference Include="DevExpress.Utils.v24.1.UI, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Xpo.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -55,9 +56,16 @@
     <Reference Include="DevExpress.XtraGauges.v24.1.Core, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraGrid.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraNavBar.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraPrinting.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraReports.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v24.1.Extensions, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraScheduler.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraScheduler.v24.1.Core, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraScheduler.v24.1.Core.Desktop, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraTreeList.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraTreeMap.v24.1, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraTreeMap.v24.1.UI, Version=24.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -70,6 +78,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassSupport\AccountEvents.cs" />
+    <Compile Include="ClassSupport\LogAction.cs" />
+    <Compile Include="ClassSupport\OverlayHelper.cs" />
+    <Compile Include="FormBackupRestore.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBackupRestore.Designer.cs">
+      <DependentUpon>FormBackupRestore.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDangNhap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +105,12 @@
     <Compile Include="FormDocGia.Designer.cs">
       <DependentUpon>FormDocGia.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormDoiMatKhau.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDoiMatKhau.Designer.cs">
+      <DependentUpon>FormDoiMatKhau.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +122,36 @@
     </Compile>
     <Compile Include="FormNhanVien.Designer.cs">
       <DependentUpon>FormNhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSupport\FS_Backup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSupport\FS_Backup.Designer.cs">
+      <DependentUpon>FS_Backup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSupport\FS_TaoDevice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSupport\FS_TaoDevice.Designer.cs">
+      <DependentUpon>FS_TaoDevice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTaoTaiKhoan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTaoTaiKhoan.Designer.cs">
+      <DependentUpon>FormTaoTaiKhoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTacGia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTacGia.Designer.cs">
+      <DependentUpon>FormTacGia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTheLoai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTheLoai.Designer.cs">
+      <DependentUpon>FormTheLoai.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -163,6 +216,9 @@
     <Compile Include="Report\Xrpt_DanhSachTopNDauSachMuonNhieuNhat.Designer.cs">
       <DependentUpon>Xrpt_DanhSachTopNDauSachMuonNhieuNhat.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="FormBackupRestore.resx">
+      <DependentUpon>FormBackupRestore.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormDangNhap.resx">
       <DependentUpon>FormDangNhap.cs</DependentUpon>
     </EmbeddedResource>
@@ -172,11 +228,29 @@
     <EmbeddedResource Include="FormDocGia.resx">
       <DependentUpon>FormDocGia.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormDoiMatKhau.resx">
+      <DependentUpon>FormDoiMatKhau.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormNhanVien.resx">
       <DependentUpon>FormNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSupport\FS_Backup.resx">
+      <DependentUpon>FS_Backup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSupport\FS_TaoDevice.resx">
+      <DependentUpon>FS_TaoDevice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTaoTaiKhoan.resx">
+      <DependentUpon>FormTaoTaiKhoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTacGia.resx">
+      <DependentUpon>FormTacGia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTheLoai.resx">
+      <DependentUpon>FormTheLoai.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -239,6 +313,12 @@
   <ItemGroup>
     <None Include="Resources\pngegg.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\book-c-program-lang.jpg" />
+    <Content Include="Resources\book-clean-code.jpg" />
+    <Content Include="Resources\images-is-empty.jpg" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -33,13 +33,11 @@
             DevExpress.XtraReports.UI.XRSummary xrSummary2 = new DevExpress.XtraReports.UI.XRSummary();
             DevExpress.XtraReports.UI.XRSummary xrSummary3 = new DevExpress.XtraReports.UI.XRSummary();
             DevExpress.XtraReports.UI.XRSummary xrSummary4 = new DevExpress.XtraReports.UI.XRSummary();
-            DevExpress.XtraReports.UI.XRSummary xrSummary5 = new DevExpress.XtraReports.UI.XRSummary();
             DevExpress.DataAccess.Sql.StoredProcQuery storedProcQuery1 = new DevExpress.DataAccess.Sql.StoredProcQuery();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Xrpt_DanhSachDauSach));
             DevExpress.XtraReports.UI.XRWatermark xrWatermark1 = new DevExpress.XtraReports.UI.XRWatermark();
             this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
             this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
-            this.pageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.pageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.ReportHeader = new DevExpress.XtraReports.UI.ReportHeaderBand();
             this.xrPageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
@@ -78,7 +76,6 @@
             this.GroupFooter2 = new DevExpress.XtraReports.UI.GroupFooterBand();
             this.panel1 = new DevExpress.XtraReports.UI.XRPanel();
             this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
-            this.xrLabel4 = new DevExpress.XtraReports.UI.XRLabel();
             this.label4 = new DevExpress.XtraReports.UI.XRLabel();
             this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
             this.panel2 = new DevExpress.XtraReports.UI.XRPanel();
@@ -100,6 +97,7 @@
             this.GrandTotalData1 = new DevExpress.XtraReports.UI.XRControlStyle();
             this.GrandTotalBackground1 = new DevExpress.XtraReports.UI.XRControlStyle();
             this.PageInfo = new DevExpress.XtraReports.UI.XRControlStyle();
+            this.xrLabel4 = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table3)).BeginInit();
@@ -112,17 +110,8 @@
             // BottomMargin
             // 
             this.BottomMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.pageInfo1,
             this.pageInfo2});
             this.BottomMargin.Name = "BottomMargin";
-            // 
-            // pageInfo1
-            // 
-            this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
-            this.pageInfo1.Name = "pageInfo1";
-            this.pageInfo1.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
-            this.pageInfo1.SizeF = new System.Drawing.SizeF(325F, 23F);
-            this.pageInfo1.StyleName = "PageInfo";
             // 
             // pageInfo2
             // 
@@ -189,11 +178,13 @@
             // label1
             // 
             this.label1.Font = new DevExpress.Drawing.DXFont("Arial", 16F, DevExpress.Drawing.DXFontStyle.Bold);
+            this.label1.ForeColor = System.Drawing.Color.Red;
             this.label1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.label1.Name = "label1";
             this.label1.SizeF = new System.Drawing.SizeF(731F, 24.19433F);
             this.label1.StyleName = "Title";
             this.label1.StylePriority.UseFont = false;
+            this.label1.StylePriority.UseForeColor = false;
             this.label1.StylePriority.UseTextAlignment = false;
             this.label1.Text = "DANH SÁCH ĐẦU SÁCH";
             this.label1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
@@ -205,7 +196,7 @@
             this.GroupHeader1.GroupFields.AddRange(new DevExpress.XtraReports.UI.GroupField[] {
             new DevExpress.XtraReports.UI.GroupField("THELOAI", DevExpress.XtraReports.UI.XRColumnSortOrder.Ascending)});
             this.GroupHeader1.GroupUnion = DevExpress.XtraReports.UI.GroupUnion.WithFirstDetail;
-            this.GroupHeader1.HeightF = 27F;
+            this.GroupHeader1.HeightF = 25F;
             this.GroupHeader1.Level = 1;
             this.GroupHeader1.Name = "GroupHeader1";
             // 
@@ -231,18 +222,20 @@
             // 
             // tableCell1
             // 
-            this.tableCell1.BackColor = System.Drawing.Color.Transparent;
+            this.tableCell1.BackColor = System.Drawing.Color.Gainsboro;
+            this.tableCell1.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.tableCell1.ForeColor = System.Drawing.Color.Black;
             this.tableCell1.Name = "tableCell1";
             this.tableCell1.StyleName = "GroupCaption1";
             this.tableCell1.StylePriority.UseBackColor = false;
+            this.tableCell1.StylePriority.UseBorders = false;
             this.tableCell1.StylePriority.UseForeColor = false;
             this.tableCell1.Text = "Thể loại:";
             this.tableCell1.Weight = 1167060.2723985566D;
             // 
             // tableCell2
             // 
-            this.tableCell2.BackColor = System.Drawing.Color.Transparent;
+            this.tableCell2.BackColor = System.Drawing.Color.Gainsboro;
             this.tableCell2.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.tableCell2.Borders = DevExpress.XtraPrinting.BorderSide.None;
             this.tableCell2.BorderWidth = 1F;
@@ -624,6 +617,7 @@
             // 
             this.GroupFooter2.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.panel1});
+            this.GroupFooter2.GroupUnion = DevExpress.XtraReports.UI.GroupFooterUnion.WithLastDetail;
             this.GroupFooter2.HeightF = 18.91882F;
             this.GroupFooter2.Level = 1;
             this.GroupFooter2.Name = "GroupFooter2";
@@ -632,40 +626,23 @@
             // 
             this.panel1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
             this.xrLabel3,
-            this.xrLabel4,
             this.label4});
             this.panel1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.panel1.Name = "panel1";
-            this.panel1.SizeF = new System.Drawing.SizeF(731F, 18.91882F);
+            this.panel1.SizeF = new System.Drawing.SizeF(736F, 18.91882F);
             this.panel1.StyleName = "TotalBackground1";
             // 
             // xrLabel3
             // 
             this.xrLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(4.238552E-05F, 0F);
+            this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(583.4193F, 0F);
             this.xrLabel3.Name = "xrLabel3";
-            this.xrLabel3.SizeF = new System.Drawing.SizeF(82.85168F, 14.88444F);
+            this.xrLabel3.SizeF = new System.Drawing.SizeF(101.7041F, 14.88444F);
             this.xrLabel3.StyleName = "TotalCaption1";
             this.xrLabel3.StylePriority.UseForeColor = false;
-            this.xrLabel3.Text = "Số đầu sách:";
-            // 
-            // xrLabel4
-            // 
-            this.xrLabel4.CanGrow = false;
-            this.xrLabel4.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
-            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumCount([ISBN])")});
-            this.xrLabel4.ForeColor = System.Drawing.Color.Red;
-            this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(82.85173F, 0F);
-            this.xrLabel4.Name = "xrLabel4";
-            this.xrLabel4.SizeF = new System.Drawing.SizeF(54.16666F, 14.88444F);
-            this.xrLabel4.StyleName = "TotalData1";
-            this.xrLabel4.StylePriority.UseForeColor = false;
-            this.xrLabel4.StylePriority.UseTextAlignment = false;
-            xrSummary2.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-            this.xrLabel4.Summary = xrSummary2;
-            this.xrLabel4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
-            this.xrLabel4.TextFormatString = "{0:#}";
-            this.xrLabel4.WordWrap = false;
+            this.xrLabel3.StylePriority.UseTextAlignment = false;
+            this.xrLabel3.Text = "Tổng số sách:";
+            this.xrLabel3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             // 
             // label4
             // 
@@ -673,14 +650,14 @@
             this.label4.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([SOCUON])")});
             this.label4.ForeColor = System.Drawing.Color.Red;
-            this.label4.LocationFloat = new DevExpress.Utils.PointFloat(677.6138F, 0F);
+            this.label4.LocationFloat = new DevExpress.Utils.PointFloat(685.1235F, 0F);
             this.label4.Name = "label4";
-            this.label4.SizeF = new System.Drawing.SizeF(53.38629F, 14.88444F);
+            this.label4.SizeF = new System.Drawing.SizeF(50.87659F, 14.88444F);
             this.label4.StyleName = "TotalData1";
             this.label4.StylePriority.UseForeColor = false;
             this.label4.StylePriority.UseTextAlignment = false;
-            xrSummary3.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
-            this.label4.Summary = xrSummary3;
+            xrSummary2.Running = DevExpress.XtraReports.UI.SummaryRunning.Group;
+            this.label4.Summary = xrSummary2;
             this.label4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.label4.TextFormatString = "{0:#}";
             this.label4.WordWrap = false;
@@ -695,12 +672,13 @@
             // panel2
             // 
             this.panel2.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel4,
             this.xrLabel5,
             this.xrLabel6,
             this.label7});
             this.panel2.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.panel2.Name = "panel2";
-            this.panel2.SizeF = new System.Drawing.SizeF(731F, 49.38443F);
+            this.panel2.SizeF = new System.Drawing.SizeF(736F, 49.38443F);
             this.panel2.StyleName = "GrandTotalBackground1";
             // 
             // xrLabel5
@@ -715,9 +693,9 @@
             this.xrLabel5.StyleName = "GrandTotalData1";
             this.xrLabel5.StylePriority.UseForeColor = false;
             this.xrLabel5.StylePriority.UseTextAlignment = false;
-            xrSummary4.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-            this.xrLabel5.Summary = xrSummary4;
-            this.xrLabel5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+            xrSummary3.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
+            this.xrLabel5.Summary = xrSummary3;
+            this.xrLabel5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             this.xrLabel5.TextFormatString = "{0:#}";
             this.xrLabel5.WordWrap = false;
             // 
@@ -737,14 +715,14 @@
             this.label7.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
             new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "sumSum([SOCUON])")});
             this.label7.ForeColor = System.Drawing.Color.Red;
-            this.label7.LocationFloat = new DevExpress.Utils.PointFloat(677.6138F, 10.00002F);
+            this.label7.LocationFloat = new DevExpress.Utils.PointFloat(685.1235F, 10.00002F);
             this.label7.Name = "label7";
-            this.label7.SizeF = new System.Drawing.SizeF(53.38629F, 14.88444F);
+            this.label7.SizeF = new System.Drawing.SizeF(50.87659F, 14.88444F);
             this.label7.StyleName = "GrandTotalData1";
             this.label7.StylePriority.UseForeColor = false;
             this.label7.StylePriority.UseTextAlignment = false;
-            xrSummary5.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
-            this.label7.Summary = xrSummary5;
+            xrSummary4.Running = DevExpress.XtraReports.UI.SummaryRunning.Report;
+            this.label7.Summary = xrSummary4;
             this.label7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.label7.TextFormatString = "{0:#}";
             this.label7.WordWrap = false;
@@ -900,6 +878,18 @@
             this.PageInfo.Name = "PageInfo";
             this.PageInfo.Padding = new DevExpress.XtraPrinting.PaddingInfo(6, 6, 0, 0, 100F);
             // 
+            // xrLabel4
+            // 
+            this.xrLabel4.ForeColor = System.Drawing.Color.Navy;
+            this.xrLabel4.LocationFloat = new DevExpress.Utils.PointFloat(540.5955F, 10.00002F);
+            this.xrLabel4.Name = "xrLabel4";
+            this.xrLabel4.SizeF = new System.Drawing.SizeF(144.5279F, 14.88444F);
+            this.xrLabel4.StyleName = "GrandTotalCaption1";
+            this.xrLabel4.StylePriority.UseForeColor = false;
+            this.xrLabel4.StylePriority.UseTextAlignment = false;
+            this.xrLabel4.Text = "Tổng số sách thư viện:";
+            this.xrLabel4.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+            // 
             // Xrpt_DanhSachDauSach
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -948,7 +938,6 @@
 
         private DevExpress.XtraReports.UI.TopMarginBand TopMargin;
         private DevExpress.XtraReports.UI.BottomMarginBand BottomMargin;
-        private DevExpress.XtraReports.UI.XRPageInfo pageInfo1;
         private DevExpress.XtraReports.UI.XRPageInfo pageInfo2;
         private DevExpress.XtraReports.UI.ReportHeaderBand ReportHeader;
         private DevExpress.XtraReports.UI.XRLabel label1;
@@ -1006,8 +995,8 @@
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell1;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell2;
         private DevExpress.XtraReports.UI.XRLabel xrLabel3;
-        private DevExpress.XtraReports.UI.XRLabel xrLabel4;
         private DevExpress.XtraReports.UI.XRLabel xrLabel5;
         private DevExpress.XtraReports.UI.XRLabel xrLabel6;
+        private DevExpress.XtraReports.UI.XRLabel xrLabel4;
     }
 }

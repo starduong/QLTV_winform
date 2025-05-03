@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AppLibrary.Report;
+using AppLibrary.ClassSupport;
+using DevExpress.XtraEditors;
 
 namespace AppLibrary
 {
@@ -52,24 +54,50 @@ namespace AppLibrary
             }
         }
 
+        // *** HỆ THỐNG ***************************************************************************
+        private void btnTaoTaiKhoan_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(FormTaoTaiKhoan));
+        }
+        private void btnDoiMatKhau_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(FormDoiMatKhau));
+        }
+
+        private void btnBackupRestore_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(FormBackupRestore));
+        }
+
+        private void btnThoat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            // Hiển thị hộp thoại xác nhận trước khi thoát (giúp người dùng tránh bấm nhầm)
+            if (XtraMessageBox.Show(
+                "Bạn có chắc chắn muốn thoát chương trình?",
+                "Xác nhận thoát",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Application.Exit(); // Thoát toàn bộ chương trình
+            }
+        }
+
+
+        // *** DANH MỤC ***************************************************************************
         private void btnDauSach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             OpenForm(typeof(FormDauSach));
         }
 
-        private void btnSach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-
-        }
 
         private void btnTacGia_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-
+            OpenForm(typeof(FormTacGia));
         }
 
         private void btnTheLoaiSach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-
+            OpenForm(typeof(FormTheLoai));
         }
 
         private void btnNhanVien_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -82,6 +110,7 @@ namespace AppLibrary
             OpenForm(typeof(FormDocGia));
         }
 
+        // *** REPORT ***************************************************************************
         private void btnDanhSachDocGia_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             OpenForm(typeof(Frpt_DanhSachDocGia));
@@ -101,20 +130,6 @@ namespace AppLibrary
         private void btnDauSachMuonNhieuNhat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             OpenForm(typeof(Frpt_DanhSachTopNDauSachMuonNhieuNhat));
-        }
-
-        // Tùy chỉnh cài đặt của overlay form cho FormMain
-        OverlayWindowOptions options = new OverlayWindowOptions(
-            backColor: Color.Black,   // Màu nền của overlay là màu đen
-            opacity: 0.5,             // Độ trong suốt của overlay là 50%
-            fadeIn: false,            // Không có hiệu ứng làm mờ khi xuất hiện
-            fadeOut: false            // Không có hiệu ứng làm mờ khi biến mất
-        );
-
-        // Hiển thị overlay trên một control cụ thể
-        IOverlaySplashScreenHandle ShowProgressPanel(Control control, OverlayWindowOptions overlayWindowOptions)
-        {
-            return SplashScreenManager.ShowOverlayForm(control, overlayWindowOptions);
         }
 
         public void SetInterfaceVisibilityByUserGroup(string userGroup)
@@ -152,7 +167,7 @@ namespace AppLibrary
 
         private void btnDangNhap_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            Program.handle = ShowProgressPanel(this, options);
+            Program.handle = OverlayHelper.ShowOverlay(Program.CurrentMainForm); // show Overlay 
             FormDangNhap formDangNhap = new FormDangNhap(this);
             // Lắng nghe sự kiện đăng nhập thành công
             formDangNhap.OnLoginSuccess += (userGroup) =>
@@ -201,6 +216,6 @@ namespace AppLibrary
             }
         }
 
-        
+
     }
 }

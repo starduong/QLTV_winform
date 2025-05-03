@@ -4,6 +4,14 @@
 
     partial class QLTVDataSet
     {
+        partial class DataTable1DataTable
+        {
+        }
+
+        partial class sp_DanhSachBackupDataTable
+        {
+        }
+
         partial class DSNGONNGUDataTable
         {
         }

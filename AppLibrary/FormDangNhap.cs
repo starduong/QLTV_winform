@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using AppLibrary.ClassSupport;
+using DevExpress.CodeParser;
+using DevExpress.XtraRichEdit.Import.Html;
 using DevExpress.XtraSplashScreen;
 
 namespace AppLibrary
@@ -132,12 +135,6 @@ namespace AppLibrary
             Program.myReader.Close();
             Program.conn.Close();
 
-            //Tắt overlay form đang mở -> hiện form chính
-            if (Program.handle != null)
-            {
-                SplashScreenManager.CloseOverlayForm(Program.handle);
-            }
-
             // Kích hoạt sự kiện đăng nhập thành công
             OnLoginSuccess?.Invoke(Program.mGroup);
 
@@ -148,22 +145,22 @@ namespace AppLibrary
 
         private void FormDangNhap_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //Đây là thời điểm form đã bị đóng hoàn toàn rồi.
+            //Bạn không thể ngăn việc đóng form ở đây.
+        }
+        private void FormDangNhap_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Đây là thời điểm bạn còn có thể ngăn không cho form bị đóng.
+            //Dùng để hiển thị thông báo xác nhận, kiểm tra dữ liệu chưa lưu, hoặc hủy việc đóng form nếu cần.
             //Tắt overlay form đang mở -> hiện form chính
             if (Program.handle != null)
             {
-                SplashScreenManager.CloseOverlayForm(Program.handle);
+                OverlayHelper.CloseOverlay(Program.handle);
             }
-            //Đóng form đăng nhập
-            this.Close();
         }
 
         private void btn_thoat_Click(object sender, EventArgs e)
-        {
-            //Tắt overlay form đang mở -> hiện form chính
-            if (Program.handle != null)
-            {
-                SplashScreenManager.CloseOverlayForm(Program.handle);
-            }
+        {           
             //Đóng form đăng nhập
             this.Close();
         }
@@ -188,6 +185,6 @@ namespace AppLibrary
 
         }
 
-        
+
     }
 }

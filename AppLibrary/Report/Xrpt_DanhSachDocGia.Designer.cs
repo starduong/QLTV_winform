@@ -36,7 +36,6 @@
             DevExpress.XtraReports.UI.XRWatermark xrWatermark1 = new DevExpress.XtraReports.UI.XRWatermark();
             this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
             this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
-            this.pageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.pageInfo2 = new DevExpress.XtraReports.UI.XRPageInfo();
             this.ReportHeader = new DevExpress.XtraReports.UI.ReportHeaderBand();
             this.xrPageInfo_NgayIn = new DevExpress.XtraReports.UI.XRPageInfo();
@@ -86,18 +85,9 @@
             // BottomMargin
             // 
             this.BottomMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-            this.pageInfo1,
             this.pageInfo2});
             this.BottomMargin.HeightF = 100.8889F;
             this.BottomMargin.Name = "BottomMargin";
-            // 
-            // pageInfo1
-            // 
-            this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(25.52109F, 0F);
-            this.pageInfo1.Name = "pageInfo1";
-            this.pageInfo1.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
-            this.pageInfo1.SizeF = new System.Drawing.SizeF(323.085F, 23F);
-            this.pageInfo1.StyleName = "PageInfo";
             // 
             // pageInfo2
             // 
@@ -166,11 +156,13 @@
             // label1
             // 
             this.label1.Font = new DevExpress.Drawing.DXFont("Times New Roman", 16F, DevExpress.Drawing.DXFontStyle.Bold);
+            this.label1.ForeColor = System.Drawing.Color.Red;
             this.label1.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.label1.Name = "label1";
             this.label1.SizeF = new System.Drawing.SizeF(769F, 35.30544F);
             this.label1.StyleName = "Title";
             this.label1.StylePriority.UseFont = false;
+            this.label1.StylePriority.UseForeColor = false;
             this.label1.StylePriority.UseTextAlignment = false;
             this.label1.Text = "DANH SÁCH ĐỘC GIẢ";
             this.label1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
@@ -494,7 +486,7 @@
             this.tableCell12.StylePriority.UseBorders = false;
             this.tableCell12.StylePriority.UseBorderWidth = false;
             this.tableCell12.StylePriority.UseTextAlignment = false;
-            this.tableCell12.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
+            this.tableCell12.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
             this.tableCell12.Weight = 0.16275670964704117D;
             // 
             // tableCell13
@@ -662,7 +654,6 @@
 
         private DevExpress.XtraReports.UI.TopMarginBand TopMargin;
         private DevExpress.XtraReports.UI.BottomMarginBand BottomMargin;
-        private DevExpress.XtraReports.UI.XRPageInfo pageInfo1;
         private DevExpress.XtraReports.UI.XRPageInfo pageInfo2;
         private DevExpress.XtraReports.UI.ReportHeaderBand ReportHeader;
         private DevExpress.XtraReports.UI.XRLabel label1;

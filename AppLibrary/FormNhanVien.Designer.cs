@@ -246,6 +246,7 @@
             // tam_NhanVien
             // 
             this.tam_NhanVien.BackupDataSetBeforeUpdate = false;
+            this.tam_NhanVien.CHITIETNGANTUTableAdapter = null;
             this.tam_NhanVien.CT_PHIEUMUONTableAdapter = null;
             this.tam_NhanVien.DAUSACHTableAdapter = null;
             this.tam_NhanVien.DOCGIATableAdapter = null;
