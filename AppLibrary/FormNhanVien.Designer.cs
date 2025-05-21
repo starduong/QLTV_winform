@@ -170,7 +170,7 @@
             // 
             // btnPhucHoi
             // 
-            this.btnPhucHoi.Caption = "Phục hồi";
+            this.btnPhucHoi.Caption = "Undo";
             this.btnPhucHoi.Id = 4;
             this.btnPhucHoi.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnPhucHoi.ImageOptions.SvgImage")));
             this.btnPhucHoi.Name = "btnPhucHoi";
@@ -289,6 +289,7 @@
             this.tam_NhanVien.NHANVIENTableAdapter = this.ta_NhanVien;
             this.tam_NhanVien.PHIEUMUONTableAdapter = null;
             this.tam_NhanVien.SACHTableAdapter = null;
+            this.tam_NhanVien.sp_DanhSachBackupTableAdapter = null;
             this.tam_NhanVien.TACGIA_SACHTableAdapter = null;
             this.tam_NhanVien.TACGIATableAdapter = null;
             this.tam_NhanVien.THELOAITableAdapter = null;

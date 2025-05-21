@@ -174,6 +174,12 @@
     <Compile Include="FormTheLoai.Designer.cs">
       <DependentUpon>FormTheLoai.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormTraSach.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTraSach.Designer.cs">
+      <DependentUpon>FormTraSach.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -275,6 +281,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormPHIEUMUONSACH.resx">
       <DependentUpon>FormPHIEUMUONSACH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTraSach.resx">
+      <DependentUpon>FormTraSach.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

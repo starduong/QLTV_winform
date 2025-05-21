@@ -56,11 +56,13 @@
             this.btnBackupRestore = new DevExpress.XtraBars.BarButtonItem();
             this.btnDangXuat = new DevExpress.XtraBars.BarButtonItem();
             this.btnDoiMatKhau = new DevExpress.XtraBars.BarButtonItem();
+            this.btnThoat = new DevExpress.XtraBars.BarButtonItem();
             this.rbp_hethong = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.rpgDangNhap = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.rpgDangXuat_DoiMatKhau = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.rpg_QuanLiTaiKhoan = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.rpg_Backup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.rbp_danhmuc = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.rpg_ThongTinSach = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.rpg_DanhMuc_NguoiDung = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -75,8 +77,6 @@
             this.sslb_ma = new System.Windows.Forms.ToolStripStatusLabel();
             this.sslb_ten = new System.Windows.Forms.ToolStripStatusLabel();
             this.sslb_nhom = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.btnThoat = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.documentManagerMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabbedView1)).BeginInit();
@@ -85,8 +85,7 @@
             // 
             // ribbonControl1
             // 
-            //this.ribbonControl1.EmptyAreaImageOptions.ImagePadding = new System.Windows.Forms.Padding(1115, 1106, 1115, 1106);
-            this.ribbonControl1.EmptyAreaImageOptions.ImagePadding = new System.Windows.Forms.Padding(1147, 1121, 1147, 1121);
+            this.ribbonControl1.EmptyAreaImageOptions.ImagePadding = new System.Windows.Forms.Padding(892, 885, 892, 885);
             this.ribbonControl1.ExpandCollapseItem.Id = 0;
             this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbonControl1.ExpandCollapseItem,
@@ -117,20 +116,16 @@
             this.btnDoiMatKhau,
             this.btnThoat});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            //this.ribbonControl1.Margin = new System.Windows.Forms.Padding(92, 102, 92, 102);
-            //this.ribbonControl1.MaxItemId = 27;
-            this.ribbonControl1.Margin = new System.Windows.Forms.Padding(94, 103, 94, 103);
+            this.ribbonControl1.Margin = new System.Windows.Forms.Padding(73, 81, 73, 81);
             this.ribbonControl1.MaxItemId = 31;
             this.ribbonControl1.Name = "ribbonControl1";
-            //this.ribbonControl1.OptionsMenuMinWidth = 12317;
-            this.ribbonControl1.OptionsMenuMinWidth = 12669;
+            this.ribbonControl1.OptionsMenuMinWidth = 9854;
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.rbp_hethong,
             this.rbp_danhmuc,
             this.rbp_nghiepvu,
             this.rbp_baocao});
-            //this.ribbonControl1.Size = new System.Drawing.Size(1011, 179);
-            this.ribbonControl1.Size = new System.Drawing.Size(1300, 212);
+            this.ribbonControl1.Size = new System.Drawing.Size(1011, 179);
             // 
             // btnDangNhap
             // 
@@ -296,6 +291,7 @@
             this.btn_trasach.Id = 23;
             this.btn_trasach.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btn_trasach.ImageOptions.SvgImage")));
             this.btn_trasach.Name = "btn_trasach";
+            this.btn_trasach.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btn_trasach_ItemClick);
             // 
             // btnTaoTaiKhoan
             // 
@@ -331,6 +327,14 @@
             this.btnDoiMatKhau.Name = "btnDoiMatKhau";
             this.btnDoiMatKhau.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDoiMatKhau_ItemClick);
             // 
+            // btnThoat
+            // 
+            this.btnThoat.Caption = "THOÁT CHƯƠNG TRÌNH";
+            this.btnThoat.Id = 30;
+            this.btnThoat.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnThoat.ImageOptions.LargeImage")));
+            this.btnThoat.Name = "btnThoat";
+            this.btnThoat.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnThoat_ItemClick);
+            // 
             // rbp_hethong
             // 
             this.rbp_hethong.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -362,6 +366,11 @@
             // 
             this.rpg_Backup.ItemLinks.Add(this.btnBackupRestore);
             this.rpg_Backup.Name = "rpg_Backup";
+            // 
+            // ribbonPageGroup1
+            // 
+            this.ribbonPageGroup1.ItemLinks.Add(this.btnThoat);
+            this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             // 
             // rbp_danhmuc
             // 
@@ -434,12 +443,10 @@
             this.sslb_ma,
             this.sslb_ten,
             this.sslb_nhom});
-            //this.statusStripMain.Location = new System.Drawing.Point(0, 515);
-            this.statusStripMain.Location = new System.Drawing.Point(0, 655);
+            this.statusStripMain.Location = new System.Drawing.Point(0, 515);
             this.statusStripMain.Name = "statusStripMain";
-            //this.statusStripMain.Padding = new System.Windows.Forms.Padding(1, 0, 11, 0);
-            //this.statusStripMain.Size = new System.Drawing.Size(1011, 33);
-            this.statusStripMain.Size = new System.Drawing.Size(1300, 39);
+            this.statusStripMain.Padding = new System.Windows.Forms.Padding(1, 0, 11, 0);
+            this.statusStripMain.Size = new System.Drawing.Size(1011, 33);
             this.statusStripMain.TabIndex = 4;
             this.statusStripMain.Text = "statusStrip1";
             // 
@@ -448,8 +455,7 @@
             this.sslb_ma.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sslb_ma.Image = global::AppLibrary.Properties.Resources.id_card_64px;
             this.sslb_ma.Name = "sslb_ma";
-            //this.sslb_ma.Size = new System.Drawing.Size(159, 27);
-            this.sslb_ma.Size = new System.Drawing.Size(182, 32);
+            this.sslb_ma.Size = new System.Drawing.Size(159, 27);
             this.sslb_ma.Text = "Mã người dùng";
             // 
             // sslb_ten
@@ -457,8 +463,7 @@
             this.sslb_ten.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.sslb_ten.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sslb_ten.Name = "sslb_ten";
-            //this.sslb_ten.Size = new System.Drawing.Size(134, 27);
-            this.sslb_ten.Size = new System.Drawing.Size(153, 32);
+            this.sslb_ten.Size = new System.Drawing.Size(134, 27);
             this.sslb_ten.Text = "Tên người dùng";
             // 
             // sslb_nhom
@@ -466,34 +471,18 @@
             this.sslb_nhom.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.sslb_nhom.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sslb_nhom.Name = "sslb_nhom";
-            this.sslb_nhom.Size = new System.Drawing.Size(71, 32);
+            this.sslb_nhom.Size = new System.Drawing.Size(62, 27);
             this.sslb_nhom.Text = "Nhóm";
-            // 
-            // ribbonPageGroup1
-            // 
-            this.ribbonPageGroup1.ItemLinks.Add(this.btnThoat);
-            this.ribbonPageGroup1.Name = "ribbonPageGroup1";
-            // 
-            // btnThoat
-            // 
-            this.btnThoat.Caption = "THOÁT CHƯƠNG TRÌNH";
-            this.btnThoat.Id = 30;
-            this.btnThoat.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnThoat.ImageOptions.LargeImage")));
-            this.btnThoat.Name = "btnThoat";
-            this.btnThoat.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnThoat_ItemClick);
             // 
             // FormMain
             // 
-            //this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.ClientSize = new System.Drawing.Size(1011, 548);
-            this.ClientSize = new System.Drawing.Size(1300, 694);
+            this.ClientSize = new System.Drawing.Size(1011, 548);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.ribbonControl1);
             this.IsMdiContainer = true;
-            //this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FormMain";
             this.Ribbon = this.ribbonControl1;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

@@ -49,7 +49,17 @@ namespace AppLibrary
             ClearInputFields();
 
             // Không chọn dòng nào khi mới mở form
-           
+            gridView1.CustomColumnDisplayText += (s, ev) =>
+            {
+                if (ev.Column.FieldName == "GIOITINH")
+                {
+                    if (ev.Value != null && ev.Value != DBNull.Value)
+                    {
+                        ev.DisplayText = (Convert.ToBoolean(ev.Value)) ? "Nam" : "Nữ";
+                    }
+                }
+            };
+
 
             // Trạng thái nút
             btnThem.Enabled = true;
@@ -134,7 +144,7 @@ namespace AppLibrary
                 textEditEMAIL.ReadOnly = false;
                 gIOITINHCheckEditNAM.ReadOnly = false;
                 checkEditNu.ReadOnly = false;
-               
+                
             }
             else
             {
@@ -155,7 +165,7 @@ namespace AppLibrary
                 gIOITINHCheckEditNAM.ReadOnly = true;
                 checkEditNu.ReadOnly = true;
             }
-            if (textEditMANV.Text == Program.UserName)
+            if (textEditMANV.Text == Program.UserName || isAdding)
             {
                 btnXoa.Enabled = false;
             }
@@ -219,7 +229,8 @@ namespace AppLibrary
                 btnRefresh.Enabled = false;
                 btnGhi.Enabled = true;
                 btnPhucHoi.Enabled = true;
-                
+                gridView1.FocusedRowHandle = gridView1.RowCount - 1;
+
             }
             catch (Exception ex)
             {
@@ -246,6 +257,11 @@ namespace AppLibrary
         {
             return System.Text.RegularExpressions.Regex.IsMatch(phoneNumber, @"^0\d{9}$");
         }
+        // Regex: Không cho phép chứa chữ số
+        private bool KhongChuaSo(string input)
+        {
+            return !System.Text.RegularExpressions.Regex.IsMatch(input, @"\d");
+        }
 
         private void btnGhi_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
@@ -253,14 +269,26 @@ namespace AppLibrary
             {
                 if (string.IsNullOrWhiteSpace(textEditHO.Text))
                 {
-                    MessageBox.Show("Vui lòng nhập đầy đủ Họ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Vui lòng nhập đầy đủ Họ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                if (!KhongChuaSo(textEditHO.Text))
+                {
+                    MessageBox.Show("Họ không được chứa số!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 if (string.IsNullOrWhiteSpace(textEditTEN.Text))
                 {
                     MessageBox.Show("Vui lòng nhập đầy đủ Tên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                if (!KhongChuaSo(textEditTEN.Text))
+                {
+                    MessageBox.Show("Tên không được chứa số!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 if (string.IsNullOrWhiteSpace(textEditDIACHI.Text))
                 {
                     MessageBox.Show("Vui lòng nhập đầy đủ Địa chỉ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -284,6 +312,7 @@ namespace AppLibrary
 
                 // --- THỰC HIỆN GHI ---
                 DataRowView currentRow = (DataRowView)bds_NhanVien.Current;
+                int currentRowHandle = gridView1.FocusedRowHandle;
 
                 if (isAdding)
                 {
@@ -291,11 +320,11 @@ namespace AppLibrary
                     var newData = new Dictionary<string, object>
                     {
                         ["MANV"] = currentRow["MANV"],
-                        ["HONV"] = textEditHO.Text,
-                        ["TENNV"] = textEditTEN.Text,
-                        ["DIACHI"] = textEditDIACHI.Text,
-                        ["DIENTHOAI"] = textEditDIENTHOAI.Text,
-                        ["EMAIL"] = textEditEMAIL.Text,
+                        ["HONV"] = textEditHO.Text.Trim(),
+                        ["TENNV"] = textEditTEN.Text.Trim(),
+                        ["DIACHI"] = textEditDIACHI.Text.Trim(),
+                        ["DIENTHOAI"] = textEditDIENTHOAI.Text.Trim(),
+                        ["EMAIL"] = textEditEMAIL.Text.Trim(),
                         ["GIOITINH"] = gIOITINHCheckEditNAM.Checked
                     };
                     var undoAction = new UndoAction
@@ -305,6 +334,7 @@ namespace AppLibrary
                     };
 
                     undoStack.Push(undoAction);
+                    gridView1.FocusedRowHandle = gridView1.RowCount - 1;
                 }
                 else
                 {
@@ -336,7 +366,10 @@ namespace AppLibrary
                 // Reload lại dữ liệu từ Database
                 ds_QLTV.NHANVIEN.Clear();
                 ta_NhanVien.Fill(ds_QLTV.NHANVIEN);
-
+                if (currentRowHandle >= 0 && currentRowHandle < gridView1.RowCount)
+                {
+                    gridView1.FocusedRowHandle = currentRowHandle;
+                }
                 // --- Reset trạng thái ---
                 isAdding = false;
                 nHANVIENGridControl.Enabled = true;
@@ -510,8 +543,11 @@ namespace AppLibrary
                 
                 if (isAdding)
                 {
-                    bds_NhanVien.CancelEdit();
-                    
+                    if (bds_NhanVien.Current != null)
+                    {
+                        bds_NhanVien.RemoveCurrent(); 
+                    }
+
 
                     nHANVIENGridControl.Enabled = true;
 

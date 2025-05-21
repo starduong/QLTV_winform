@@ -222,6 +222,9 @@ namespace AppLibrary
             }
         }
 
-
+        private void btn_trasach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(FormTraSach));
+        }
     }
 }
