@@ -28,6 +28,7 @@
     <Shape ID="DesignTable:sp_DanhSachBackupLog" ZOrder="3" X="2362" Y="69" Height="290" Width="300" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="223" />
     <Shape ID="DesignTable:CHOMUON_SACH" ZOrder="2" X="2450" Y="434" Height="155" Width="253" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="88" />
     <Shape ID="DesignTable:TINHTRANG_SACH" ZOrder="1" X="2406" Y="684" Height="155" Width="253" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="88" />
+    <Shape ID="DesignTable:DataTable1" ZOrder="1" X="849" Y="597" Height="273" Width="248" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="214" />
   </Shapes>
   <Connectors>
     <Connector ID="DesignRelation:FK_CTPHIEUMUON_NHANVIEN" ZOrder="30" LineWidth="11">
@@ -37,8 +38,8 @@
           <Y>220</Y>
         </Point>
         <Point>
-          <X>405</X>
-          <Y>220</Y>
+          <X>504</X>
+          <Y>345</Y>
         </Point>
       </RoutePoints>
     </Connector>

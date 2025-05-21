@@ -74,7 +74,7 @@ namespace AppLibrary
             {
                 UpdateButtonStates();
                 btnGHI.Enabled = btnREFRESH.Enabled = false;
-                if (bdsDAUSACH.Count == 0) { pncINPUT.Visible = false;}
+                if (bdsDAUSACH.Count == 0) { pncINPUT.Visible = false; }
                 //--- cấu hình grid view SACH --------//
                 btnGhiSach.Enabled = false;
                 btnXoaSach.Enabled = (bdsSACH.Count > 0);
@@ -241,7 +241,7 @@ namespace AppLibrary
             // Bật nút Ghi và Refresh để cho phép lưu hoặc hủy thay đổi
             btnGHI.Enabled = isNhanVien;
             btnREFRESH.Enabled = !isAddMode;
-            if(bdsDAUSACH.Position == 0)
+            if (bdsDAUSACH.Position == 0)
             {
                 btnREFRESH.Enabled = false;
             }

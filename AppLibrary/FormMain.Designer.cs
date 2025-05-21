@@ -85,6 +85,7 @@
             // 
             // ribbonControl1
             // 
+            //this.ribbonControl1.EmptyAreaImageOptions.ImagePadding = new System.Windows.Forms.Padding(1115, 1106, 1115, 1106);
             this.ribbonControl1.EmptyAreaImageOptions.ImagePadding = new System.Windows.Forms.Padding(1147, 1121, 1147, 1121);
             this.ribbonControl1.ExpandCollapseItem.Id = 0;
             this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
@@ -116,15 +117,19 @@
             this.btnDoiMatKhau,
             this.btnThoat});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
+            //this.ribbonControl1.Margin = new System.Windows.Forms.Padding(92, 102, 92, 102);
+            //this.ribbonControl1.MaxItemId = 27;
             this.ribbonControl1.Margin = new System.Windows.Forms.Padding(94, 103, 94, 103);
             this.ribbonControl1.MaxItemId = 31;
             this.ribbonControl1.Name = "ribbonControl1";
+            //this.ribbonControl1.OptionsMenuMinWidth = 12317;
             this.ribbonControl1.OptionsMenuMinWidth = 12669;
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.rbp_hethong,
             this.rbp_danhmuc,
             this.rbp_nghiepvu,
             this.rbp_baocao});
+            //this.ribbonControl1.Size = new System.Drawing.Size(1011, 179);
             this.ribbonControl1.Size = new System.Drawing.Size(1300, 212);
             // 
             // btnDangNhap
@@ -283,6 +288,7 @@
             this.btn_phieumuonsach.Id = 22;
             this.btn_phieumuonsach.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btn_phieumuonsach.ImageOptions.LargeImage")));
             this.btn_phieumuonsach.Name = "btn_phieumuonsach";
+            this.btn_phieumuonsach.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btn_phieumuonsach_ItemClick);
             // 
             // btn_trasach
             // 
@@ -428,8 +434,11 @@
             this.sslb_ma,
             this.sslb_ten,
             this.sslb_nhom});
+            //this.statusStripMain.Location = new System.Drawing.Point(0, 515);
             this.statusStripMain.Location = new System.Drawing.Point(0, 655);
             this.statusStripMain.Name = "statusStripMain";
+            //this.statusStripMain.Padding = new System.Windows.Forms.Padding(1, 0, 11, 0);
+            //this.statusStripMain.Size = new System.Drawing.Size(1011, 33);
             this.statusStripMain.Size = new System.Drawing.Size(1300, 39);
             this.statusStripMain.TabIndex = 4;
             this.statusStripMain.Text = "statusStrip1";
@@ -439,6 +448,7 @@
             this.sslb_ma.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sslb_ma.Image = global::AppLibrary.Properties.Resources.id_card_64px;
             this.sslb_ma.Name = "sslb_ma";
+            //this.sslb_ma.Size = new System.Drawing.Size(159, 27);
             this.sslb_ma.Size = new System.Drawing.Size(182, 32);
             this.sslb_ma.Text = "Mã người dùng";
             // 
@@ -447,6 +457,7 @@
             this.sslb_ten.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.sslb_ten.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sslb_ten.Name = "sslb_ten";
+            //this.sslb_ten.Size = new System.Drawing.Size(134, 27);
             this.sslb_ten.Size = new System.Drawing.Size(153, 32);
             this.sslb_ten.Text = "Tên người dùng";
             // 
@@ -473,12 +484,15 @@
             // 
             // FormMain
             // 
+            //this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            //this.ClientSize = new System.Drawing.Size(1011, 548);
             this.ClientSize = new System.Drawing.Size(1300, 694);
             this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.ribbonControl1);
             this.IsMdiContainer = true;
+            //this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FormMain";
             this.Ribbon = this.ribbonControl1;

@@ -16,6 +16,10 @@
         {
         }
 
+        partial class PHIEUMUONDataTable
+        {
+        }
+
         partial class THELOAIDataTable
         {
         }

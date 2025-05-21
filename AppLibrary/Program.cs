@@ -18,16 +18,18 @@ namespace AppLibrary
         public static SqlConnection conn = new SqlConnection();
         public static string connstr;
         public static SqlDataReader myReader;
+        //public static readonly string ServerName = "DESKTOP-GA0VKO6\\SQL2022"; // Tên server SQL
         public static readonly string ServerName = "DESKTOP-8MGRMNI"; // Tên server SQL
         public static readonly string DatabaseName = "QLTV"; // Tên database cần làm việc
         public static string UserName = "";
+        //public static string LoginName = "THAO"; // Tên đăng nhập vào SQL Server
         public static string LoginName = "DG"; // Tên đăng nhập vào SQL Server
         public static string LoginPassword = "123456"; // Mật khẩu đăng nhập
 
         public static String mGroup = "DOCGIA";
         public static String mHoten = "";
 
-        public static IOverlaySplashScreenHandle handle=null;
+        public static IOverlaySplashScreenHandle handle = null;
 
         /// <summary>
         /// Phương thức kết nối đến SQL Server

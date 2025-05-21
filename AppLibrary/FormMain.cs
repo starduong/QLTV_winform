@@ -132,6 +132,12 @@ namespace AppLibrary
             OpenForm(typeof(Frpt_DanhSachTopNDauSachMuonNhieuNhat));
         }
 
+        // *** NGHIỆP VỤ ***************************************************************************
+        private void btn_phieumuonsach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(FormPHIEUMUONSACH));
+        }
+
         public void SetInterfaceVisibilityByUserGroup(string userGroup)
         {
             // Các mục hiển thị cho nhân viên

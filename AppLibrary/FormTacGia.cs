@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ using System.Data.SqlClient;
 namespace AppLibrary
 {
     public partial class FormTacGia : DevExpress.XtraEditors.XtraForm
-    {   
+    {
         // Biến toàn cục trong class
         private int vitri = 0; // Vị trí dòng đang chọn trên grid
         private bool isAddMode = false; // Cờ đánh dấu đang ở chế độ THÊM mới
@@ -40,7 +41,7 @@ namespace AppLibrary
 
         private void FormTacGia_Load(object sender, EventArgs e)
         {   // Tạm thời tắt kiểm tra ràng buộc khóa ngoại khi Fill
-            qLTVDataSet.EnforceConstraints = false; 
+            qLTVDataSet.EnforceConstraints = false;
             // Load dữ liệu từ Database lên DataSet
             this.tACGIATableAdapter.Connection.ConnectionString = Program.connstr;
             this.tACGIATableAdapter.Fill(this.qLTVDataSet.TACGIA);
@@ -69,7 +70,7 @@ namespace AppLibrary
                 // Nếu không có dữ liệu, ẩn panel nhập liệu ban đầu
                 if (bdsTacGia.Count == 0) pnInputTacGia.Visible = false;
             }
-            
+
 
             // Gắn sự kiện TextChanged cho tất cả các TextEdit trong panel Input
             foreach (Control control in pnInputTacGia.Controls)
@@ -294,7 +295,7 @@ namespace AppLibrary
                     ReloadData();
                     // Đặt vị trí về dòng mới thêm (Tìm lại bằng ID để chắc chắn)
                     bdsTacGia.Position = bdsTacGia.Find(PK_COLUMN_NAME, newId);
-                    XtraMessageBox.Show($"Thêm tác giả với ID-{newId} thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);              
+                    XtraMessageBox.Show($"Thêm tác giả với ID-{newId} thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 // --------------------- CHẾ ĐỘ CHỈNH SỬA ---------------------
                 else if (editedRows.Count > 0)
@@ -425,8 +426,8 @@ namespace AppLibrary
         // **** ✅ Sự kiện nút UNDO *****
         private void btnUndo_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {    // Nếu đang ở mode Add mà nhấn Undo -> Coi như Cancel Add
-            if (isAddMode || undoStack.Count==0)
-            {  
+            if (isAddMode || undoStack.Count == 0)
+            {
                 CancelAddAction();
                 ResetOriginalUI();
                 UpdateButtonStates();
@@ -460,7 +461,7 @@ namespace AppLibrary
                             {   // Cập nhật về giá trị gốc (OriginalDataList) dựa vào PK
                                 if (!ExecuteUpdate(action.TableName, action.PrimaryKeyColumnName, pksToUpdateUndo[i], action.OriginalDataList[i]))
                                 {   // Nếu thất bại nếu 1 dòng lỗi -> STOP
-                                    success = false; 
+                                    success = false;
                                     break;
                                 }
                             }
@@ -671,11 +672,11 @@ namespace AppLibrary
         private void CancelAddAction()
         {
             if (!isAddMode) return; // Chỉ hủy khi đang ở mode Add
-            bdsTacGia.CancelEdit();               
+            bdsTacGia.CancelEdit();
             if (bdsTacGia.Current != null && ((DataRowView)bdsTacGia.Current).IsNew)
             {   // Đảm bảo dòng hiện tại là dòng mới và xóa nó đi
                 bdsTacGia.RemoveCurrent();
-            }              
+            }
             if (vitri >= 0 && vitri < bdsTacGia.Count)
             {   // Quay về vị trí trước khi nhấn Thêm
                 bdsTacGia.Position = vitri;
@@ -900,7 +901,7 @@ namespace AppLibrary
                 if (Program.conn.State == ConnectionState.Open) Program.conn.Close();
             }
             return nextId;
-        } 
+        }
 
         private void setUIForAddMode(bool maTacGiaVisible, string maTacGiaLabel)
         {

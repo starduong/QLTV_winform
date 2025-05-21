@@ -42,6 +42,7 @@
             System.Windows.Forms.Label tENSACHLabel;
             System.Windows.Forms.Label iSBNLabel;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDauSach));
+            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.barDauSach = new DevExpress.XtraBars.Bar();
             this.btnTHEM = new DevExpress.XtraBars.BarButtonItem();
@@ -446,7 +447,7 @@
             // 
             this.barDockControlLeft.CausesValidation = false;
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.barDockControlLeft.Location = new System.Drawing.Point(0, 41);
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 35);
             this.barDockControlLeft.Manager = this.barManager1;
             this.barDockControlLeft.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.barDockControlLeft.Size = new System.Drawing.Size(0, 719);
@@ -538,7 +539,7 @@
             // 
             this.colISBN.Caption = "ISBN";
             this.colISBN.FieldName = "ISBN";
-            this.colISBN.MinWidth = 100;
+            this.colISBN.MinWidth = 97;
             this.colISBN.Name = "colISBN";
             this.colISBN.OptionsEditForm.Caption = "IBSN";
             this.colISBN.Visible = true;
@@ -549,7 +550,7 @@
             // 
             this.colTENSACH.Caption = "Tên sách";
             this.colTENSACH.FieldName = "TENSACH";
-            this.colTENSACH.MinWidth = 100;
+            this.colTENSACH.MinWidth = 97;
             this.colTENSACH.Name = "colTENSACH";
             this.colTENSACH.Visible = true;
             this.colTENSACH.VisibleIndex = 1;
@@ -569,7 +570,7 @@
             // 
             this.colNOIDUNG.Caption = "Nội dung";
             this.colNOIDUNG.FieldName = "NOIDUNG";
-            this.colNOIDUNG.MinWidth = 100;
+            this.colNOIDUNG.MinWidth = 97;
             this.colNOIDUNG.Name = "colNOIDUNG";
             this.colNOIDUNG.Visible = true;
             this.colNOIDUNG.VisibleIndex = 3;
@@ -579,7 +580,7 @@
             // 
             this.colHINHANHPATH.Caption = "Hình ảnh";
             this.colHINHANHPATH.FieldName = "HINHANHPATH";
-            this.colHINHANHPATH.MinWidth = 100;
+            this.colHINHANHPATH.MinWidth = 97;
             this.colHINHANHPATH.Name = "colHINHANHPATH";
             this.colHINHANHPATH.Visible = true;
             this.colHINHANHPATH.VisibleIndex = 4;
@@ -591,7 +592,7 @@
             this.colNGAYXUATBAN.DisplayFormat.FormatString = "dd/MM/yyyy";
             this.colNGAYXUATBAN.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.colNGAYXUATBAN.FieldName = "NGAYXUATBAN";
-            this.colNGAYXUATBAN.MinWidth = 100;
+            this.colNGAYXUATBAN.MinWidth = 97;
             this.colNGAYXUATBAN.Name = "colNGAYXUATBAN";
             this.colNGAYXUATBAN.Visible = true;
             this.colNGAYXUATBAN.VisibleIndex = 5;
@@ -623,7 +624,7 @@
             this.colGIA.DisplayFormat.FormatString = "c";
             this.colGIA.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.colGIA.FieldName = "GIA";
-            this.colGIA.MinWidth = 100;
+            this.colGIA.MinWidth = 97;
             this.colGIA.Name = "colGIA";
             this.colGIA.Visible = true;
             this.colGIA.VisibleIndex = 8;
@@ -633,7 +634,7 @@
             // 
             this.colNHAXB.Caption = "Nhà xuất bản";
             this.colNHAXB.FieldName = "NHAXB";
-            this.colNHAXB.MinWidth = 100;
+            this.colNHAXB.MinWidth = 97;
             this.colNHAXB.Name = "colNHAXB";
             this.colNHAXB.Visible = true;
             this.colNHAXB.VisibleIndex = 9;
@@ -644,7 +645,7 @@
             this.colMANGONNGU.Caption = "Ngôn ngữ";
             this.colMANGONNGU.ColumnEdit = this.repositoryItemGridLookUpEdit1;
             this.colMANGONNGU.FieldName = "MANGONNGU";
-            this.colMANGONNGU.MinWidth = 100;
+            this.colMANGONNGU.MinWidth = 97;
             this.colMANGONNGU.Name = "colMANGONNGU";
             this.colMANGONNGU.Visible = true;
             this.colMANGONNGU.VisibleIndex = 10;
@@ -678,7 +679,7 @@
             this.colMATL.Caption = "Thể loại";
             this.colMATL.ColumnEdit = this.repositoryItemGridLookUpEdit2;
             this.colMATL.FieldName = "MATL";
-            this.colMATL.MinWidth = 100;
+            this.colMATL.MinWidth = 97;
             this.colMATL.Name = "colMATL";
             this.colMATL.Visible = true;
             this.colMATL.VisibleIndex = 11;
@@ -1341,7 +1342,7 @@
             // FormDauSach
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1580, 784);
             this.Controls.Add(this.gcTABLESACH);
