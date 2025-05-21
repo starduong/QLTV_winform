@@ -26,8 +26,8 @@ namespace AppLibrary.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-8MGRMNI;Initial Catalog=QLTV;User ID=sa;Password=123456;Trust" +
-            "ServerCertificate=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-8MGRMNI;Initial Catalog=QLTV;User ID=sa;Password=123;TrustSer" +
+            "verCertificate=True")]
         public string QLTVConnectionString {
             get {
                 return ((string)(this["QLTVConnectionString"]));

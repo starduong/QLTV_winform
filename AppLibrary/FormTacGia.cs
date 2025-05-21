@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
@@ -19,7 +18,7 @@ namespace AppLibrary
 {
     public partial class FormTacGia : DevExpress.XtraEditors.XtraForm
     {
-        // Biến toàn cục trong class
+        #region *** VAR - CLASS *************************************************
         private int vitri = 0; // Vị trí dòng đang chọn trên grid
         private bool isAddMode = false; // Cờ đánh dấu đang ở chế độ THÊM mới
         private Dictionary<int, DataRow> editedRows = new Dictionary<int, DataRow>(); // Lưu các dòng đã chỉnh sửa (chưa Ghi)
@@ -33,7 +32,9 @@ namespace AppLibrary
         private const string PK_COLUMN_NAME = "MATACGIA";
 
         bool isNhanVien = (Program.mGroup == "NHANVIEN"); // Chỉ NHANVIEN mới có quyền chỉnh sửa
+        #endregion
 
+        #region *** INIT FROM *****************************************
         public FormTacGia()
         {
             InitializeComponent();
@@ -132,7 +133,9 @@ namespace AppLibrary
                 btnRefresh.Enabled = false;
             }
         }
+        #endregion
 
+        #region *** SỰ KIỆN NÚT CHỨC NĂNG *****************************************
         // ***** ✅ Sự kiện nút THÊM *****
         private void btnThem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
@@ -513,7 +516,7 @@ namespace AppLibrary
                             if (bdsTacGia.Count > 0) bdsTacGia.Position = targetPosition;
                         }
                     }
-                    catch (Exception posEx)
+                    catch (Exception)
                     {
                         //Console.WriteLine("Error restoring position after Undo: " + posEx.Message);
                     }
@@ -620,7 +623,7 @@ namespace AppLibrary
                             if (bdsTacGia.Count > 0) bdsTacGia.Position = targetPosition;
                         }
                     }
-                    catch (Exception posEx)
+                    catch (Exception)
                     {
                         //Console.WriteLine("Error restoring position after Redo: " + posEx.Message);
                     }
@@ -668,6 +671,27 @@ namespace AppLibrary
             btnGhi.Enabled = btnRefresh.Enabled = false;
         }
 
+        // **** Sự kiện nút THOÁT *****
+        private void btnThoat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {   // Kiểm tra nếu có thay đổi chưa lưu trước khi thoát
+            if (editedRows.Count > 0)
+            {
+                if (XtraMessageBox.Show("Bạn có thay đổi chưa lưu. Bạn có chắc chắn muốn thoát?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            this.Close();
+        }
+
+        // **** Sự kiện nút IN *****
+        private void btnIn_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {   // TODO: Thêm code xử lý in danh sách tác giả (sử dụng XtraReport)
+            XtraMessageBox.Show("Chức năng In đang được phát triển.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        #endregion
+
+        #region *** HÀM HỖ TRỢ NÚT CHỨC NĂNG ********************************************
         // Hàm hủy thao tác Thêm đang thực hiện
         private void CancelAddAction()
         {
@@ -682,151 +706,6 @@ namespace AppLibrary
                 bdsTacGia.Position = vitri;
             }
             ResetOriginalUI(); // cancel
-        }
-
-        // --- Các hàm hỗ trợ thực thi SQL ---
-
-        // Hàm thực thi INSERT (dùng cho Undo Delete, Redo Add)
-        private bool ExecuteInsert(string tableName, Dictionary<string, object> data)
-        {
-            if (string.IsNullOrEmpty(tableName) || data == null || data.Count == 0) return false;
-
-            // Xây dựng câu lệnh INSERT động
-            StringBuilder sqlColumns = new StringBuilder();
-            StringBuilder sqlValues = new StringBuilder();
-            var parameters = new Dictionary<string, object>();
-
-            bool first = true;
-            foreach (var kvp in data)
-            {
-                if (!first)
-                {
-                    sqlColumns.Append(", ");
-                    sqlValues.Append(", ");
-                }
-                sqlColumns.Append($"[{kvp.Key}]"); // Tên cột
-                sqlValues.Append($"@{kvp.Key}");   // Tham số
-                parameters.Add($"@{kvp.Key}", kvp.Value ?? DBNull.Value); // Giá trị tham số
-                first = false;
-            }
-
-            string sql = $"INSERT INTO [{tableName}] ({sqlColumns}) VALUES ({sqlValues})";
-
-            // Kiểm tra xem có cần bật IDENTITY_INSERT không
-            // (Chỉ cần khi Undo Delete mà PK là identity và ta cung cấp giá trị PK)
-            bool requiresIdentityInsert = data.ContainsKey(PK_COLUMN_NAME)
-                                           && PK_COLUMN_NAME.Equals("MATACGIA", StringComparison.OrdinalIgnoreCase); // Cụ thể cho bảng TACGIA
-
-            if (requiresIdentityInsert)
-            {
-                sql = $"SET IDENTITY_INSERT [{tableName}] ON; {sql}; SET IDENTITY_INSERT [{tableName}] OFF;";
-            }
-
-
-            // Thực thi lệnh và trả về true nếu thành công (số dòng bị ảnh hưởng > 0)
-            return ExecuteSqlCommand(sql, parameters) > 0;
-        }
-
-        // Hàm thực thi UPDATE (dùng cho Undo Edit, Redo Edit)
-        private bool ExecuteUpdate(string tableName, string pkColumnName, object pkValue, Dictionary<string, object> updateData)
-        {
-            if (string.IsNullOrEmpty(tableName) || string.IsNullOrEmpty(pkColumnName) || pkValue == null || updateData == null || updateData.Count == 0) return false;
-
-            // Xây dựng phần SET của câu lệnh UPDATE
-            StringBuilder sqlSet = new StringBuilder();
-            var parameters = new Dictionary<string, object>();
-            bool first = true;
-
-            foreach (var kvp in updateData)
-            {
-                // Bỏ qua cột khóa chính trong phần SET
-                if (kvp.Key.Equals(pkColumnName, StringComparison.OrdinalIgnoreCase)) continue;
-
-                if (!first)
-                {
-                    sqlSet.Append(", ");
-                }
-                sqlSet.Append($"[{kvp.Key}] = @{kvp.Key}"); // VD: [HOTENTG] = @HOTENTG
-                parameters.Add($"@{kvp.Key}", kvp.Value ?? DBNull.Value);
-                first = false;
-            }
-
-            // Nếu không có cột nào để SET (chỉ có PK trong data?), thì không update
-            if (first) return false;
-
-            // Thêm điều kiện WHERE
-            string sql = $"UPDATE [{tableName}] SET {sqlSet} WHERE [{pkColumnName}] = @{pkColumnName}_PK";
-            parameters.Add($"@{pkColumnName}_PK", pkValue); // Tham số cho khóa chính
-
-            return ExecuteSqlCommand(sql, parameters) > 0;
-        }
-
-        // Hàm thực thi DELETE (dùng cho Undo Add, Redo Delete)
-        private bool ExecuteDelete(string tableName, string pkColumnName, object pkValue)
-        {
-            if (string.IsNullOrEmpty(tableName) || string.IsNullOrEmpty(pkColumnName) || pkValue == null) return false;
-
-            string sql = $"DELETE FROM [{tableName}] WHERE [{pkColumnName}] = @{pkColumnName}_PK";
-            var parameters = new Dictionary<string, object> { { $"@{pkColumnName}_PK", pkValue } };
-
-            return ExecuteSqlCommand(sql, parameters) > 0;
-        }
-
-        // Hàm thực thi SQL chung (INSERT, UPDATE, DELETE)
-        // Trả về số dòng bị ảnh hưởng, hoặc -1 nếu lỗi
-        private int ExecuteSqlCommand(string sql, Dictionary<string, object> parameters)
-        {
-            int rowsAffected = -1; // Giá trị trả về mặc định nếu lỗi
-                                   // Đảm bảo connection string là mới nhất (nếu cần)
-            if (Program.conn.State == ConnectionState.Closed)
-            {
-                Program.conn.ConnectionString = Program.connstr;
-            }
-
-            if (Program.KetNoi() == 0) return -1; // Không kết nối được CSDL
-
-            SqlTransaction transaction = null;
-            try
-            {
-                transaction = Program.conn.BeginTransaction(); // Bắt đầu transaction
-                using (var cmd = new SqlCommand(sql, Program.conn, transaction)) // Gán transaction cho command
-                {
-                    if (parameters != null)
-                    {
-                        foreach (var param in parameters)
-                        {
-                            // Dùng AddWithValue tiện lợi nhưng cần cẩn thận kiểu dữ liệu
-                            // Để chặt chẽ hơn có thể dùng cmd.Parameters.Add("@ParamName", SqlDbType.VarChar).Value = ...
-                            cmd.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value); // Xử lý null
-                        }
-                    }
-                    rowsAffected = cmd.ExecuteNonQuery(); // Thực thi lệnh
-                }
-                transaction.Commit(); // Commit nếu không có lỗi
-                Console.WriteLine($"Executed SQL: {rowsAffected} rows affected. SQL: {sql}"); // Log thành công
-            }
-            catch (SqlException sqlEx)
-            {
-                try { transaction?.Rollback(); } catch { /* Bỏ qua lỗi rollback */ }
-                // Hiển thị lỗi SQL cụ thể hơn
-                string errorMsg = $"SQL Error Number: {sqlEx.Number}\nMessage: {sqlEx.Message}\nSQL: {sql}";
-                Console.WriteLine(errorMsg); // Log lỗi
-                XtraMessageBox.Show(errorMsg, "Lỗi SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                rowsAffected = -1; // Đánh dấu lỗi
-            }
-            catch (Exception ex)
-            {
-                try { transaction?.Rollback(); } catch { /* Bỏ qua lỗi rollback */ }
-                Console.WriteLine($"General Error Executing SQL: {ex.Message}\nSQL: {sql}"); // Log lỗi
-                XtraMessageBox.Show("Lỗi thực thi SQL: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                rowsAffected = -1; // Đánh dấu lỗi
-            }
-            finally
-            {
-                if (Program.conn.State == ConnectionState.Open)
-                    Program.conn.Close(); // Luôn đóng kết nối
-            }
-            return rowsAffected;
         }
 
         // Hàm tải lại dữ liệu cho các BindingSource chính
@@ -976,29 +855,156 @@ namespace AppLibrary
             }
             return true;
         }
+        #endregion
 
-        // **** Sự kiện nút THOÁT *****
-        private void btnThoat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {   // Kiểm tra nếu có thay đổi chưa lưu trước khi thoát
-            if (editedRows.Count > 0)
+        #region *** HÀM THỰC THI SQL (INSERT, UPDATE, DELETE) ********************************************
+        // Hàm thực thi INSERT (dùng cho Undo Delete, Redo Add)
+        private bool ExecuteInsert(string tableName, Dictionary<string, object> data)
+        {
+            if (string.IsNullOrEmpty(tableName) || data == null || data.Count == 0) return false;
+
+            // Xây dựng câu lệnh INSERT động
+            StringBuilder sqlColumns = new StringBuilder();
+            StringBuilder sqlValues = new StringBuilder();
+            var parameters = new Dictionary<string, object>();
+
+            bool first = true;
+            foreach (var kvp in data)
             {
-                if (XtraMessageBox.Show("Bạn có thay đổi chưa lưu. Bạn có chắc chắn muốn thoát?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                if (!first)
                 {
-                    return;
+                    sqlColumns.Append(", ");
+                    sqlValues.Append(", ");
                 }
+                sqlColumns.Append($"[{kvp.Key}]"); // Tên cột
+                sqlValues.Append($"@{kvp.Key}");   // Tham số
+                parameters.Add($"@{kvp.Key}", kvp.Value ?? DBNull.Value); // Giá trị tham số
+                first = false;
             }
-            this.Close();
+
+            string sql = $"INSERT INTO [{tableName}] ({sqlColumns}) VALUES ({sqlValues})";
+
+            // Kiểm tra xem có cần bật IDENTITY_INSERT không
+            // (Chỉ cần khi Undo Delete mà PK là identity và ta cung cấp giá trị PK)
+            bool requiresIdentityInsert = data.ContainsKey(PK_COLUMN_NAME)
+                                           && PK_COLUMN_NAME.Equals("MATACGIA", StringComparison.OrdinalIgnoreCase); // Cụ thể cho bảng TACGIA
+
+            if (requiresIdentityInsert)
+            {
+                sql = $"SET IDENTITY_INSERT [{tableName}] ON; {sql}; SET IDENTITY_INSERT [{tableName}] OFF;";
+            }
+
+
+            // Thực thi lệnh và trả về true nếu thành công (số dòng bị ảnh hưởng > 0)
+            return ExecuteSqlCommand(sql, parameters) > 0;
         }
 
-        // **** Sự kiện nút IN *****
-        private void btnIn_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {   // TODO: Thêm code xử lý in danh sách tác giả (sử dụng XtraReport)
-            XtraMessageBox.Show("Chức năng In đang được phát triển.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        // Hàm thực thi UPDATE (dùng cho Undo Edit, Redo Edit)
+        private bool ExecuteUpdate(string tableName, string pkColumnName, object pkValue, Dictionary<string, object> updateData)
+        {
+            if (string.IsNullOrEmpty(tableName) || string.IsNullOrEmpty(pkColumnName) || pkValue == null || updateData == null || updateData.Count == 0) return false;
+
+            // Xây dựng phần SET của câu lệnh UPDATE
+            StringBuilder sqlSet = new StringBuilder();
+            var parameters = new Dictionary<string, object>();
+            bool first = true;
+
+            foreach (var kvp in updateData)
+            {
+                // Bỏ qua cột khóa chính trong phần SET
+                if (kvp.Key.Equals(pkColumnName, StringComparison.OrdinalIgnoreCase)) continue;
+
+                if (!first)
+                {
+                    sqlSet.Append(", ");
+                }
+                sqlSet.Append($"[{kvp.Key}] = @{kvp.Key}"); // VD: [HOTENTG] = @HOTENTG
+                parameters.Add($"@{kvp.Key}", kvp.Value ?? DBNull.Value);
+                first = false;
+            }
+
+            // Nếu không có cột nào để SET (chỉ có PK trong data?), thì không update
+            if (first) return false;
+
+            // Thêm điều kiện WHERE
+            string sql = $"UPDATE [{tableName}] SET {sqlSet} WHERE [{pkColumnName}] = @{pkColumnName}_PK";
+            parameters.Add($"@{pkColumnName}_PK", pkValue); // Tham số cho khóa chính
+
+            return ExecuteSqlCommand(sql, parameters) > 0;
         }
 
-        // --- Phần xử lý cho Grid TÁC GIẢ - SÁCH (DataGridView) ---
+        // Hàm thực thi DELETE (dùng cho Undo Add, Redo Delete)
+        private bool ExecuteDelete(string tableName, string pkColumnName, object pkValue)
+        {
+            if (string.IsNullOrEmpty(tableName) || string.IsNullOrEmpty(pkColumnName) || pkValue == null) return false;
+
+            string sql = $"DELETE FROM [{tableName}] WHERE [{pkColumnName}] = @{pkColumnName}_PK";
+            var parameters = new Dictionary<string, object> { { $"@{pkColumnName}_PK", pkValue } };
+
+            return ExecuteSqlCommand(sql, parameters) > 0;
+        }
+
+        // Hàm thực thi SQL chung (INSERT, UPDATE, DELETE)
+        // Trả về số dòng bị ảnh hưởng, hoặc -1 nếu lỗi
+        private int ExecuteSqlCommand(string sql, Dictionary<string, object> parameters)
+        {
+            int rowsAffected = -1; // Giá trị trả về mặc định nếu lỗi
+                                   // Đảm bảo connection string là mới nhất (nếu cần)
+            if (Program.conn.State == ConnectionState.Closed)
+            {
+                Program.conn.ConnectionString = Program.connstr;
+            }
+
+            if (Program.KetNoi() == 0) return -1; // Không kết nối được CSDL
+
+            SqlTransaction transaction = null;
+            try
+            {
+                transaction = Program.conn.BeginTransaction(); // Bắt đầu transaction
+                using (var cmd = new SqlCommand(sql, Program.conn, transaction)) // Gán transaction cho command
+                {
+                    if (parameters != null)
+                    {
+                        foreach (var param in parameters)
+                        {
+                            // Dùng AddWithValue tiện lợi nhưng cần cẩn thận kiểu dữ liệu
+                            // Để chặt chẽ hơn có thể dùng cmd.Parameters.Add("@ParamName", SqlDbType.VarChar).Value = ...
+                            cmd.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value); // Xử lý null
+                        }
+                    }
+                    rowsAffected = cmd.ExecuteNonQuery(); // Thực thi lệnh
+                }
+                transaction.Commit(); // Commit nếu không có lỗi
+                Console.WriteLine($"Executed SQL: {rowsAffected} rows affected. SQL: {sql}"); // Log thành công
+            }
+            catch (SqlException sqlEx)
+            {
+                try { transaction?.Rollback(); } catch { /* Bỏ qua lỗi rollback */ }
+                // Hiển thị lỗi SQL cụ thể hơn
+                string errorMsg = $"SQL Error Number: {sqlEx.Number}\nMessage: {sqlEx.Message}\nSQL: {sql}";
+                Console.WriteLine(errorMsg); // Log lỗi
+                XtraMessageBox.Show(errorMsg, "Lỗi SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                rowsAffected = -1; // Đánh dấu lỗi
+            }
+            catch (Exception ex)
+            {
+                try { transaction?.Rollback(); } catch { /* Bỏ qua lỗi rollback */ }
+                Console.WriteLine($"General Error Executing SQL: {ex.Message}\nSQL: {sql}"); // Log lỗi
+                XtraMessageBox.Show("Lỗi thực thi SQL: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                rowsAffected = -1; // Đánh dấu lỗi
+            }
+            finally
+            {
+                if (Program.conn.State == ConnectionState.Open)
+                    Program.conn.Close(); // Luôn đóng kết nối
+            }
+            return rowsAffected;
+        }
+        #endregion
+
+
+        #region *** PHẦN XỬ LÝ GRID VIEW TÁC GIẢ - SÁCH ***************************************
         // Các sự kiện này chủ yếu để bật nút Ghi TGS khi có thay đổi
-
         private void tACGIA_SACHDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0) // Đảm bảo không phải header
@@ -1221,5 +1227,6 @@ namespace AppLibrary
                 comboBox.DataSource = availableItems; // Gán danh sách đã lọc
             }
         }
+        #endregion
     }
 }

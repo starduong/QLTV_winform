@@ -12,12 +12,13 @@ using static DevExpress.XtraEditors.Mask.MaskSettings;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.IO;
+using DevExpress.XtraRichEdit.Import.Doc;
 
 namespace AppLibrary
 {
     public partial class FormDauSach : DevExpress.XtraEditors.XtraForm
     {
-        #region *** BIẾN TOÀN CỤC - CLASS ***********************************************
+        #region *** VAR - CLASS ***********************************************
         private int vitri = 0;
         private bool isAddMode = false;
         // editedRows lưu trữ các dòng đã chỉnh sửa ->Undo nhiều dòng cùng lúc
@@ -32,6 +33,8 @@ namespace AppLibrary
         // Phân quyền hiển thị UI
         bool isNhanVien = (Program.mGroup == "NHANVIEN");
         #endregion
+        
+        #region *** INIT FROM *****************************************
         public FormDauSach()
         {
             InitializeComponent();
@@ -89,6 +92,23 @@ namespace AppLibrary
 
         }
 
+        private void FormDauSach_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                this.Validate();
+                bdsSACH.EndEdit(); // Kết thúc mọi chỉnh sửa
+                bdsDAUSACH.EndEdit(); // Kết thúc mọi chỉnh sửa
+                bdsTACGIA_SACH.EndEdit(); // Kết thúc mọi chỉnh sửa
+            }
+            catch (Exception ex)
+            {
+                // Báo lỗi nếu không thể hoàn tất chỉnh sửa
+                MessageBox.Show("Dữ liệu chưa hợp lệ hoặc lỗi khi lưu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true; // Không cho phép đóng form
+            }
+        }
+
         public void UpdateButtonStates()
         {
             bool hasData = bdsDAUSACH.Count > 0;
@@ -104,6 +124,29 @@ namespace AppLibrary
             btnREFRESH.Enabled = !isAddMode && editedRows.Count > 0;
             btnTACGIA_SACH.Enabled = !isAddMode;
             btnTHOAT.Enabled = !isAddMode;
+        }
+
+        // Xử lý sự kiện khi người dùng nhấp vào nút "Thêm Đầu Sách"
+        private void AnyTextBox_TextChanged(object sender, EventArgs e)
+        {   // Nếu đang ở chế độ thêm, hoặc không có dòng hiện tại, hoặc bindingsource rỗng -> bỏ qua
+            if (isAddMode || bdsDAUSACH.Current == null || bdsDAUSACH.Count == 0) return;
+            int currentPos = bdsDAUSACH.Position; // Lấy vị trí dòng hiện tại
+            var currentRow = ((DataRowView)bdsDAUSACH.Current).Row; // Lấy DataRow tương ứng với dòng hiện tại đang chọn
+            // Nếu dòng này chưa được đánh dấu là đã sửa, thêm nó vào dictionary editedRows
+            if (!editedRows.ContainsKey(currentPos))
+            {   // Chỉ thêm vào nếu nó chưa bị sửa hoặc trạng thái là Unchanged/Modified
+                if (currentRow.RowState == DataRowState.Unchanged || currentRow.RowState == DataRowState.Modified)
+                {
+                    editedRows[currentPos] = currentRow;
+                }
+            }
+            // Bật nút Ghi và Refresh để cho phép lưu hoặc hủy thay đổi
+            btnGHI.Enabled = isNhanVien;
+            btnREFRESH.Enabled = !isAddMode;
+            if (bdsDAUSACH.Position == 0)
+            {
+                btnREFRESH.Enabled = false;
+            }
         }
 
         // Xử lý sự kiện khi người dùng thay đổi giá trị trong ComboBox cbNgonNgu
@@ -125,6 +168,7 @@ namespace AppLibrary
             }
             catch { }
         }
+        #endregion
 
         #region *** XỬ LÝ HIỆN THỊ VÀ LƯU ẢNH ***********************************************
         private void gridViewDAUSACH_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
@@ -179,7 +223,7 @@ namespace AppLibrary
                 }
                 catch (System.IO.FileNotFoundException ex)
                 {   // Xử lý lỗi nếu không tìm thấy tệp (ví dụ: hiển thị ảnh mặc định)
-                    XtraMessageBox.Show($"Không tìm thấy tệp: {duongDanGocHinhAnh}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    XtraMessageBox.Show($"Không tìm thấy tệp: {duongDanGocHinhAnh}"+ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {   // Xử lý các lỗi khác khi tải ảnh
@@ -223,29 +267,7 @@ namespace AppLibrary
         }
         #endregion
 
-        // Xử lý sự kiện khi người dùng nhấp vào nút "Thêm Đầu Sách"
-
-        private void AnyTextBox_TextChanged(object sender, EventArgs e)
-        {   // Nếu đang ở chế độ thêm, hoặc không có dòng hiện tại, hoặc bindingsource rỗng -> bỏ qua
-            if (isAddMode || bdsDAUSACH.Current == null || bdsDAUSACH.Count == 0) return;
-            int currentPos = bdsDAUSACH.Position; // Lấy vị trí dòng hiện tại
-            var currentRow = ((DataRowView)bdsDAUSACH.Current).Row; // Lấy DataRow tương ứng với dòng hiện tại đang chọn
-            // Nếu dòng này chưa được đánh dấu là đã sửa, thêm nó vào dictionary editedRows
-            if (!editedRows.ContainsKey(currentPos))
-            {   // Chỉ thêm vào nếu nó chưa bị sửa hoặc trạng thái là Unchanged/Modified
-                if (currentRow.RowState == DataRowState.Unchanged || currentRow.RowState == DataRowState.Modified)
-                {
-                    editedRows[currentPos] = currentRow;
-                }
-            }
-            // Bật nút Ghi và Refresh để cho phép lưu hoặc hủy thay đổi
-            btnGHI.Enabled = isNhanVien;
-            btnREFRESH.Enabled = !isAddMode;
-            if (bdsDAUSACH.Position == 0)
-            {
-                btnREFRESH.Enabled = false;
-            }
-        }
+        #region *** XỬ LÝ CÁC NÚT CHỨC NĂNG ***********************************************
         private void btnTHEM_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             vitri = bdsDAUSACH.Position; // Lưu vị trí hiện tại
@@ -616,7 +638,7 @@ namespace AppLibrary
                             if (bdsDAUSACH.Count > 0) bdsDAUSACH.Position = targetPosition;
                         }
                     }
-                    catch (Exception posEx)
+                    catch (Exception)
                     {
                         //Console.WriteLine("Error restoring position after Undo: " + posEx.Message);
                     }
@@ -723,7 +745,7 @@ namespace AppLibrary
                             if (bdsDAUSACH.Count > 0) bdsDAUSACH.Position = targetPosition;
                         }
                     }
-                    catch (Exception posEx)
+                    catch (Exception)
                     {
                         //Console.WriteLine("Error restoring position after Redo: " + posEx.Message);
                     }
@@ -770,6 +792,19 @@ namespace AppLibrary
             btnGHI.Enabled = btnREFRESH.Enabled = false;
 
         }
+
+        private void btnTHOAT_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {   // Kiểm tra nếu có thay đổi chưa lưu trước khi thoát
+            if (editedRows.Count > 0)
+            {
+                if (XtraMessageBox.Show("Bạn có thay đổi chưa lưu. Bạn có chắc chắn muốn thoát?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                { return; }
+            }
+            this.Close();
+        }
+        #endregion
+
+        #region *** HÀM HỖ TRỢ NÚT CHỨC NĂNG **************************************************
         // Hàm hủy thao tác Thêm đang thực hiện
         private void CancelAddAction()
         {
@@ -785,32 +820,7 @@ namespace AppLibrary
             }
             ResetOriginalUI(); // cancel
         }
-        private void btnTHOAT_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {   // Kiểm tra nếu có thay đổi chưa lưu trước khi thoát
-            if (editedRows.Count > 0)
-            {
-                if (XtraMessageBox.Show("Bạn có thay đổi chưa lưu. Bạn có chắc chắn muốn thoát?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                { return; }
-            }
-            this.Close();
-        }
-        private void FormDauSach_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            try
-            {
-                this.Validate();
-                bdsSACH.EndEdit(); // Kết thúc mọi chỉnh sửa
-                bdsDAUSACH.EndEdit(); // Kết thúc mọi chỉnh sửa
-                bdsTACGIA_SACH.EndEdit(); // Kết thúc mọi chỉnh sửa
-            }
-            catch (Exception ex)
-            {
-                // Báo lỗi nếu không thể hoàn tất chỉnh sửa
-                MessageBox.Show("Dữ liệu chưa hợp lệ hoặc lỗi khi lưu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                e.Cancel = true; // Không cho phép đóng form
-            }
-        }
-
+        
         private void setUIForAddMode(bool isAdd)
         {
             isAddMode = isAdd;
@@ -886,16 +896,58 @@ namespace AppLibrary
             }
 
             // Kiểm tra ISBN
-            if (string.IsNullOrWhiteSpace(txtISBN.Text.Trim()))
+            string iSBN = txtISBN.Text.Trim();
+            if (string.IsNullOrWhiteSpace(iSBN))
             {
                 XtraMessageBox.Show("ISBN không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtISBN.Focus();
                 return false;
             }
-            else if (!Regex.IsMatch(txtISBN.Text.Trim(), @"^\d{10}(\d{3})?$")) // 10 hoặc 13 số
+            else if (!Regex.IsMatch(iSBN, @"^\d{10}(\d{3})?$")) // 10 hoặc 13 số
             {
                 XtraMessageBox.Show("ISBN phải gồm 10 hoặc 13 chữ số!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtISBN.Focus();
+                return false;
+            }
+
+            // Kiểm tra trùng lặp chỉ khi thêm hoặc sửa
+            if (Program.KetNoi() == 0) return false;
+
+            try
+            {
+                string query;
+
+                if (isAddMode)
+                {
+                    query = "SELECT COUNT(*) FROM DAUSACH WHERE ISBN = @iSBN";
+                }
+                else
+                {
+                    query = "SELECT COUNT(*) FROM DAUSACH WHERE (ISBN = @iSBN) AND MATL != @iSBNCurrent";
+                }
+
+                using (SqlCommand cmd = new SqlCommand(query, Program.conn))
+                {
+                    cmd.Parameters.AddWithValue("@iSBN", iSBN);
+
+                    if (!isAddMode)
+                    {
+                        var currentRow = ((DataRowView)bdsDAUSACH.Current).Row;
+                        string iSBNCurrent = currentRow["ISBN"].ToString();
+                        cmd.Parameters.AddWithValue("@iSBNCurrent", iSBNCurrent);
+                    }
+
+                    int count = (int)cmd.ExecuteScalar();
+                    if (count > 0)
+                    {
+                        XtraMessageBox.Show("ISBN đầu sách đã tồn tại trong hệ thống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("Lỗi khi kiểm tra dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -962,9 +1014,9 @@ namespace AppLibrary
             }
             return true;
         }
+        #endregion
 
-        // --- Các hàm hỗ trợ thực thi SQL ---
-
+        #region *** HÀM HỖ TRỢ THỰC THI SQL **************************************************
         // Hàm thực thi INSERT (dùng cho Undo Delete, Redo Add)
         private bool ExecuteInsert(string tableName, Dictionary<string, object> data)
         {
@@ -1087,6 +1139,7 @@ namespace AppLibrary
             }
             return rowsAffected;
         }
+        #endregion
 
         #region *** PHẦN GRID VIEW SÁCH ***********************************************
         //____________ BUTTON THÊM SÁCH ______________________________________________________________
@@ -1548,7 +1601,6 @@ namespace AppLibrary
 
 
         #endregion
-
 
     }
 }
