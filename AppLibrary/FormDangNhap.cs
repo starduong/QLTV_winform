@@ -1,21 +1,27 @@
 ﻿using System;
 using System.Windows.Forms;
+using AppLibrary.ClassSupport;
+using DevExpress.CodeParser;
+using DevExpress.XtraRichEdit.Import.Html;
 using DevExpress.XtraSplashScreen;
 
 namespace AppLibrary
 {
     public partial class FormDangNhap : DevExpress.XtraEditors.XtraForm
     {
-        public FormDangNhap()
+        private FormMain mainForm; // Tham chiếu đến FormMain
+        public FormDangNhap(FormMain mainForm)
         {
             InitializeComponent();
+            this.mainForm = mainForm;       
+        }
+        private void FormDangNhap_Load(object sender, EventArgs e)
+        {
             //Default Bật icon xem mật khẩu và ẩn đi icon ẩn mật khẩu
             icon_showpw.Visible = true;
             icon_hidepw.Visible = false;
             this.ActiveControl = txt_tendangnhap; // Đặt txt_tendangnhap làm control active
-
         }
-
         private void icon_showpw_Click(object sender, EventArgs e)
         {
             // Hiện mật khẩu: Bỏ ký tự ẩn (PasswordChar)
@@ -36,36 +42,12 @@ namespace AppLibrary
             icon_showpw.Visible = true;
         }
 
-        private void icon_hidepw_MouseHover(object sender, EventArgs e)
-        {
-            this.Cursor = Cursors.Hand;
-        }
-
-        private void icon_hidepw_MouseLeave(object sender, EventArgs e)
-        {
-            this.Cursor = Cursors.Default;
-        }
-
-        private void icon_showpw_MouseHover(object sender, EventArgs e)
-        {
-            this.Cursor = Cursors.Hand;
-        }
-
-        private void icon_showpw_MouseLeave(object sender, EventArgs e)
-        {
-            this.Cursor = Cursors.Default;
-        }
-
-
-        private void img_dangnhap_Click(object sender, EventArgs e)
-        {
-            txt_tendangnhap.Focus(); // khi click thì nhảy sang text input tên đăng nhập
-        }
-
-        private void img_matkhau_Click(object sender, EventArgs e)
-        {
-            txt_matkhau.Focus(); // khi click thì nhảy sang text input password 
-        }
+        private void icon_showpw_MouseHover(object sender, EventArgs e) => this.Cursor = Cursors.Hand;
+        private void icon_showpw_MouseLeave(object sender, EventArgs e) => this.Cursor = Cursors.Default;
+        private void icon_hidepw_MouseHover(object sender, EventArgs e) => this.Cursor = Cursors.Hand;
+        private void icon_hidepw_MouseLeave(object sender, EventArgs e) => this.Cursor = Cursors.Default;
+        private void img_dangnhap_Click(object sender, EventArgs e) => txt_tendangnhap.Focus();
+        private void img_matkhau_Click(object sender, EventArgs e) => txt_matkhau.Focus();
 
         private void txt_tendangnhap_KeyDown(object sender, KeyEventArgs e)
         {
@@ -100,25 +82,11 @@ namespace AppLibrary
             }
         }
 
-        private void btn_dangnhap_MouseHover(object sender, EventArgs e)
-        {
-            this.Cursor = Cursors.Hand;
-        }
+        private void btn_dangnhap_MouseHover(object sender, EventArgs e) => this.Cursor = Cursors.Hand;
+        private void btn_dangnhap_MouseLeave(object sender, EventArgs e) => this.Cursor = Cursors.Default;
+        private void btn_thoat_MouseHover(object sender, EventArgs e) => this.Cursor = Cursors.Hand;
+        private void btn_thoat_MouseLeave(object sender, EventArgs e) => this.Cursor = Cursors.Default;
 
-        private void btn_dangnhap_MouseLeave(object sender, EventArgs e)
-        {
-            this.Cursor = Cursors.Default;
-        }
-
-        private void btn_thoat_MouseHover(object sender, EventArgs e)
-        {
-            this.Cursor = Cursors.Hand;
-        }
-
-        private void btn_thoat_MouseLeave(object sender, EventArgs e)
-        {
-            this.Cursor = Cursors.Default;
-        }
         /********************************************************************************
          * Xử lí đăng nhập
          ********************************************************************************/
@@ -167,36 +135,32 @@ namespace AppLibrary
             Program.myReader.Close();
             Program.conn.Close();
 
-            //Tắt overlay form đang mở -> hiện form chính
-            if (Program.handle != null)
-            {
-                SplashScreenManager.CloseOverlayForm(Program.handle);
-            }
-            // Gửi sự kiện đăng nhập thành công với group người dùng
+            // Kích hoạt sự kiện đăng nhập thành công
             OnLoginSuccess?.Invoke(Program.mGroup);
-            //Đóng form đăng nhập
+
+            // **Đóng Form đăng nhập**
             this.Close();
 
         }
 
         private void FormDangNhap_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //Đây là thời điểm form đã bị đóng hoàn toàn rồi.
+            //Bạn không thể ngăn việc đóng form ở đây.
+        }
+        private void FormDangNhap_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Đây là thời điểm bạn còn có thể ngăn không cho form bị đóng.
+            //Dùng để hiển thị thông báo xác nhận, kiểm tra dữ liệu chưa lưu, hoặc hủy việc đóng form nếu cần.
             //Tắt overlay form đang mở -> hiện form chính
             if (Program.handle != null)
             {
-                SplashScreenManager.CloseOverlayForm(Program.handle);
+                OverlayHelper.CloseOverlay(Program.handle);
             }
-            //Đóng form đăng nhập
-            this.Close();
         }
 
         private void btn_thoat_Click(object sender, EventArgs e)
-        {
-            //Tắt overlay form đang mở -> hiện form chính
-            if (Program.handle != null)
-            {
-                SplashScreenManager.CloseOverlayForm(Program.handle);
-            }
+        {           
             //Đóng form đăng nhập
             this.Close();
         }
@@ -220,5 +184,7 @@ namespace AppLibrary
         {
 
         }
+
+
     }
 }

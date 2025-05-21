@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraSplashScreen;
+﻿using DevExpress.XtraLayout.Customization;
+using DevExpress.XtraSplashScreen;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using AppLibrary.Report;
+using AppLibrary.ClassSupport;
+using DevExpress.XtraEditors;
 
 namespace AppLibrary
 {
@@ -50,15 +54,41 @@ namespace AppLibrary
             }
         }
 
+        // *** HỆ THỐNG ***************************************************************************
+        private void btnTaoTaiKhoan_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(FormTaoTaiKhoan));
+        }
+        private void btnDoiMatKhau_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(FormDoiMatKhau));
+        }
+
+        private void btnBackupRestore_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(FormBackupRestore));
+        }
+
+        private void btnThoat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            // Hiển thị hộp thoại xác nhận trước khi thoát (giúp người dùng tránh bấm nhầm)
+            if (XtraMessageBox.Show(
+                "Bạn có chắc chắn muốn thoát chương trình?",
+                "Xác nhận thoát",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Application.Exit(); // Thoát toàn bộ chương trình
+            }
+        }
+
+
+        // *** DANH MỤC ***************************************************************************
         private void btnDauSach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             OpenForm(typeof(FormDauSach));
         }
 
-        private void btnSach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-
-        }
 
         private void btnTacGia_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
@@ -67,7 +97,7 @@ namespace AppLibrary
 
         private void btnTheLoaiSach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-
+            OpenForm(typeof(FormTheLoai));
         }
 
         private void btnNhanVien_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -80,16 +110,32 @@ namespace AppLibrary
             OpenForm(typeof(FormDocGia));
         }
 
-        //Overlay form Main 
-        OverlayWindowOptions options = new OverlayWindowOptions(
-            backColor: Color.Black,
-            opacity: 0.5,
-            fadeIn: false,
-            fadeOut: false
-        );
-        IOverlaySplashScreenHandle ShowProgressPanel(Control control, OverlayWindowOptions overlayWindowOptions)
+        // *** REPORT ***************************************************************************
+        private void btnDanhSachDocGia_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            return SplashScreenManager.ShowOverlayForm(control, overlayWindowOptions);
+            OpenForm(typeof(Frpt_DanhSachDocGia));
+
+        }
+
+        private void btnDanhMucDauSach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(Frpt_DanhSachDauSach));
+        }
+
+        private void btnDGMuonSachQuaHan_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(Frpt_DanhSachDGMuonSachQuaHan));
+        }
+
+        private void btnDauSachMuonNhieuNhat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(Frpt_DanhSachTopNDauSachMuonNhieuNhat));
+        }
+
+        // *** NGHIỆP VỤ ***************************************************************************
+        private void btn_phieumuonsach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(FormPHIEUMUONSACH));
         }
 
         public void SetInterfaceVisibilityByUserGroup(string userGroup)
@@ -102,47 +148,80 @@ namespace AppLibrary
             rbp_nghiepvu.Visible = rbp_baocao.Visible = isEmployee;
 
             // Các mục con chỉ dành cho nhân viên
-            rpg_QuanLiTaiKhoan.Visible = rpg_Backup.Visible = rpg_DanhMuc_NguoiDung.Visible = isEmployee;
+            rpgDangXuat_DoiMatKhau.Visible = rpg_QuanLiTaiKhoan.Visible = rpg_Backup.Visible = rpg_DanhMuc_NguoiDung.Visible = isEmployee;
 
             this.Refresh();
         }
 
+        // Hàm cập nhật thông tin người dùng trên FormMain
+        public void UpdateUserInfo()
+        {
+            this.sslb_ma.Text = Program.UserName;
+            this.sslb_ten.Text = Program.mHoten;
+            this.sslb_nhom.Text = Program.mGroup == "DOCGIA" ? "ĐỘC GIẢ" : "NHÂN VIÊN";
+        }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            Program.handle = ShowProgressPanel(this, options);
-            FormDangNhap formDangNhap = new FormDangNhap();
-            formDangNhap.ShowDialog();
+            UpdateUserInfo();
 
-            this.sslb_ma.Text = Program.UserName;
-            this.sslb_ten.Text = Program.mHoten;
-            this.sslb_nhom.Text = Program.mGroup;
-
-            if (string.IsNullOrWhiteSpace(Program.UserName))
+            if (Program.mGroup == "DOCGIA")
                 Program.KetNoi();
 
             SetInterfaceVisibilityByUserGroup(Program.mGroup);
-
-
         }
 
         private void btnDangNhap_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            Program.handle = ShowProgressPanel(this, options);
-            FormDangNhap formDangNhap = new FormDangNhap();
-
+            Program.handle = OverlayHelper.ShowOverlay(Program.CurrentMainForm); // show Overlay 
+            FormDangNhap formDangNhap = new FormDangNhap(this);
             // Lắng nghe sự kiện đăng nhập thành công
             formDangNhap.OnLoginSuccess += (userGroup) =>
             {
-                SetInterfaceVisibilityByUserGroup(userGroup);
+                // Tạo FormMain mới trước khi đóng FormMain cũ
+                FormMain newMain = new FormMain();
+                newMain.Show();
+
+                // Cập nhật thông tin trên FormMain mới
+                newMain.SetInterfaceVisibilityByUserGroup(userGroup);
+                newMain.UpdateUserInfo();
+
+                // Đóng FormMain cũ
+                this.Close();
+
+                // Cập nhật tham chiếu CurrentMainForm
+                Program.CurrentMainForm = newMain;
             };
 
             formDangNhap.ShowDialog();
         }
 
-        private void btn_phieumuonsach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        private void btnDangXuat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            OpenForm(typeof(FormPHIEUMUONSACH));
+            if (MessageBox.Show("Bạn có chắc muốn đăng xuất?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Program.UserName = "";
+                Program.mHoten = "";
+                Program.mGroup = "DOCGIA";
+                Program.LoginName = "DG";
+                Program.LoginPassword = "123456";
+
+                FormMain newMain = new FormMain();
+                newMain.Show();
+                this.Close();
+                Program.CurrentMainForm = newMain;
+            }
         }
+
+        private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Nếu không còn form nào mở, thoát ứng dụng
+            if (Application.OpenForms.Count == 0)
+            {
+                Application.Exit();
+            }
+        }
+
+
     }
 }
