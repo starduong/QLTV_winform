@@ -19,12 +19,50 @@ namespace AppLibrary.Report
             InitializeComponent();
         }
 
+        private void Frpt_DanhSachTopNDauSachMuonNhieuNhat_Load(object sender, EventArgs e)
+        {
+            DateTime today = DateTime.Today;
+            dtpTuNgay.MaxDate = today;
+            dtpDenNgay.MaxDate = today;
+
+            // (Tuỳ chọn) Set mặc định giá trị ban đầu
+            dtpTuNgay.Value = today.AddDays(-7);
+            dtpDenNgay.Value = today;
+
+        }
+
+        private void dtpTuNgay_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpTuNgay.Value > dtpDenNgay.Value)
+            {
+                MessageBox.Show("Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtpTuNgay.Value = dtpDenNgay.Value.AddDays(-1); // hoặc gán lại giá trị hợp lệ
+            }
+        }
+
+        private void dtpDenNgay_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpTuNgay.Value > dtpDenNgay.Value)
+            {
+                MessageBox.Show("Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtpDenNgay.Value = dtpTuNgay.Value.AddDays(1); // hoặc gán lại giá trị hợp lệ
+            }
+        }
+
+
         private void btnPreview_Click(object sender, EventArgs e)
         {
             // Lấy ngày từ DateTimePicker
             DateTime tuNgay = dtpTuNgay.Value.Date;
             DateTime denNgay = dtpDenNgay.Value.Date;
             int topN = int.Parse(numTopNDauSach.Text);
+
+            // Kiểm tra giá trị topN
+            if (topN <= 0)
+            {
+                MessageBox.Show("Vui lòng nhập giá trị top N phải lớn hơn 0.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             // Tạo báo cáo
             Xrpt_DanhSachTopNDauSachMuonNhieuNhat rpDanhSachTopNDauSachMuonNhieuNhat = new Xrpt_DanhSachTopNDauSachMuonNhieuNhat(tuNgay, denNgay, topN);
@@ -40,5 +78,7 @@ namespace AppLibrary.Report
             // Hiển thị hộp thoại xem trước báo cáo
             printTool.ShowPreviewDialog();
         }
+
+        
     }
 }

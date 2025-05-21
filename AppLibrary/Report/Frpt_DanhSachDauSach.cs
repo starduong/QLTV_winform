@@ -22,7 +22,7 @@ namespace AppLibrary.Report
         private void btnPreview_Click(object sender, EventArgs e)
         {
             Xrpt_DanhSachDauSach rpDanhSachDauSach = new Xrpt_DanhSachDauSach();
-            rpDanhSachDauSach.lblNhanVienlbc.Text = Program.mHoten;
+            rpDanhSachDauSach.lblNhanVienLbc.Text = Program.mHoten;
 
             ReportPrintTool printTool = new ReportPrintTool(rpDanhSachDauSach);
             printTool.ShowPreviewDialog();

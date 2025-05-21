@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using AppLibrary.Report;
 using AppLibrary.ClassSupport;
 using DevExpress.XtraEditors;
+using DevExpress.XtraReports.UI;
 
 namespace AppLibrary
 {
@@ -53,6 +54,18 @@ namespace AppLibrary
                 form.Show();
             }
         }
+
+        private void ShowReport(XtraReport report, string nhanVien)
+        {
+            XRLabel lblNhanVien = report.FindControl("lblNhanVienLbc", true) as XRLabel;
+            if (lblNhanVien != null)
+            {
+                lblNhanVien.Text = nhanVien;
+            }
+
+            new ReportPrintTool(report).ShowPreviewDialog();
+        }
+
 
         // *** HỆ THỐNG ***************************************************************************
         private void btnTaoTaiKhoan_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -113,18 +126,21 @@ namespace AppLibrary
         // *** REPORT ***************************************************************************
         private void btnDanhSachDocGia_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            OpenForm(typeof(Frpt_DanhSachDocGia));
+            //OpenForm(typeof(Frpt_DanhSachDocGia));
+            ShowReport(new Xrpt_DanhSachDocGia(), Program.mHoten);
 
         }
 
         private void btnDanhMucDauSach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            OpenForm(typeof(Frpt_DanhSachDauSach));
+            //OpenForm(typeof(Frpt_DanhSachDauSach));
+            ShowReport(new Xrpt_DanhSachDauSach(), Program.mHoten);
         }
 
         private void btnDGMuonSachQuaHan_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            OpenForm(typeof(Frpt_DanhSachDGMuonSachQuaHan));
+            //OpenForm(typeof(Frpt_DanhSachDGMuonSachQuaHan));
+            ShowReport(new Xrpt_DanhSachDGMuonSachQuaHan(), Program.mHoten);
         }
 
         private void btnDauSachMuonNhieuNhat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
