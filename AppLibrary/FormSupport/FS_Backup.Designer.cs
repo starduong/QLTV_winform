@@ -44,18 +44,25 @@
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.gbSource = new System.Windows.Forms.GroupBox();
+            this.rbtINIT = new System.Windows.Forms.RadioButton();
+            this.rbtNOINIT = new System.Windows.Forms.RadioButton();
+            this.radioGroup1 = new DevExpress.XtraEditors.RadioGroup();
             this.gbBackupSet = new System.Windows.Forms.GroupBox();
             this.gbDestination = new System.Windows.Forms.GroupBox();
             this.sYSBACKUP_DEVICETableAdapter = new AppLibrary.QLTVDataSetTableAdapters.SYSBACKUP_DEVICETableAdapter();
             this.tableAdapterManager = new AppLibrary.QLTVDataSetTableAdapters.TableAdapterManager();
+            this.sp_DanhSachBackupBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.sp_DanhSachBackupTableAdapter = new AppLibrary.QLTVDataSetTableAdapters.sp_DanhSachBackupTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.qLTVDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDBName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bdsSysBKDevice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNameBK.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).BeginInit();
             this.gbSource.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.radioGroup1.Properties)).BeginInit();
             this.gbBackupSet.SuspendLayout();
             this.gbDestination.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sp_DanhSachBackupBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // labelControl1
@@ -90,7 +97,7 @@
             this.cbBackupType.Items.AddRange(new object[] {
             "Full",
             "Differential",
-            "Transaction log"});
+            "Transaction Log"});
             this.cbBackupType.Location = new System.Drawing.Point(211, 58);
             this.cbBackupType.Name = "cbBackupType";
             this.cbBackupType.Size = new System.Drawing.Size(428, 27);
@@ -165,7 +172,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(401, 396);
+            this.btnOk.Location = new System.Drawing.Point(545, 502);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(114, 34);
             this.btnOk.TabIndex = 13;
@@ -174,7 +181,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(552, 396);
+            this.btnCancel.Location = new System.Drawing.Point(423, 502);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(103, 34);
             this.btnCancel.TabIndex = 12;
@@ -193,16 +200,54 @@
             // 
             // gbSource
             // 
+            this.gbSource.Controls.Add(this.rbtINIT);
+            this.gbSource.Controls.Add(this.rbtNOINIT);
+            this.gbSource.Controls.Add(this.radioGroup1);
             this.gbSource.Controls.Add(this.txtDBName);
             this.gbSource.Controls.Add(this.labelControl1);
             this.gbSource.Controls.Add(this.labelControl2);
             this.gbSource.Controls.Add(this.cbBackupType);
             this.gbSource.Location = new System.Drawing.Point(16, 12);
             this.gbSource.Name = "gbSource";
-            this.gbSource.Size = new System.Drawing.Size(675, 107);
+            this.gbSource.Size = new System.Drawing.Size(675, 213);
             this.gbSource.TabIndex = 16;
             this.gbSource.TabStop = false;
             this.gbSource.Text = "Source";
+            // 
+            // rbtINIT
+            // 
+            this.rbtINIT.AutoSize = true;
+            this.rbtINIT.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbtINIT.Location = new System.Drawing.Point(211, 158);
+            this.rbtINIT.Name = "rbtINIT";
+            this.rbtINIT.Size = new System.Drawing.Size(305, 26);
+            this.rbtINIT.TabIndex = 10;
+            this.rbtINIT.TabStop = true;
+            this.rbtINIT.Text = "Overwrite all existing backup sets";
+            this.rbtINIT.UseVisualStyleBackColor = true;
+            // 
+            // rbtNOINIT
+            // 
+            this.rbtNOINIT.AutoSize = true;
+            this.rbtNOINIT.Checked = true;
+            this.rbtNOINIT.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbtNOINIT.Location = new System.Drawing.Point(211, 116);
+            this.rbtNOINIT.Name = "rbtNOINIT";
+            this.rbtNOINIT.Size = new System.Drawing.Size(299, 26);
+            this.rbtNOINIT.TabIndex = 9;
+            this.rbtNOINIT.TabStop = true;
+            this.rbtNOINIT.Text = "Append to the existing backup set";
+            this.rbtNOINIT.UseVisualStyleBackColor = true;
+            // 
+            // radioGroup1
+            // 
+            this.radioGroup1.Location = new System.Drawing.Point(192, 98);
+            this.radioGroup1.Name = "radioGroup1";
+            this.radioGroup1.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+            this.radioGroup1.Properties.Appearance.Options.UseBackColor = true;
+            this.radioGroup1.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.radioGroup1.Size = new System.Drawing.Size(337, 96);
+            this.radioGroup1.TabIndex = 8;
             // 
             // gbBackupSet
             // 
@@ -210,7 +255,7 @@
             this.gbBackupSet.Controls.Add(this.labelControl6);
             this.gbBackupSet.Controls.Add(this.labelControl7);
             this.gbBackupSet.Controls.Add(this.txtDescription);
-            this.gbBackupSet.Location = new System.Drawing.Point(16, 125);
+            this.gbBackupSet.Location = new System.Drawing.Point(16, 246);
             this.gbBackupSet.Name = "gbBackupSet";
             this.gbBackupSet.Size = new System.Drawing.Size(675, 122);
             this.gbBackupSet.TabIndex = 17;
@@ -221,7 +266,7 @@
             // 
             this.gbDestination.Controls.Add(this.cbDeviceName);
             this.gbDestination.Controls.Add(this.labelControl3);
-            this.gbDestination.Location = new System.Drawing.Point(16, 253);
+            this.gbDestination.Location = new System.Drawing.Point(16, 374);
             this.gbDestination.Name = "gbDestination";
             this.gbDestination.Size = new System.Drawing.Size(675, 86);
             this.gbDestination.TabIndex = 18;
@@ -251,12 +296,21 @@
             this.tableAdapterManager.THELOAITableAdapter = null;
             this.tableAdapterManager.UpdateOrder = AppLibrary.QLTVDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
             // 
+            // sp_DanhSachBackupBindingSource
+            // 
+            this.sp_DanhSachBackupBindingSource.DataMember = "sp_DanhSachBackup";
+            this.sp_DanhSachBackupBindingSource.DataSource = this.qLTVDataSet;
+            // 
+            // sp_DanhSachBackupTableAdapter
+            // 
+            this.sp_DanhSachBackupTableAdapter.ClearBeforeFill = true;
+            // 
             // FS_Backup
             // 
             this.Appearance.Options.UseFont = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(678, 470);
+            this.ClientSize = new System.Drawing.Size(711, 581);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.gbSource);
@@ -275,10 +329,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtDescription.Properties)).EndInit();
             this.gbSource.ResumeLayout(false);
             this.gbSource.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.radioGroup1.Properties)).EndInit();
             this.gbBackupSet.ResumeLayout(false);
             this.gbBackupSet.PerformLayout();
             this.gbDestination.ResumeLayout(false);
             this.gbDestination.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sp_DanhSachBackupBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -304,5 +360,10 @@
         private System.Windows.Forms.BindingSource bdsSysBKDevice;
         private QLTVDataSetTableAdapters.SYSBACKUP_DEVICETableAdapter sYSBACKUP_DEVICETableAdapter;
         private QLTVDataSetTableAdapters.TableAdapterManager tableAdapterManager;
+        private System.Windows.Forms.RadioButton rbtINIT;
+        private System.Windows.Forms.RadioButton rbtNOINIT;
+        private DevExpress.XtraEditors.RadioGroup radioGroup1;
+        private System.Windows.Forms.BindingSource sp_DanhSachBackupBindingSource;
+        private QLTVDataSetTableAdapters.sp_DanhSachBackupTableAdapter sp_DanhSachBackupTableAdapter;
     }
 }

@@ -28,6 +28,9 @@ namespace AppLibrary
             // TODO: This line of code loads data into the 'qLTVDataSet.v_NhanVienChuaCoTaiKhoan' table. You can move, or remove it, as needed.
             this.v_NhanVienChuaCoTaiKhoanTableAdapter.Fill(this.qLTVDataSet.v_NhanVienChuaCoTaiKhoan);
 
+            // Đăng ký lắng sự kiện xóa tài khoản
+            AccountEvents.TaiKhoanBiXoa += AccountEvents_TaiKhoanBiXoa;
+
             // setting gridview ***********************************************
             gvNVChuaCoTK.OptionsDetail.EnableMasterViewMode = false; // Ẩn chế độ xem chi tiết
             gvNVChuaCoTK.OptionsView.ShowGroupPanel = false; // Ẩn bảng nhóm trên header gridview
@@ -42,6 +45,13 @@ namespace AppLibrary
             txtConfirmMK.Enabled = false;
             btnHuy.Enabled = btnXacNhan.Enabled = false;
 
+        }
+
+        private void AccountEvents_TaiKhoanBiXoa(object sender, EventArgs e)
+        {
+            // Load lại danh sách nhân viên chưa có tài khoản
+            this.v_NhanVienChuaCoTaiKhoanTableAdapter.Connection.ConnectionString = Program.connstr;
+            this.v_NhanVienChuaCoTaiKhoanTableAdapter.Fill(this.qLTVDataSet.v_NhanVienChuaCoTaiKhoan);
         }
 
         private void btnChonNhanVien_Click(object sender, EventArgs e)
@@ -80,6 +90,15 @@ namespace AppLibrary
             string password = txtMatKhau.Text.Trim();
             string username = maNV;
             string role = "NHANVIEN";
+            DialogResult confirm = MessageBox.Show(
+                $"Bạn có chắc chắn muốn tạo tài khoản [{loginName}] cho nhân viên [{hoTen}]?",
+                "Xác nhận tạo tài khoản",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2);
+
+            if (confirm != DialogResult.Yes)
+                return;
 
             // Tạo câu lệnh SQL để gọi stored procedure
             string sql = $"EXEC sp_TaoTaiKhoan @LGNAME = '{loginName.Replace("'", "''")}', " +
@@ -266,12 +285,12 @@ namespace AppLibrary
             }
 
             // THÊM TRƯỜNG HỢP TÊN LOGIN ĐÃ TỒN TẠI TRONG SYS.SYSLOGINS ***
-            //else if (KiemTraLoginDaTonTai(txtTenLogin.Text.Trim()))
-            //{
-            //    MessageBox.Show("Tên đăng nhập đã tồn tại.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    txtTenLogin.Focus();
-            //    return false;
-            //}
+            else if (KiemTraLoginDaTonTai(txtTenLogin.Text.Trim()))
+            {
+                MessageBox.Show("Tên đăng nhập đã tồn tại.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenLogin.Focus();
+                return false;
+            }
 
             if (string.IsNullOrWhiteSpace(txtMatKhau.Text.Trim()))
             {
@@ -300,8 +319,7 @@ namespace AppLibrary
             }
             return true;
         }
-
-        /*
+        
         private bool KiemTraLoginDaTonTai(string loginName)
         {
             // Chuỗi truy vấn SQL để kiểm tra login đã tồn tại chưa
@@ -321,7 +339,7 @@ namespace AppLibrary
 
             return true; // Nếu login đã tồn tại trả về TRUE
         }
-        */
+        
 
     }
 }

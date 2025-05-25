@@ -32,6 +32,7 @@ namespace AppLibrary
             gvNVCoTK.OptionsView.ShowGroupPanel = false; // Ẩn bảng nhóm trên header gridview
             gvNVCoTK.OptionsFind.AlwaysVisible = true; // Luôn hiển thị ô tìm kiếm
 
+            pnDOIMATKHAU.Visible = false; // Ẩn panel đổi mật khẩu
             btnShowPW.Visible = false; // Ẩn nút SHOW mật khẩu
         }
 
@@ -42,6 +43,92 @@ namespace AppLibrary
             // TODO: This line of code loads data into the 'qLTVDataSet.v_NhanVienCoTaiKhoan' table. You can move, or remove it, as needed.
             this.v_NhanVienCoTaiKhoanTableAdapter.Fill(this.qLTVDataSet.v_NhanVienCoTaiKhoan);
         }
+
+        #region *** XỬ LÝ SỰ KIỆN CHO CÁC NÚT CHỨC NĂNG ******************************
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            var result = XtraMessageBox.Show(
+                "Bạn có chắc chắn muốn thoát không?",
+                "Thông báo",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                this.Close();
+            }
+        }
+
+        private void btnDOIMK_Click(object sender, EventArgs e)
+        {
+            bool isVisible = !pnDOIMATKHAU.Visible;
+            pnDOIMATKHAU.Visible = isVisible;
+            btnDOIMK.Text = isVisible ? "ẨN ĐỔI MẬT KHẨU" : "HIỆN ĐỔI MẬT KHẨU";
+            btnXOATK.Enabled = !isVisible;
+        }
+
+        private void btnXOATK_Click(object sender, EventArgs e)
+        {
+            if (gvNVCoTK.GetFocusedRow() == null)
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên để xóa tài khoản!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataRowView row = (DataRowView)gvNVCoTK.GetRow(gvNVCoTK.FocusedRowHandle);
+            if (row == null) return;
+
+            string loginName = row["TênLogin"].ToString();
+            string userName = row["Mã nhân viên"].ToString();
+            string hoTen = row["Họ tên"].ToString();
+
+            // Không cho phép xóa tài khoản đang đăng nhập
+            if (hoTen == Program.mHoten)
+            {
+                MessageBox.Show("Bạn không thể xóa tài khoản đang đăng nhập!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult confirm = MessageBox.Show(
+                $"Bạn có chắc chắn muốn xóa tài khoản [{loginName}] của nhân viên [{hoTen}]?",
+                "Xác nhận xóa tài khoản",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                if (Program.KetNoi() == 0) return;
+
+                string sql = $"EXEC sp_XoaTaiKhoan @LGNAME = '{loginName.Replace("'", "''")}', " +
+                             $"@USERNAME = '{userName.Replace("'", "''")}'";
+
+                int result = Program.ExecuteSqlNonQuery(sql);
+
+                if (result == 0)
+                {
+                    MessageBox.Show($"Đã xóa tài khoản [{loginName}] thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Làm mới lại danh sách
+                    v_NhanVienCoTaiKhoanTableAdapter.Fill(qLTVDataSet.v_NhanVienCoTaiKhoan);
+                    // Gọi sự kiện để form tạo tài khoản cũng cập nhật lại
+                    AccountEvents.RaiseTaiKhoanBiXoa();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xóa tài khoản: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Program.conn.Close();
+            }
+        }
+
 
         private void btnXacNhan_Click(object sender, EventArgs e)
         {
@@ -72,6 +159,8 @@ namespace AppLibrary
                 {
                     MessageBox.Show($"Đổi mật khẩu thành công cho tài khoản [{loginName}].",
                                     "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtMatKhau.Clear();
+                    txtConfirmMK.Clear();
                 }
                 else
                 {
@@ -99,11 +188,6 @@ namespace AppLibrary
             txtConfirmMK.Clear();
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void btnShowPW_Click(object sender, EventArgs e)
         {
             txtMatKhau.Properties.UseSystemPasswordChar = true;
@@ -117,6 +201,7 @@ namespace AppLibrary
             btnHidePW.Visible = false;
             btnShowPW.Visible = true;
         }
+        #endregion
 
         private bool checkValidInput()
         {

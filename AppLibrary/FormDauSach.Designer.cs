@@ -42,7 +42,6 @@
             System.Windows.Forms.Label tENSACHLabel;
             System.Windows.Forms.Label iSBNLabel;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDauSach));
-            DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.barDauSach = new DevExpress.XtraBars.Bar();
             this.btnTHEM = new DevExpress.XtraBars.BarButtonItem();
@@ -447,7 +446,7 @@
             // 
             this.barDockControlLeft.CausesValidation = false;
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.barDockControlLeft.Location = new System.Drawing.Point(0, 35);
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 41);
             this.barDockControlLeft.Manager = this.barManager1;
             this.barDockControlLeft.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.barDockControlLeft.Size = new System.Drawing.Size(0, 719);
@@ -497,7 +496,7 @@
             // 
             this.gcDAUSACH.DataSource = this.bdsDAUSACH;
             this.gcDAUSACH.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gcDAUSACH.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(9);
+            this.gcDAUSACH.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(15, 13, 15, 13);
             this.gcDAUSACH.Location = new System.Drawing.Point(0, 41);
             this.gcDAUSACH.MainView = this.gridViewDAUSACH;
             this.gcDAUSACH.Margin = new System.Windows.Forms.Padding(9);
@@ -507,7 +506,7 @@
             this.repositoryItemTextEdit1,
             this.repositoryItemGridLookUpEdit1,
             this.repositoryItemGridLookUpEdit2});
-            this.gcDAUSACH.Size = new System.Drawing.Size(1580, 388);
+            this.gcDAUSACH.Size = new System.Drawing.Size(1580, 333);
             this.gcDAUSACH.TabIndex = 12;
             this.gcDAUSACH.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewDAUSACH});
@@ -544,7 +543,7 @@
             this.colISBN.OptionsEditForm.Caption = "IBSN";
             this.colISBN.Visible = true;
             this.colISBN.VisibleIndex = 0;
-            this.colISBN.Width = 117;
+            this.colISBN.Width = 101;
             // 
             // colTENSACH
             // 
@@ -554,7 +553,7 @@
             this.colTENSACH.Name = "colTENSACH";
             this.colTENSACH.Visible = true;
             this.colTENSACH.VisibleIndex = 1;
-            this.colTENSACH.Width = 180;
+            this.colTENSACH.Width = 155;
             // 
             // colKHOSACH
             // 
@@ -574,7 +573,7 @@
             this.colNOIDUNG.Name = "colNOIDUNG";
             this.colNOIDUNG.Visible = true;
             this.colNOIDUNG.VisibleIndex = 3;
-            this.colNOIDUNG.Width = 117;
+            this.colNOIDUNG.Width = 101;
             // 
             // colHINHANHPATH
             // 
@@ -584,7 +583,7 @@
             this.colHINHANHPATH.Name = "colHINHANHPATH";
             this.colHINHANHPATH.Visible = true;
             this.colHINHANHPATH.VisibleIndex = 4;
-            this.colHINHANHPATH.Width = 117;
+            this.colHINHANHPATH.Width = 101;
             // 
             // colNGAYXUATBAN
             // 
@@ -596,7 +595,7 @@
             this.colNGAYXUATBAN.Name = "colNGAYXUATBAN";
             this.colNGAYXUATBAN.Visible = true;
             this.colNGAYXUATBAN.VisibleIndex = 5;
-            this.colNGAYXUATBAN.Width = 117;
+            this.colNGAYXUATBAN.Width = 101;
             // 
             // colLANXUATBAN
             // 
@@ -616,7 +615,7 @@
             this.colSOTRANG.Name = "colSOTRANG";
             this.colSOTRANG.Visible = true;
             this.colSOTRANG.VisibleIndex = 7;
-            this.colSOTRANG.Width = 55;
+            this.colSOTRANG.Width = 50;
             // 
             // colGIA
             // 
@@ -628,7 +627,7 @@
             this.colGIA.Name = "colGIA";
             this.colGIA.Visible = true;
             this.colGIA.VisibleIndex = 8;
-            this.colGIA.Width = 147;
+            this.colGIA.Width = 127;
             // 
             // colNHAXB
             // 
@@ -638,7 +637,7 @@
             this.colNHAXB.Name = "colNHAXB";
             this.colNHAXB.Visible = true;
             this.colNHAXB.VisibleIndex = 9;
-            this.colNHAXB.Width = 147;
+            this.colNHAXB.Width = 127;
             // 
             // colMANGONNGU
             // 
@@ -649,7 +648,7 @@
             this.colMANGONNGU.Name = "colMANGONNGU";
             this.colMANGONNGU.Visible = true;
             this.colMANGONNGU.VisibleIndex = 10;
-            this.colMANGONNGU.Width = 152;
+            this.colMANGONNGU.Width = 118;
             // 
             // repositoryItemGridLookUpEdit1
             // 
@@ -683,7 +682,7 @@
             this.colMATL.Name = "colMATL";
             this.colMATL.Visible = true;
             this.colMATL.VisibleIndex = 11;
-            this.colMATL.Width = 178;
+            this.colMATL.Width = 150;
             // 
             // repositoryItemGridLookUpEdit2
             // 
@@ -736,9 +735,9 @@
             this.gcThongTinDauSach.Controls.Add(this.pncINPUT);
             this.gcThongTinDauSach.Controls.Add(this.picDauSach);
             this.gcThongTinDauSach.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gcThongTinDauSach.Location = new System.Drawing.Point(0, 429);
+            this.gcThongTinDauSach.Location = new System.Drawing.Point(0, 374);
             this.gcThongTinDauSach.Name = "gcThongTinDauSach";
-            this.gcThongTinDauSach.Size = new System.Drawing.Size(1064, 331);
+            this.gcThongTinDauSach.Size = new System.Drawing.Size(1064, 386);
             this.gcThongTinDauSach.TabIndex = 17;
             this.gcThongTinDauSach.Text = "THÔNG TIN ĐẦU SÁCH";
             // 
@@ -775,7 +774,7 @@
             this.pncINPUT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pncINPUT.Location = new System.Drawing.Point(241, 32);
             this.pncINPUT.Name = "pncINPUT";
-            this.pncINPUT.Size = new System.Drawing.Size(821, 297);
+            this.pncINPUT.Size = new System.Drawing.Size(821, 352);
             this.pncINPUT.TabIndex = 1;
             // 
             // cbKHOSACH
@@ -1050,7 +1049,7 @@
             this.picDauSach.Name = "picDauSach";
             this.picDauSach.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
             this.picDauSach.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
-            this.picDauSach.Size = new System.Drawing.Size(239, 297);
+            this.picDauSach.Size = new System.Drawing.Size(239, 352);
             this.picDauSach.TabIndex = 0;
             // 
             // bdsSACH
@@ -1128,9 +1127,9 @@
             this.gcTABLESACH.Controls.Add(this.gvSACH);
             this.gcTABLESACH.Controls.Add(this.gvTACGIA_SACH);
             this.gcTABLESACH.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcTABLESACH.Location = new System.Drawing.Point(1064, 429);
+            this.gcTABLESACH.Location = new System.Drawing.Point(1064, 374);
             this.gcTABLESACH.Name = "gcTABLESACH";
-            this.gcTABLESACH.Size = new System.Drawing.Size(516, 331);
+            this.gcTABLESACH.Size = new System.Drawing.Size(516, 386);
             this.gcTABLESACH.TabIndex = 22;
             this.gcTABLESACH.Text = "QUẢN LÍ SÁCH";
             // 
@@ -1342,7 +1341,7 @@
             // FormDauSach
             // 
             this.Appearance.Options.UseFont = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1580, 784);
             this.Controls.Add(this.gcTABLESACH);

@@ -60,7 +60,6 @@
             this.colbackup_start_date = new DevExpress.XtraGrid.Columns.GridColumn();
             this.coltype = new DevExpress.XtraGrid.Columns.GridColumn();
             this.coluser_name = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.coldevice_name = new DevExpress.XtraGrid.Columns.GridColumn();
             this.pcINPUTTG = new DevExpress.XtraEditors.PanelControl();
             this.lblThongBao = new DevExpress.XtraEditors.LabelControl();
             this.dateTimeTGPHUCHOI = new DevExpress.XtraEditors.DateTimeOffsetEdit();
@@ -75,6 +74,7 @@
             this.tableAdapterManager = new AppLibrary.QLTVDataSetTableAdapters.TableAdapterManager();
             this.sp_DanhSachBackupTableAdapter = new AppLibrary.QLTVDataSetTableAdapters.sp_DanhSachBackupTableAdapter();
             this.sp_DanhSachBackupLogTableAdapter = new AppLibrary.QLTVDataSetTableAdapters.sp_DanhSachBackupLogTableAdapter();
+            this.coldevice_name = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gcDB)).BeginInit();
             this.gcDB.SuspendLayout();
@@ -395,16 +395,6 @@
             this.coluser_name.VisibleIndex = 5;
             this.coluser_name.Width = 111;
             // 
-            // coldevice_name
-            // 
-            this.coldevice_name.Caption = "Tên Device";
-            this.coldevice_name.FieldName = "device_name";
-            this.coldevice_name.MinWidth = 30;
-            this.coldevice_name.Name = "coldevice_name";
-            this.coldevice_name.Visible = true;
-            this.coldevice_name.VisibleIndex = 6;
-            this.coldevice_name.Width = 144;
-            // 
             // pcINPUTTG
             // 
             this.defaultToolTipController1.SetAllowHtmlText(this.pcINPUTTG, DevExpress.Utils.DefaultBoolean.Default);
@@ -427,7 +417,6 @@
             this.lblThongBao.Size = new System.Drawing.Size(32, 32);
             this.lblThongBao.TabIndex = 3;
             this.lblThongBao.ToolTipController = this.defaultToolTipController1.DefaultController;
-            this.lblThongBao.MouseHover += new System.EventHandler(this.lblThongBao_MouseHover);
             // 
             // dateTimeTGPHUCHOI
             // 
@@ -466,7 +455,7 @@
             this.fillToolStripButton});
             this.fillToolStrip.Location = new System.Drawing.Point(278, 40);
             this.fillToolStrip.Name = "fillToolStrip";
-            this.fillToolStrip.Size = new System.Drawing.Size(1110, 38);
+            this.fillToolStrip.Size = new System.Drawing.Size(1110, 34);
             this.fillToolStrip.TabIndex = 10;
             this.fillToolStrip.Text = "fillToolStrip";
             // 
@@ -538,6 +527,16 @@
             // sp_DanhSachBackupLogTableAdapter
             // 
             this.sp_DanhSachBackupLogTableAdapter.ClearBeforeFill = true;
+            // 
+            // coldevice_name
+            // 
+            this.coldevice_name.Caption = "Tên Device";
+            this.coldevice_name.FieldName = "device_name";
+            this.coldevice_name.MinWidth = 30;
+            this.coldevice_name.Name = "coldevice_name";
+            this.coldevice_name.Visible = true;
+            this.coldevice_name.VisibleIndex = 6;
+            this.coldevice_name.Width = 112;
             // 
             // FormBackupRestore
             // 
@@ -623,10 +622,10 @@
         private DevExpress.XtraGrid.Columns.GridColumn colbackup_start_date;
         private DevExpress.XtraGrid.Columns.GridColumn coluser_name;
         private DevExpress.XtraGrid.Columns.GridColumn coltype;
-        private DevExpress.XtraGrid.Columns.GridColumn coldevice_name;
         private System.Windows.Forms.BindingSource bdsDSBACKUP_LOG;
         private QLTVDataSetTableAdapters.sp_DanhSachBackupLogTableAdapter sp_DanhSachBackupLogTableAdapter;
         private DevExpress.Utils.DefaultToolTipController defaultToolTipController1;
         private DevExpress.XtraEditors.LabelControl lblThongBao;
+        private DevExpress.XtraGrid.Columns.GridColumn coldevice_name;
     }
 }

@@ -8,8 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using AppLibrary.ClassSupport; // OverlayHelper
+using AppLibrary.ClassSupport;
 using System.Data.SqlClient;
+using DevExpress.XtraReports.UI;
 
 namespace AppLibrary.FormSupport
 {
@@ -25,10 +26,11 @@ namespace AppLibrary.FormSupport
             public string DeviceName { get; set; }
             public bool IsDifferential { get; set; }
             public bool IsTransactionLog { get; set; }
+            public bool IsInit { get; set; }
         }
         #endregion
 
-        private readonly string _databaseName; // truyền từ FormBackupRestore _ 
+        private readonly string _databaseName;
 
         #region Constructor
         public FS_Backup(string databaseName)
@@ -36,7 +38,6 @@ namespace AppLibrary.FormSupport
             InitializeComponent();
             this._databaseName = databaseName;
 
-            // Ensure a database name was provided.
             if (string.IsNullOrWhiteSpace(this._databaseName))
             {
                 XtraMessageBox.Show("Không có tên cơ sở dữ liệu nào được cung cấp.", "Lỗi Khởi Tạo", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -46,25 +47,30 @@ namespace AppLibrary.FormSupport
 
         #region Event Handlers: Form Load / Closing
         private void FS_Backup_Load(object sender, EventArgs e)
-        {   // If constructor detected an invalid database name, close the form immediately.
+        {
             if (string.IsNullOrWhiteSpace(_databaseName))
             {
-                this.BeginInvoke(new Action(this.Close)); // Close safely after Load completes.
+                BeginInvoke(new Action(Close));
                 return;
             }
 
-            // --- Initialize UI ---
-            txtDBName.Text = _databaseName; // Display the database name (read-only)
+            txtDBName.Text = _databaseName;
+            btnOk.Enabled = true;
+            cbBackupType.SelectedIndex = 0;
 
             try
             {
-                // Load available backup devices into the ComboBox
-                this.sYSBACKUP_DEVICETableAdapter.Connection.ConnectionString = Program.connstr;
-                this.sYSBACKUP_DEVICETableAdapter.Fill(this.qLTVDataSet.SYSBACKUP_DEVICE);
+                // Load danh sách thiết bị backup
+                sYSBACKUP_DEVICETableAdapter.Connection.ConnectionString = Program.connstr;
+                sYSBACKUP_DEVICETableAdapter.Fill(qLTVDataSet.SYSBACKUP_DEVICE);
+
                 if (cbDeviceName.Items.Count == 0)
                 {
-                    XtraMessageBox.Show("Không tìm thấy thiết bị backup nào được cấu hình trong hệ thống (SYSBACKUP_DEVICE).\nVui lòng tạo thiết bị backup trước.",
-                                       "Thiếu Thiết Bị Backup", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    XtraMessageBox.Show(
+                        "Không tìm thấy thiết bị backup nào được cấu hình trong hệ thống (SYSBACKUP_DEVICE).\nVui lòng tạo thiết bị backup trước.",
+                        "Thiếu Thiết Bị Backup",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
                     btnOk.Enabled = false;
                 }
                 else
@@ -74,16 +80,31 @@ namespace AppLibrary.FormSupport
             }
             catch (Exception ex)
             {
-                XtraMessageBox.Show($"Lỗi khi tải danh sách thiết bị backup: {ex.Message}\nXem chi tiết lỗi trong log hoặc liên hệ quản trị viên.",
-                                   "Lỗi Dữ Liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                XtraMessageBox.Show(
+                    $"Lỗi khi tải thiết bị backup: {ex.Message}\nVui lòng kiểm tra kết nối hoặc liên hệ quản trị viên.",
+                    "Lỗi Hệ Thống",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 btnOk.Enabled = false;
             }
-            cbBackupType.SelectedIndex = 0; // Set default backup type to "Full" 
+
+            try
+            {
+                // Kiểm tra lịch sử backup
+                sp_DanhSachBackupTableAdapter.Connection.ConnectionString = Program.connstr;
+                sp_DanhSachBackupTableAdapter.Fill(qLTVDataSet.sp_DanhSachBackup, _databaseName);
+            }
+            catch { }
+
+            // Cập nhật giao diện
             UpdateDefaultBackupName();
+            UpdateInitNoInitOptions();
+            UpdateBackupTypeNoFullBK();
         }
 
+
         private void FS_Backup_FormClosing(object sender, FormClosingEventArgs e)
-        {   // Close the overlay helper if it's active (specific to this application's framework)
+        {
             if (Program.handle != null)
             {
                 OverlayHelper.CloseOverlay(Program.handle);
@@ -95,21 +116,45 @@ namespace AppLibrary.FormSupport
         private void cbBackupType_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateDefaultBackupName();
+            UpdateInitNoInitOptions();
         }
+
         private void UpdateDefaultBackupName()
         {
             string backupType = cbBackupType.SelectedItem?.ToString();
-            // Only update if a valid type is selected and database name is known.
             if (!string.IsNullOrEmpty(_databaseName) && !string.IsNullOrEmpty(backupType))
             {
-                // Format: DatabaseName-Type Database Backup (e.g., QLTV-Full Database Backup)
                 txtNameBK.Text = $"{_databaseName}-{backupType} Database Backup";
+            }
+        }
+
+        private void UpdateBackupTypeNoFullBK()
+        {
+            cbBackupType.Enabled = IsFullBackupExists(_databaseName);
+        }
+
+        private void UpdateInitNoInitOptions()
+        {
+            string selectedBackupType = cbBackupType.SelectedItem?.ToString() ?? string.Empty;
+            switch (selectedBackupType)
+            {
+                case "Differential":
+                    rbtINIT.Enabled = false;
+                    rbtNOINIT.Checked = true;
+                    break;
+                case "Full":
+                case "Transaction Log":
+                    rbtINIT.Enabled = true;
+                    rbtNOINIT.Checked = true;
+                    break;
+                default:
+                    rbtNOINIT.Checked = false;
+                    break;
             }
         }
         #endregion
 
         #region Event Handlers: Button Clicks
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
@@ -118,10 +163,8 @@ namespace AppLibrary.FormSupport
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            // --- 1. Input Validation ---
             if (!ValidateInputs()) { return; }
 
-            // --- 2. Build Backup Options Object ---
             BackupOptions options;
             try
             {
@@ -133,50 +176,31 @@ namespace AppLibrary.FormSupport
                 return;
             }
 
-            // --- 3. Prerequisite Checks ---
-            if (options.IsDifferential || options.IsTransactionLog)
-            {
-                // Use the improved CheckForFullBackup method below
-                if (!CheckForFullBackupUsingOwnConnection(options.DatabaseName))
-                {
-                    string backupTypeName = options.IsDifferential ? "Differential" : "Transaction Log";
-                    XtraMessageBox.Show($"Không tìm thấy bản Full Backup nào cho cơ sở dữ liệu '{options.DatabaseName}'.\n" +
-                                        $"Bạn cần tạo một bản Full Backup trước khi tạo bản {backupTypeName} Backup.",
-                                        "Yêu cầu Full Backup", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-
-            // --- 3b. Confirmation for Operations Using INIT ---
-            string selectedBackupType = cbBackupType.SelectedItem?.ToString();
-            // Check if the selected type will result in using INIT (Full or Transaction log)
-            if (selectedBackupType == "Full" || selectedBackupType == "Transaction log")
+            // Confirmation for INIT is implicit by user selecting rbtINIT.
+            if (options.IsInit)
             {
                 var confirmResult = XtraMessageBox.Show(
-                    $"Bạn đã chọn loại backup '{selectedBackupType}'. Thao tác này sẽ sử dụng tùy chọn 'INIT'.\n" + // Explain INIT is used
-                    $"Điều này sẽ XÓA TẤT CẢ các bản backup hiện có trên thiết bị '{options.DeviceName}' và bắt đầu một bộ backup mới.\n\n" +
+                    $"Bạn đã chọn tùy chọn 'INIT'.\n" +
+                    $"Thao tác này sẽ XÓA TẤT CẢ các bản sao lưu hiện có trên thiết bị '{options.DeviceName}' và bắt đầu một bộ sao lưu mới.\n\n" +
                     "Bạn có chắc chắn muốn tiếp tục?",
-                    $"Xác Nhận Ghi Đè (INIT) cho {selectedBackupType} Backup", // Title indicates the type
+                    $"Xác Nhận Ghi Đè (INIT)",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning,
-                    MessageBoxDefaultButton.Button2 // Default to No
+                    MessageBoxDefaultButton.Button2
                 );
 
                 if (confirmResult == DialogResult.No)
                 {
-                    return; // User cancelled
+                    return;
                 }
-                // User confirmed Yes, proceed.
             }
-            // No confirmation needed for Differential (which uses NOINIT)
 
-            // --- 4. Generate T-SQL Script ---
             string sqlScript;
             try
             {
                 sqlScript = options.IsTransactionLog
-                    ? GenerateLogBackupScript(options)      // Will use INIT internally now
-                    : GenerateDataBackupScript(options);    // Will use INIT or NOINIT internally now
+                    ? GenerateLogBackupScript(options)
+                    : GenerateDataBackupScript(options);
                 if (string.IsNullOrEmpty(sqlScript))
                 {
                     XtraMessageBox.Show("Không thể tạo lệnh backup.", "Lỗi Nội Bộ", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -194,39 +218,37 @@ namespace AppLibrary.FormSupport
                 return;
             }
 
-            // --- 5. Execute Backup ---
             ExecuteBackupScript(sqlScript, options);
         }
-
         #endregion
 
         #region Helper Methods: Input Validation, Option Building, Prerequisite Checks
         private bool ValidateInputs()
         {
-            // Check if a backup device is selected
             if (cbDeviceName.SelectedItem == null || cbDeviceName.SelectedValue == null)
             {
                 XtraMessageBox.Show("Vui lòng chọn một thiết bị backup từ danh sách.", "Thiếu Thông Tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cbDeviceName.Focus();
                 return false;
             }
-
-            // Check if a backup name is provided
             if (string.IsNullOrWhiteSpace(txtNameBK.Text))
             {
                 XtraMessageBox.Show("Vui lòng nhập tên cho bản backup.", "Thiếu Thông Tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNameBK.Focus();
                 return false;
             }
-
-            // Check if a backup type is selected
             if (cbBackupType.SelectedItem == null)
             {
                 XtraMessageBox.Show("Vui lòng chọn loại backup (Full, Differential, Transaction Log).", "Thiếu Thông Tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cbBackupType.Focus();
                 return false;
             }
-
+            if (!this.rbtINIT.Checked && !this.rbtNOINIT.Checked)
+            {
+                XtraMessageBox.Show("Vui lòng chọn tùy chọn INIT hoặc NOINIT.", "Thiếu Thông Tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (this.rbtINIT.CanFocus) this.rbtINIT.Focus();
+                return false;
+            }
             return true;
         }
 
@@ -235,7 +257,6 @@ namespace AppLibrary.FormSupport
             string backupType = cbBackupType.SelectedItem?.ToString();
             object selectedDeviceValue = cbDeviceName.SelectedValue;
 
-            // These should have been caught by ValidateInputs, but double-check defensively.
             if (string.IsNullOrEmpty(backupType))
                 throw new InvalidOperationException("Loại backup chưa được chọn.");
             if (selectedDeviceValue == null)
@@ -244,48 +265,30 @@ namespace AppLibrary.FormSupport
             var options = new BackupOptions
             {
                 DatabaseName = this._databaseName,
-                BackupName = txtNameBK.Text.Trim(), // Trim whitespace
-                Description = txtDescription.Text.Trim(), // Trim whitespace
+                BackupName = txtNameBK.Text.Trim(),
+                Description = txtDescription.Text.Trim(),
                 DeviceName = selectedDeviceValue.ToString(),
                 IsDifferential = (backupType == "Differential"),
-                IsTransactionLog = (backupType == "Transaction log"),
+                IsTransactionLog = (backupType == "Transaction Log"),
+                IsInit = this.rbtINIT.Checked
             };
             return options;
         }
 
-        private bool CheckForFullBackupUsingOwnConnection(string databaseName)
+        private bool IsFullBackupExists(string databaseName)
         {
-            bool fullBackupExists = false;
-            string checkSql = @"SELECT TOP 1 1 FROM msdb.dbo.backupset
-                        WHERE database_name = @DatabaseName AND type = 'D';";
-
-            try
+            // Kiểm tra xem có bản full backup (type='D') nào trong bdsDSBACKUP hay không
+            bool hasFullBackup = false;
+            foreach (DataRowView row in sp_DanhSachBackupBindingSource)
             {
-                // Use 'using' for connection and command to ensure disposal
-                using (SqlConnection conn = new SqlConnection(Program.connstr)) // Use connection string
-                using (SqlCommand checkCmd = new SqlCommand(checkSql, conn))
+                string backupType = row["type"]?.ToString();
+                if (backupType == "D")
                 {
-                    checkCmd.Parameters.AddWithValue("@DatabaseName", databaseName);
-                    conn.Open(); // Open the connection for this check
-                    object result = checkCmd.ExecuteScalar();
-                    fullBackupExists = (result != null && result != DBNull.Value);
-                    // Connection automatically closed by 'using' block
+                    hasFullBackup = true;
+                    break;
                 }
             }
-            catch (SqlException sqlEx)
-            {
-                XtraMessageBox.Show($"Lỗi SQL khi kiểm tra Full Backup: {sqlEx.Message}\n" +
-                                    "Kiểm tra quyền truy cập msdb.",
-                                    "Lỗi Kiểm Tra Backup", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show($"Lỗi không mong muốn khi kiểm tra Full Backup: {ex.Message}",
-                                    "Lỗi Kiểm Tra Backup", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            return fullBackupExists;
+            return hasFullBackup;
         }
 
         #endregion
@@ -317,12 +320,7 @@ namespace AppLibrary.FormSupport
                 withOptions.Add($"DESCRIPTION = N'{options.Description.Replace("'", "''")}'");
             }
 
-            // --- MODIFIED HERE ---
-            // Automatically set INIT for Full, NOINIT for Differential
-            withOptions.Add(options.IsDifferential ? "NOINIT" : "INIT");
-            // ---------------------
-
-            //withOptions.Add("COMPRESSION");
+            withOptions.Add(options.IsInit ? "INIT" : "NOINIT");
             withOptions.Add("STATS = 10");
 
             if (withOptions.Any())
@@ -355,12 +353,8 @@ namespace AppLibrary.FormSupport
                 withOptions.Add($"DESCRIPTION = N'{options.Description.Replace("'", "''")}'");
             }
 
-            // --- MODIFIED HERE ---
-            // Automatically set INIT for Transaction Log backup
-            withOptions.Add("INIT");
-            // ---------------------
-
-            //withOptions.Add("COMPRESSION");
+            withOptions.Add(options.IsInit ? "INIT" : "NOINIT");
+            withOptions.Add("NO_TRUNCATE");
             withOptions.Add("STATS = 10");
 
             if (withOptions.Any())
@@ -377,43 +371,33 @@ namespace AppLibrary.FormSupport
         public event Action ExecuteBackupSuccess;
         private void ExecuteBackupScript(string sqlScript, BackupOptions options)
         {
-            // --- Prepare UI for long operation ---
             btnOk.Enabled = false;
             btnCancel.Enabled = false;
-            this.Cursor = Cursors.WaitCursor; // Show wait cursor
-            Application.DoEvents(); // Allow UI to update
+            this.Cursor = Cursors.WaitCursor;
+            Application.DoEvents();
 
             try
             {
-                // --- Check Database Connection ---
-                if (Program.KetNoi() == 0)
-                {
-                    return;
-                }
+                if (Program.KetNoi() == 0) return;
 
-                // --- Execute the Backup Command ---
-                // Assumes Program.ExecuteSqlNonQuery returns 0 for success, non-zero for failure,
-                // and handles displaying SQL execution errors internally.
                 int executionResult = Program.ExecuteSqlNonQuery(sqlScript);
 
-                if (executionResult == 0) // Success
+                if (executionResult == 0)
                 {
-                    XtraMessageBox.Show($"Backup '{options.BackupName}' cho database '{options.DatabaseName}' trên thiết bị '{options.DeviceName}' hoàn tất thành công!",
+                    XtraMessageBox.Show($"Backup '{options.BackupName}' cho database '{options.DatabaseName}' trên thiết bị '{options.DeviceName}' (sử dụng {(options.IsInit ? "INIT" : "NOINIT")}) hoàn tất thành công!",
                                         "Backup Thành Công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // --- Trigger Success Event ---
                     ExecuteBackupSuccess?.Invoke();
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
             }
-            catch (Exception ex) // Catch unexpected exceptions during the execution phase
+            catch (Exception ex)
             {
                 XtraMessageBox.Show($"Đã xảy ra lỗi không mong muốn trong quá trình thực hiện backup: {ex.Message}\n\nScript đã thử:\n{sqlScript}",
                                    "Lỗi Thực Thi Backup", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                // --- Restore UI state regardless of success or failure ---
                 btnOk.Enabled = true;
                 btnCancel.Enabled = true;
                 this.Cursor = Cursors.Default;
@@ -421,5 +405,4 @@ namespace AppLibrary.FormSupport
         }
         #endregion
     }
-
 }
