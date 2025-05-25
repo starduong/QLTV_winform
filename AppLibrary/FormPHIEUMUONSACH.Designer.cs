@@ -41,19 +41,12 @@ namespace AppLibrary
             this.pHIEUMUONBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pHIEUMUONTableAdapter = new AppLibrary.QLTVDataSetTableAdapters.PHIEUMUONTableAdapter();
             this.tableAdapterManager = new AppLibrary.QLTVDataSetTableAdapters.TableAdapterManager();
-            this.pHIEUMUONGridControl = new DevExpress.XtraGrid.GridControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.colMAPHIEU = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colMADG = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colHINHTHUC = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colNGAYMUON = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colMANV = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.comboBoxEditMaDG = new DevExpress.XtraEditors.LookUpEdit();
+            this.label1 = new System.Windows.Forms.Label();
+            this.mANVTextEdit = new DevExpress.XtraEditors.TextEdit();
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.bar3 = new DevExpress.XtraBars.Bar();
             this.barButtonLPMS = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonXPMS = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonRefresh = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonHuy = new DevExpress.XtraBars.BarButtonItem();
             this.bar4 = new DevExpress.XtraBars.Bar();
@@ -61,14 +54,17 @@ namespace AppLibrary
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
+            this.barButtonXPMS = new DevExpress.XtraBars.BarButtonItem();
+            this.mAPHIEUTextEdit = new DevExpress.XtraEditors.TextEdit();
+            this.comboBoxEditMaDG = new DevExpress.XtraEditors.LookUpEdit();
             this.comboBoxEditSach = new DevExpress.XtraEditors.LookUpEdit();
-            this.pictureEditSach = new DevExpress.XtraEditors.PictureEdit();
             this.buttonLapPhieu = new System.Windows.Forms.Button();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.hINHTHUCRadioButton = new System.Windows.Forms.RadioButton();
             this.bar2 = new DevExpress.XtraBars.Bar();
-            this.mAPHIEUTextEdit = new DevExpress.XtraEditors.TextEdit();
-            this.mANVTextEdit = new DevExpress.XtraEditors.TextEdit();
+            this.gridControl1 = new DevExpress.XtraGrid.GridControl();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.qltvDataSet1 = new AppLibrary.QLTVDataSet();
             mAPHIEULabel = new System.Windows.Forms.Label();
             mADGLabel = new System.Windows.Forms.Label();
             hINHTHUCLabel = new System.Windows.Forms.Label();
@@ -76,60 +72,60 @@ namespace AppLibrary
             labelSach = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.qLTVDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pHIEUMUONBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pHIEUMUONGridControl)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditMaDG.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditSach.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureEditSach.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mAPHIEUTextEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mANVTextEdit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mAPHIEUTextEdit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditMaDG.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditSach.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qltvDataSet1)).BeginInit();
             this.SuspendLayout();
             // 
             // mAPHIEULabel
             // 
             mAPHIEULabel.AutoSize = true;
-            mAPHIEULabel.Location = new System.Drawing.Point(648, 20);
+            mAPHIEULabel.Location = new System.Drawing.Point(33, 119);
             mAPHIEULabel.Name = "mAPHIEULabel";
-            mAPHIEULabel.Size = new System.Drawing.Size(62, 16);
+            mAPHIEULabel.Size = new System.Drawing.Size(69, 19);
             mAPHIEULabel.TabIndex = 0;
             mAPHIEULabel.Text = "Mã phiếu:";
             // 
             // mADGLabel
             // 
             mADGLabel.AutoSize = true;
-            mADGLabel.Location = new System.Drawing.Point(637, 182);
+            mADGLabel.Location = new System.Drawing.Point(33, 322);
             mADGLabel.Name = "mADGLabel";
-            mADGLabel.Size = new System.Drawing.Size(73, 16);
+            mADGLabel.Size = new System.Drawing.Size(59, 19);
             mADGLabel.TabIndex = 2;
-            mADGLabel.Text = "Mã độc giả:";
+            mADGLabel.Text = "Độc giả:";
             // 
             // hINHTHUCLabel
             // 
             hINHTHUCLabel.AutoSize = true;
-            hINHTHUCLabel.Location = new System.Drawing.Point(643, 232);
+            hINHTHUCLabel.Location = new System.Drawing.Point(33, 388);
             hINHTHUCLabel.Name = "hINHTHUCLabel";
-            hINHTHUCLabel.Size = new System.Drawing.Size(67, 16);
+            hINHTHUCLabel.Size = new System.Drawing.Size(71, 19);
             hINHTHUCLabel.TabIndex = 4;
             hINHTHUCLabel.Text = "Hình thức:";
             // 
             // mANVLabel
             // 
             mANVLabel.AutoSize = true;
-            mANVLabel.Location = new System.Drawing.Point(570, 77);
+            mANVLabel.Location = new System.Drawing.Point(33, 190);
             mANVLabel.Name = "mANVLabel";
-            mANVLabel.Size = new System.Drawing.Size(140, 16);
+            mANVLabel.Size = new System.Drawing.Size(131, 19);
             mANVLabel.TabIndex = 8;
-            mANVLabel.Text = "Mã nhân viên lập phiếu:";
+            mANVLabel.Text = "Nhân viên lập phiếu:";
             // 
             // labelSach
             // 
             labelSach.AutoSize = true;
-            labelSach.Location = new System.Drawing.Point(606, 128);
+            labelSach.Location = new System.Drawing.Point(33, 256);
             labelSach.Name = "labelSach";
-            labelSach.Size = new System.Drawing.Size(104, 16);
+            labelSach.Size = new System.Drawing.Size(111, 19);
             labelSach.TabIndex = 13;
             labelSach.Text = "Sách cho mượn :";
             // 
@@ -150,6 +146,7 @@ namespace AppLibrary
             // tableAdapterManager
             // 
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.CHITIETNGANTUTableAdapter = null;
             this.tableAdapterManager.CT_PHIEUMUONTableAdapter = null;
             this.tableAdapterManager.DAUSACHTableAdapter = null;
             this.tableAdapterManager.DOCGIATableAdapter = null;
@@ -158,91 +155,19 @@ namespace AppLibrary
             this.tableAdapterManager.NHANVIENTableAdapter = null;
             this.tableAdapterManager.PHIEUMUONTableAdapter = this.pHIEUMUONTableAdapter;
             this.tableAdapterManager.SACHTableAdapter = null;
+            this.tableAdapterManager.sp_DanhSachBackupTableAdapter = null;
             this.tableAdapterManager.TACGIA_SACHTableAdapter = null;
             this.tableAdapterManager.TACGIATableAdapter = null;
             this.tableAdapterManager.THELOAITableAdapter = null;
             this.tableAdapterManager.UpdateOrder = AppLibrary.QLTVDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
             // 
-            // pHIEUMUONGridControl
-            // 
-            this.pHIEUMUONGridControl.DataSource = this.pHIEUMUONBindingSource;
-            this.pHIEUMUONGridControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pHIEUMUONGridControl.Location = new System.Drawing.Point(0, 34);
-            this.pHIEUMUONGridControl.MainView = this.gridView1;
-            this.pHIEUMUONGridControl.Name = "pHIEUMUONGridControl";
-            this.pHIEUMUONGridControl.Size = new System.Drawing.Size(1447, 284);
-            this.pHIEUMUONGridControl.TabIndex = 1;
-            this.pHIEUMUONGridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
-            // 
-            // gridView1
-            // 
-            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.colMAPHIEU,
-            this.colMADG,
-            this.colHINHTHUC,
-            this.colNGAYMUON,
-            this.colMANV});
-            this.gridView1.GridControl = this.pHIEUMUONGridControl;
-            this.gridView1.Name = "gridView1";
-            // 
-            // colMAPHIEU
-            // 
-            this.colMAPHIEU.Caption = "Mã Phiếu ";
-            this.colMAPHIEU.FieldName = "MAPHIEU";
-            this.colMAPHIEU.MinWidth = 25;
-            this.colMAPHIEU.Name = "colMAPHIEU";
-            this.colMAPHIEU.Visible = true;
-            this.colMAPHIEU.VisibleIndex = 0;
-            this.colMAPHIEU.Width = 94;
-            // 
-            // colMADG
-            // 
-            this.colMADG.Caption = "Mã độc giả";
-            this.colMADG.FieldName = "MADG";
-            this.colMADG.MinWidth = 25;
-            this.colMADG.Name = "colMADG";
-            this.colMADG.Visible = true;
-            this.colMADG.VisibleIndex = 1;
-            this.colMADG.Width = 94;
-            // 
-            // colHINHTHUC
-            // 
-            this.colHINHTHUC.Caption = "Mã hình thức";
-            this.colHINHTHUC.FieldName = "HINHTHUC";
-            this.colHINHTHUC.MinWidth = 25;
-            this.colHINHTHUC.Name = "colHINHTHUC";
-            this.colHINHTHUC.Visible = true;
-            this.colHINHTHUC.VisibleIndex = 2;
-            this.colHINHTHUC.Width = 94;
-            // 
-            // colNGAYMUON
-            // 
-            this.colNGAYMUON.Caption = "Ngày mượn";
-            this.colNGAYMUON.FieldName = "NGAYMUON";
-            this.colNGAYMUON.MinWidth = 25;
-            this.colNGAYMUON.Name = "colNGAYMUON";
-            this.colNGAYMUON.Visible = true;
-            this.colNGAYMUON.VisibleIndex = 3;
-            this.colNGAYMUON.Width = 94;
-            // 
-            // colMANV
-            // 
-            this.colMANV.Caption = "Mã nhân viên";
-            this.colMANV.FieldName = "MANV";
-            this.colMANV.MinWidth = 25;
-            this.colMANV.Name = "colMANV";
-            this.colMANV.Visible = true;
-            this.colMANV.VisibleIndex = 4;
-            this.colMANV.Width = 94;
-            // 
             // panelControl1
             // 
+            this.panelControl1.Controls.Add(this.label1);
             this.panelControl1.Controls.Add(this.mANVTextEdit);
             this.panelControl1.Controls.Add(this.mAPHIEUTextEdit);
             this.panelControl1.Controls.Add(this.comboBoxEditMaDG);
             this.panelControl1.Controls.Add(this.comboBoxEditSach);
-            this.panelControl1.Controls.Add(this.pictureEditSach);
             this.panelControl1.Controls.Add(labelSach);
             this.panelControl1.Controls.Add(this.buttonLapPhieu);
             this.panelControl1.Controls.Add(this.radioButton1);
@@ -251,21 +176,31 @@ namespace AppLibrary
             this.panelControl1.Controls.Add(this.hINHTHUCRadioButton);
             this.panelControl1.Controls.Add(mADGLabel);
             this.panelControl1.Controls.Add(mAPHIEULabel);
-            this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl1.Location = new System.Drawing.Point(0, 318);
+            this.panelControl1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelControl1.Location = new System.Drawing.Point(0, 40);
+            this.panelControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(1447, 362);
+            this.panelControl1.Size = new System.Drawing.Size(839, 546);
             this.panelControl1.TabIndex = 2;
             // 
-            // comboBoxEditMaDG
+            // label1
             // 
-            this.comboBoxEditMaDG.Location = new System.Drawing.Point(749, 179);
-            this.comboBoxEditMaDG.MenuManager = this.barManager1;
-            this.comboBoxEditMaDG.Name = "comboBoxEditMaDG";
-            this.comboBoxEditMaDG.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEditMaDG.Size = new System.Drawing.Size(523, 23);
-            this.comboBoxEditMaDG.TabIndex = 18;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(204, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(409, 45);
+            this.label1.TabIndex = 21;
+            this.label1.Text = "PHIẾU MƯỢN SÁCH";
+            // 
+            // mANVTextEdit
+            // 
+            this.mANVTextEdit.Location = new System.Drawing.Point(212, 181);
+            this.mANVTextEdit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.mANVTextEdit.MenuManager = this.barManager1;
+            this.mANVTextEdit.Name = "mANVTextEdit";
+            this.mANVTextEdit.Size = new System.Drawing.Size(588, 27);
+            this.mANVTextEdit.TabIndex = 20;
             // 
             // barManager1
             // 
@@ -294,7 +229,6 @@ namespace AppLibrary
             this.bar3.DockStyle = DevExpress.XtraBars.BarDockStyle.Top;
             this.bar3.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barButtonLPMS),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonXPMS),
             new DevExpress.XtraBars.LinkPersistInfo(this.barButtonRefresh),
             new DevExpress.XtraBars.LinkPersistInfo(this.barButtonHuy)});
             this.bar3.OptionsBar.MultiLine = true;
@@ -309,14 +243,6 @@ namespace AppLibrary
             this.barButtonLPMS.Name = "barButtonLPMS";
             this.barButtonLPMS.PaintStyle = DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph;
             this.barButtonLPMS.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonLPMS_ItemClick);
-            // 
-            // barButtonXPMS
-            // 
-            this.barButtonXPMS.Caption = "Xóa phiếu mượn sách";
-            this.barButtonXPMS.Id = 1;
-            this.barButtonXPMS.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonXPMS.ImageOptions.SvgImage")));
-            this.barButtonXPMS.Name = "barButtonXPMS";
-            this.barButtonXPMS.PaintStyle = DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph;
             // 
             // barButtonRefresh
             // 
@@ -354,58 +280,84 @@ namespace AppLibrary
             this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
             this.barDockControlTop.Manager = this.barManager1;
-            this.barDockControlTop.Size = new System.Drawing.Size(1447, 34);
+            this.barDockControlTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.barDockControlTop.Size = new System.Drawing.Size(1644, 40);
             // 
             // barDockControlBottom
             // 
             this.barDockControlBottom.CausesValidation = false;
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 680);
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 586);
             this.barDockControlBottom.Manager = this.barManager1;
-            this.barDockControlBottom.Size = new System.Drawing.Size(1447, 22);
+            this.barDockControlBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.barDockControlBottom.Size = new System.Drawing.Size(1644, 24);
             // 
             // barDockControlLeft
             // 
             this.barDockControlLeft.CausesValidation = false;
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.barDockControlLeft.Location = new System.Drawing.Point(0, 34);
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 40);
             this.barDockControlLeft.Manager = this.barManager1;
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 646);
+            this.barDockControlLeft.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 546);
             // 
             // barDockControlRight
             // 
             this.barDockControlRight.CausesValidation = false;
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControlRight.Location = new System.Drawing.Point(1447, 34);
+            this.barDockControlRight.Location = new System.Drawing.Point(1644, 40);
             this.barDockControlRight.Manager = this.barManager1;
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 646);
+            this.barDockControlRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 546);
+            // 
+            // barButtonXPMS
+            // 
+            this.barButtonXPMS.Caption = "Xóa phiếu mượn sách";
+            this.barButtonXPMS.Id = 1;
+            this.barButtonXPMS.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonXPMS.ImageOptions.SvgImage")));
+            this.barButtonXPMS.Name = "barButtonXPMS";
+            this.barButtonXPMS.PaintStyle = DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph;
+            // 
+            // mAPHIEUTextEdit
+            // 
+            this.mAPHIEUTextEdit.Location = new System.Drawing.Point(212, 115);
+            this.mAPHIEUTextEdit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.mAPHIEUTextEdit.MenuManager = this.barManager1;
+            this.mAPHIEUTextEdit.Name = "mAPHIEUTextEdit";
+            this.mAPHIEUTextEdit.Size = new System.Drawing.Size(588, 27);
+            this.mAPHIEUTextEdit.TabIndex = 19;
+            // 
+            // comboBoxEditMaDG
+            // 
+            this.comboBoxEditMaDG.Location = new System.Drawing.Point(212, 319);
+            this.comboBoxEditMaDG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.comboBoxEditMaDG.MenuManager = this.barManager1;
+            this.comboBoxEditMaDG.Name = "comboBoxEditMaDG";
+            this.comboBoxEditMaDG.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.comboBoxEditMaDG.Size = new System.Drawing.Size(588, 27);
+            this.comboBoxEditMaDG.TabIndex = 18;
+            this.comboBoxEditMaDG.EditValueChanged += new System.EventHandler(this.comboBoxEditMaDG_EditValueChanged);
             // 
             // comboBoxEditSach
             // 
-            this.comboBoxEditSach.Location = new System.Drawing.Point(749, 125);
+            this.comboBoxEditSach.Location = new System.Drawing.Point(212, 248);
+            this.comboBoxEditSach.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.comboBoxEditSach.MenuManager = this.barManager1;
             this.comboBoxEditSach.Name = "comboBoxEditSach";
             this.comboBoxEditSach.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEditSach.Size = new System.Drawing.Size(523, 23);
+            this.comboBoxEditSach.Size = new System.Drawing.Size(588, 27);
             this.comboBoxEditSach.TabIndex = 17;
-            // 
-            // pictureEditSach
-            // 
-            this.pictureEditSach.Location = new System.Drawing.Point(309, 20);
-            this.pictureEditSach.MenuManager = this.barManager1;
-            this.pictureEditSach.Name = "pictureEditSach";
-            this.pictureEditSach.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
-            this.pictureEditSach.Size = new System.Drawing.Size(196, 276);
-            this.pictureEditSach.TabIndex = 15;
             // 
             // buttonLapPhieu
             // 
-            this.buttonLapPhieu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.buttonLapPhieu.BackColor = System.Drawing.Color.Blue;
             this.buttonLapPhieu.ForeColor = System.Drawing.SystemColors.Control;
-            this.buttonLapPhieu.Location = new System.Drawing.Point(749, 283);
+            this.buttonLapPhieu.Location = new System.Drawing.Point(212, 444);
+            this.buttonLapPhieu.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.buttonLapPhieu.Name = "buttonLapPhieu";
-            this.buttonLapPhieu.Size = new System.Drawing.Size(523, 51);
+            this.buttonLapPhieu.Size = new System.Drawing.Size(588, 64);
             this.buttonLapPhieu.TabIndex = 12;
             this.buttonLapPhieu.Text = "Lập phiếu";
             this.buttonLapPhieu.UseVisualStyleBackColor = false;
@@ -414,9 +366,10 @@ namespace AppLibrary
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(851, 228);
+            this.radioButton1.Location = new System.Drawing.Point(325, 378);
+            this.radioButton1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(71, 20);
+            this.radioButton1.Size = new System.Drawing.Size(79, 23);
             this.radioButton1.TabIndex = 10;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Tại chỗ";
@@ -425,9 +378,10 @@ namespace AppLibrary
             // hINHTHUCRadioButton
             // 
             this.hINHTHUCRadioButton.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.pHIEUMUONBindingSource, "HINHTHUC", true));
-            this.hINHTHUCRadioButton.Location = new System.Drawing.Point(749, 226);
+            this.hINHTHUCRadioButton.Location = new System.Drawing.Point(212, 378);
+            this.hINHTHUCRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hINHTHUCRadioButton.Name = "hINHTHUCRadioButton";
-            this.hINHTHUCRadioButton.Size = new System.Drawing.Size(104, 24);
+            this.hINHTHUCRadioButton.Size = new System.Drawing.Size(117, 30);
             this.hINHTHUCRadioButton.TabIndex = 5;
             this.hINHTHUCRadioButton.TabStop = true;
             this.hINHTHUCRadioButton.Text = "Mượn về";
@@ -443,49 +397,60 @@ namespace AppLibrary
             this.bar2.OptionsBar.UseWholeRow = true;
             this.bar2.Text = "Main menu";
             // 
-            // mAPHIEUTextEdit
+            // gridControl1
             // 
-            this.mAPHIEUTextEdit.Location = new System.Drawing.Point(749, 20);
-            this.mAPHIEUTextEdit.MenuManager = this.barManager1;
-            this.mAPHIEUTextEdit.Name = "mAPHIEUTextEdit";
-            this.mAPHIEUTextEdit.Size = new System.Drawing.Size(523, 23);
-            this.mAPHIEUTextEdit.TabIndex = 19;
+            this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControl1.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gridControl1.Location = new System.Drawing.Point(839, 40);
+            this.gridControl1.MainView = this.gridView1;
+            this.gridControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gridControl1.MenuManager = this.barManager1;
+            this.gridControl1.Name = "gridControl1";
+            this.gridControl1.Size = new System.Drawing.Size(805, 546);
+            this.gridControl1.TabIndex = 7;
+            this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView1});
             // 
-            // mANVTextEdit
+            // gridView1
             // 
-            this.mANVTextEdit.Location = new System.Drawing.Point(749, 77);
-            this.mANVTextEdit.MenuManager = this.barManager1;
-            this.mANVTextEdit.Name = "mANVTextEdit";
-            this.mANVTextEdit.Size = new System.Drawing.Size(523, 23);
-            this.mANVTextEdit.TabIndex = 20;
+            this.gridView1.DetailHeight = 437;
+            this.gridView1.GridControl = this.gridControl1;
+            this.gridView1.Name = "gridView1";
+            this.gridView1.OptionsEditForm.PopupEditFormWidth = 900;
+            // 
+            // qltvDataSet1
+            // 
+            this.qltvDataSet1.DataSetName = "QLTVDataSet";
+            this.qltvDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // FormPHIEUMUONSACH
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1447, 702);
+            this.ClientSize = new System.Drawing.Size(1644, 610);
+            this.Controls.Add(this.gridControl1);
             this.Controls.Add(this.panelControl1);
-            this.Controls.Add(this.pHIEUMUONGridControl);
             this.Controls.Add(this.barDockControlLeft);
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
             this.Controls.Add(this.barDockControlTop);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FormPHIEUMUONSACH";
             this.Text = "FormPHIEUMUONSACH";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.qLTVDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pHIEUMUONBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pHIEUMUONGridControl)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditMaDG.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditSach.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureEditSach.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mAPHIEUTextEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mANVTextEdit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mAPHIEUTextEdit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditMaDG.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditSach.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qltvDataSet1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -501,16 +466,10 @@ namespace AppLibrary
         private QLTVDataSetTableAdapters.DAUSACHTableAdapter dauSachTableAdapter;
         private QLTVDataSetTableAdapters.CT_PHIEUMUONTableAdapter ctPhieuMuonTableAdapter;
         private QLTVDataSetTableAdapters.DOCGIATableAdapter docGiaTableAdapter;
-        private DevExpress.XtraGrid.GridControl pHIEUMUONGridControl;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private QLTVDataSetTableAdapters.NHANVIENTableAdapter NHANVIENTableAdapter;
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private System.Windows.Forms.RadioButton hINHTHUCRadioButton;
         private System.Windows.Forms.RadioButton radioButton1;
-        private DevExpress.XtraGrid.Columns.GridColumn colMAPHIEU;
-        private DevExpress.XtraGrid.Columns.GridColumn colMADG;
-        private DevExpress.XtraGrid.Columns.GridColumn colHINHTHUC;
-        private DevExpress.XtraGrid.Columns.GridColumn colNGAYMUON;
-        private DevExpress.XtraGrid.Columns.GridColumn colMANV;
         private DevExpress.XtraBars.Bar bar2;
         private DevExpress.XtraBars.BarManager barManager1;
         private DevExpress.XtraBars.Bar bar3;
@@ -524,10 +483,13 @@ namespace AppLibrary
         private DevExpress.XtraBars.BarDockControl barDockControlRight;
         private DevExpress.XtraBars.BarButtonItem barButtonHuy;
         private System.Windows.Forms.Button buttonLapPhieu;
-        private DevExpress.XtraEditors.PictureEdit pictureEditSach;
         private DevExpress.XtraEditors.LookUpEdit comboBoxEditMaDG;
         private DevExpress.XtraEditors.LookUpEdit comboBoxEditSach;
         private DevExpress.XtraEditors.TextEdit mANVTextEdit;
         private DevExpress.XtraEditors.TextEdit mAPHIEUTextEdit;
+        private DevExpress.XtraGrid.GridControl gridControl1;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private System.Windows.Forms.Label label1;
+        private QLTVDataSet qltvDataSet1;
     }
 }

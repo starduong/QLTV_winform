@@ -154,6 +154,11 @@ namespace AppLibrary
             OpenForm(typeof(FormPHIEUMUONSACH));
         }
 
+        private void btn_trasach_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            OpenForm(typeof(FormTraSach));
+        }
+
         public void SetInterfaceVisibilityByUserGroup(string userGroup)
         {
             // Các mục hiển thị cho nhân viên
