@@ -354,7 +354,7 @@ namespace AppLibrary.FormSupport
             }
 
             withOptions.Add(options.IsInit ? "INIT" : "NOINIT");
-            withOptions.Add("NO_TRUNCATE");
+            //withOptions.Add("NO_TRUNCATE");
             withOptions.Add("STATS = 10");
 
             if (withOptions.Any())

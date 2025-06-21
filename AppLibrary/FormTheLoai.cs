@@ -613,11 +613,8 @@ namespace AppLibrary
         {
             if (!isNhanVien && bdsTHELOAI.Count >= 0)
             {
-                if (XtraMessageBox.Show("Bạn có muốn làm mới không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    bdsTHELOAI.Position = 0;
-                    return;
-                }
+                bdsTHELOAI.Position = 0;
+                return;
             }
             if (editedRows.Count > 0)
             {
@@ -634,7 +631,13 @@ namespace AppLibrary
         }
 
         private void btnThoat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {   // Kiểm tra nếu có thay đổi chưa lưu trước khi thoát
+        {
+            if (!isNhanVien)
+            {
+                this.Close();
+                return;
+            }
+            // Kiểm tra nếu có thay đổi chưa lưu trước khi thoát
             if (editedRows.Count > 0)
             {
                 if (XtraMessageBox.Show("Bạn có thay đổi chưa lưu. Bạn có chắc chắn muốn thoát?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)

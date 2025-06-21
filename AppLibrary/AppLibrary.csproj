@@ -138,6 +138,12 @@
     <Compile Include="FormNhanVien.Designer.cs">
       <DependentUpon>FormNhanVien.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPhieuMuon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPhieuMuon.Designer.cs">
+      <DependentUpon>FormPhieuMuon.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSupport\FS_Backup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +269,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormNhanVien.resx">
       <DependentUpon>FormNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPhieuMuon.resx">
+      <DependentUpon>FormPhieuMuon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSupport\FS_Backup.resx">
       <DependentUpon>FS_Backup.cs</DependentUpon>

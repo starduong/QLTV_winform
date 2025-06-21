@@ -13,16 +13,24 @@ using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.IO;
 using DevExpress.XtraRichEdit.Import.Doc;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.Utils;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 
 namespace AppLibrary
 {
     public partial class FormDauSach : DevExpress.XtraEditors.XtraForm
     {
-        #region *** VAR - CLASS ***********************************************
+        #region *** VAR - CLASS ************************************************************************
         private int vitri = 0;
         private bool isAddMode = false;
         // editedRows lưu trữ các dòng đã chỉnh sửa ->Undo nhiều dòng cùng lúc
         private Dictionary<int, DataRow> editedRows = new Dictionary<int, DataRow>();
+
+        // Lưu các dòng có thể xóa
+        private HashSet<int> deletableRowHandles = new HashSet<int>();
+        // Lưu các dòng đã chỉnh sửa để tô màu
+        private HashSet<int> modifiedRows = new HashSet<int>();
 
         // Stack cho Undo và Redo
         private Stack<LogAction> undoStack = new Stack<LogAction>();
@@ -33,8 +41,8 @@ namespace AppLibrary
         // Phân quyền hiển thị UI
         bool isNhanVien = (Program.mGroup == "NHANVIEN");
         #endregion
-        
-        #region *** INIT FROM *****************************************
+
+        #region *** INIT FROM **************************************************************************
         public FormDauSach()
         {
             InitializeComponent();
@@ -86,10 +94,15 @@ namespace AppLibrary
                 btnGHI_TGS.Enabled = false;
                 btnXOA_TGS.Enabled = (bdsTACGIA_SACH.Count > 0);
             }
-
             gvSACH.Dock = DockStyle.Fill;
             gvTACGIA_SACH.Dock = DockStyle.Fill;
+            gvTACGIA_SACH.ReadOnly = gvSACH.ReadOnly = !isNhanVien;       
+        }
 
+        private void FormDauSach_Shown(object sender, EventArgs e)
+        {
+            // === GỌI HÀM KIỂM TRA SAU KHI DỮ LIỆU ĐÃ ĐƯỢC TẢI ===
+            KiemTraVaToMauDauSachMoCoi();
         }
 
         private void FormDauSach_FormClosing(object sender, FormClosingEventArgs e)
@@ -98,8 +111,8 @@ namespace AppLibrary
             {
                 this.Validate();
                 bdsSACH.EndEdit(); // Kết thúc mọi chỉnh sửa
-                bdsDAUSACH.EndEdit(); // Kết thúc mọi chỉnh sửa
-                bdsTACGIA_SACH.EndEdit(); // Kết thúc mọi chỉnh sửa
+                bdsDAUSACH.EndEdit();
+                bdsTACGIA_SACH.EndEdit();
             }
             catch (Exception ex)
             {
@@ -111,27 +124,51 @@ namespace AppLibrary
 
         public void UpdateButtonStates()
         {
+            // === 1. Kiểm tra trạng thái dữ liệu ===
+            bool hasUnsavedChanges = false;
             bool hasData = bdsDAUSACH.Count > 0;
-            // isAddMode = true: Trong chế độ thêm mới
-            btnTHEM.Enabled = !isAddMode;
-            btnXOA.Enabled = !isAddMode && hasData;
-            // edited row - Nếu có dòng chỉnh sửa
-            btnGHI.Enabled = isAddMode || editedRows.Count > 0;
-            // undoStack.Count > 0: có thao tác để phục hồi
-            // redoStack.Count > 0: có thao tác để làm lại
-            btnUNDO.Enabled = isAddMode || undoStack.Count > 0;
-            btnREDO.Enabled = redoStack.Count > 0;
-            btnREFRESH.Enabled = !isAddMode && editedRows.Count > 0;
+
+            // 1.1 Dữ liệu đã chỉnh sửa và chuyển dòng (đã lưu trong editedRows)
+            if (modifiedRows.Count > 0)
+            {
+                hasUnsavedChanges = true;
+            }
+            // 1.2 Dòng hiện tại đang chỉnh sửa nhưng chưa chuyển dòng
+            else if (bdsDAUSACH.Current is DataRowView currentRowView &&
+                     currentRowView.Row.RowState == DataRowState.Modified)
+            {
+                hasUnsavedChanges = true;
+            }
+
+            // === 2. Cập nhật trạng thái các nút chức năng ===
+            btnTHEM.Enabled = isNhanVien && !isAddMode;
+            btnGHI.Enabled = isNhanVien && (isAddMode || hasUnsavedChanges);
+            btnUNDO.Enabled = isNhanVien && (isAddMode || undoStack.Count > 0);
+            btnREDO.Enabled = isNhanVien && !isAddMode && redoStack.Count > 0;
+            btnREFRESH.Enabled = !isAddMode && (hasUnsavedChanges || (bdsDAUSACH.Position != 0));
             btnTACGIA_SACH.Enabled = !isAddMode;
             btnTHOAT.Enabled = !isAddMode;
+
+            // === 3. Cập nhật nút XÓA ===
+            bool canDeleteCurrentRow = false;
+            // Kiểm tra dòng đang được chọn có nằm trong danh sách cho phép xóa không
+            if (hasData && gridViewDAUSACH.FocusedRowHandle >= 0)
+            {
+                canDeleteCurrentRow = deletableRowHandles.Contains(gridViewDAUSACH.FocusedRowHandle);
+            }
+
+            // Nút XÓA: chỉ bật khi có dữ liệu, là nhân viên, không ở chế độ thêm,
+            // không có dữ liệu chưa lưu và dòng hiện tại được phép xóa
+            btnXOA.Enabled = isNhanVien && hasData && !isAddMode && !hasUnsavedChanges && canDeleteCurrentRow;
         }
 
-        // Xử lý sự kiện khi người dùng nhấp vào nút "Thêm Đầu Sách"
+
+        // Xử lý sự kiện khi thay đổi các ô input
         private void AnyTextBox_TextChanged(object sender, EventArgs e)
         {   // Nếu đang ở chế độ thêm, hoặc không có dòng hiện tại, hoặc bindingsource rỗng -> bỏ qua
             if (isAddMode || bdsDAUSACH.Current == null || bdsDAUSACH.Count == 0) return;
-            int currentPos = bdsDAUSACH.Position; // Lấy vị trí dòng hiện tại
-            var currentRow = ((DataRowView)bdsDAUSACH.Current).Row; // Lấy DataRow tương ứng với dòng hiện tại đang chọn
+            int currentPos = bdsDAUSACH.Position;
+            var currentRow = ((DataRowView)bdsDAUSACH.Current).Row;
             // Nếu dòng này chưa được đánh dấu là đã sửa, thêm nó vào dictionary editedRows
             if (!editedRows.ContainsKey(currentPos))
             {   // Chỉ thêm vào nếu nó chưa bị sửa hoặc trạng thái là Unchanged/Modified
@@ -140,13 +177,10 @@ namespace AppLibrary
                     editedRows[currentPos] = currentRow;
                 }
             }
-            // Bật nút Ghi và Refresh để cho phép lưu hoặc hủy thay đổi
+            // === Bật nút GHI và REFRESH ngay lập tức khi có thay đổi ===
+            // Điều này xử lý trường hợp người dùng đang chỉnh sửa dòng hiện tại.
             btnGHI.Enabled = isNhanVien;
-            btnREFRESH.Enabled = !isAddMode;
-            if (bdsDAUSACH.Position == 0)
-            {
-                btnREFRESH.Enabled = false;
-            }
+            btnREFRESH.Enabled = true;
         }
 
         // Xử lý sự kiện khi người dùng thay đổi giá trị trong ComboBox cbNgonNgu
@@ -168,17 +202,37 @@ namespace AppLibrary
             }
             catch { }
         }
-        #endregion
 
-        #region *** XỬ LÝ HIỆN THỊ VÀ LƯU ẢNH ***********************************************
         private void gridViewDAUSACH_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
         {
+            // e.PrevFocusedRowHandle là vị trí của dòng vừa mất focus.
+            if (e.PrevFocusedRowHandle >= 0)
+            {
+                // Lấy DataRow của dòng vừa rời đi
+                DataRow prevRow = gridViewDAUSACH.GetDataRow(e.PrevFocusedRowHandle);
+
+                // Kiểm tra xem dòng đó có thực sự bị thay đổi không (trạng thái là 'Modified')
+                // Đây là điểm mấu chốt: chỉ khi dữ liệu đã thay đổi và BindingSource đã cập nhật thì RowState mới là Modified.
+                if (prevRow != null && prevRow.RowState == DataRowState.Modified)
+                {
+                    modifiedRows.Add(e.PrevFocusedRowHandle);
+                    // Yêu cầu vẽ lại dòng vừa rời đi để tô màu nó
+                    gridViewDAUSACH.RefreshRow(e.PrevFocusedRowHandle);
+                }
+            }
+
+            // CẬP NHẬT TRẠNG THÁI CÁC NÚT DỰA TRÊN `editedRows`
+            UpdateButtonStates();
+
             HienThiAnhTheoTenFile();
         }
+        #endregion
+
+        #region *** XỬ LÝ HIỆN THỊ VÀ LƯU ẢNH **********************************************************
         private void HienThiAnhTheoTenFile()
         {
-            if (string.IsNullOrWhiteSpace(txtHinhAnh.Text))
-                return;
+            //if (string.IsNullOrWhiteSpace(txtHinhAnh.Text))
+            //    return;
 
             string thuMucAnh = @"C:\Users\Duong\Documents\C#\SolutionAppLibrary\AppLibrary\Resources\";
             string duongDanAnh = Path.Combine(thuMucAnh, txtHinhAnh.Text);
@@ -223,7 +277,7 @@ namespace AppLibrary
                 }
                 catch (System.IO.FileNotFoundException ex)
                 {   // Xử lý lỗi nếu không tìm thấy tệp (ví dụ: hiển thị ảnh mặc định)
-                    XtraMessageBox.Show($"Không tìm thấy tệp: {duongDanGocHinhAnh}"+ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    XtraMessageBox.Show($"Không tìm thấy tệp: {duongDanGocHinhAnh}" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {   // Xử lý các lỗi khác khi tải ảnh
@@ -267,12 +321,125 @@ namespace AppLibrary
         }
         #endregion
 
-        #region *** XỬ LÝ CÁC NÚT CHỨC NĂNG ***********************************************
+        #region *** XỬ LÝ HỖ TRỢ UI CHO NÚT XÓA *********************************************************
+        // Thêm hàm này vào class FormDauSach
+        private bool KiemTraTonTaiSachHoacTacGia(string isbn)
+        {
+            if (string.IsNullOrEmpty(isbn))
+            {
+                return false;
+            }
+            if (Program.KetNoi() == 0) return false;
+            string query = @"
+            SELECT 1
+            WHERE EXISTS (
+                SELECT 1 FROM SACH WHERE ISBN = @ISBN
+            ) OR EXISTS (
+                SELECT 1 FROM TACGIA_SACH WHERE ISBN = @ISBN
+            );";
+
+            using (SqlCommand command = new SqlCommand(query, Program.conn))
+            {
+                command.Parameters.AddWithValue("@ISBN", isbn);
+                try
+                {
+                    // ExecuteScalar sẽ trả về object đầu tiên của dòng đầu tiên,
+                    // hoặc null nếu không có kết quả nào.
+                    object result = command.ExecuteScalar();
+                    // Nếu result không phải là null (tức là câu lệnh SELECT 1 đã chạy thành công),
+                    // nghĩa là ISBN tồn tại.
+                    return (result != null);
+                }
+                catch (Exception ex)
+                {
+                    // Ghi log hoặc hiển thị lỗi nếu cần thiết
+                    XtraMessageBox.Show("Lỗi khi kiểm tra dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return true; // Mặc định trả về true để tránh xóa nhầm
+                }
+                finally
+                {
+                    Program.conn.Close(); // Đóng kết nối sau khi thực hiện xong
+                }
+            }
+        }
+
+        private void KiemTraVaToMauDauSachMoCoi()
+        {
+            // Xóa danh sách cũ
+            deletableRowHandles.Clear();
+            List<string> orphanISBNs = new List<string>();
+
+            // 1. THU THẬP DỮ LIỆU
+            for (int i = 0; i < gridViewDAUSACH.DataRowCount; i++)
+            {
+                // Nhớ Trim() để loại bỏ khoảng trắng
+                string isbn = gridViewDAUSACH.GetRowCellValue(i, "ISBN")?.ToString().Trim();
+                if (!string.IsNullOrEmpty(isbn))
+                {
+                    if (!KiemTraTonTaiSachHoacTacGia(isbn))
+                    {
+                        if (isNhanVien)
+                        {
+                            deletableRowHandles.Add(i);
+                        }
+                        else
+                        {
+                            orphanISBNs.Add(isbn);
+                        }
+                    }
+                }
+            }
+
+            // 2. XỬ LÝ GIAO DIỆN DỰA TRÊN QUYỀN
+            if (isNhanVien)
+            {
+                // Dành cho NHANVIEN: Tô màu
+                // Xóa bộ lọc cũ trên BindingSource (nếu có) để nhân viên thấy tất cả
+                bdsDAUSACH.Filter = null;
+                gridViewDAUSACH.RefreshData(); // Kích hoạt RowStyle
+            }
+            else
+            {
+                // Dành cho người dùng khác: Lọc trực tiếp trên BindingSource
+                if (orphanISBNs.Count > 0)
+                {
+                    // Tạo chuỗi filter (đã được xác nhận là đúng)
+                    var quotedISBNs = orphanISBNs.Select(isbn => $"'{EscapeFilterString(isbn)}'");
+                    string filterString = $"ISBN NOT IN ({string.Join(", ", quotedISBNs)})";
+
+                    // === THAY ĐỔI QUAN TRỌNG NHẤT ===
+                    // Áp dụng bộ lọc cho BINDING SOURCE, không phải GridView
+                    try
+                    {
+                        bdsDAUSACH.Filter = filterString;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Bắt lỗi nếu cú pháp filter sai
+                        XtraMessageBox.Show("Lỗi khi áp dụng bộ lọc: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    // Nếu không có gì để lọc, xóa bộ lọc trên BindingSource
+                    bdsDAUSACH.Filter = null;
+                }
+            }
+        }
+
+        private string EscapeFilterString(string str)
+        {
+            // Dấu nháy đơn ' là ký tự đặc biệt trong chuỗi filter, cần được nhân đôi  
+            return str.Replace("'", "''");
+        }
+        #endregion
+
+        #region *** XỬ LÝ CÁC NÚT CHỨC NĂNG ***************************************************************
         private void btnTHEM_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             vitri = bdsDAUSACH.Position; // Lưu vị trí hiện tại
-            setUIForAddMode(true); // Chuyển sang chế độ thêm mới
             bdsDAUSACH.AddNew();
+            setUIForAddMode(true); // Chuyển sang chế độ thêm mới
         }
 
         private void btnXOA_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -293,58 +460,55 @@ namespace AppLibrary
                 return;
             }
 
-            // Xác nhận xóa
-            if (XtraMessageBox.Show("Bạn có thực sự muốn xóa đầu sách này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            vitri = bdsDAUSACH.Position; // Lưu vị trí dòng sẽ xóa
+            LogAction action = null;    // Khai báo action để lưu thông tin undo
+            object deletedPrimaryKey = null; // Lưu khóa chính của dòng bị xóa
+            try
+            {   // Lấy dòng hiện tại từ BindingSource
+                var currentRow = ((DataRowView)bdsDAUSACH.Current).Row;
+                deletedPrimaryKey = currentRow[PK_COLUMN_NAME];
+
+                // **CHUẨN BỊ DỮ LIỆU CHO UNDO (LogAction)**
+                action = new LogAction
+                {
+                    Type = LogAction.ActionType.Delete,
+                    TableName = TABLE_NAME,
+                    PrimaryKeyColumnName = PK_COLUMN_NAME,
+                    Positions = new List<int> { vitri }
+                    // Lưu lại toàn bộ dữ liệu của dòng SẮP BỊ XÓA vào DataList để có thể khôi phục (INSERT lại) khi Undo
+                };
+                var originalData = new Dictionary<string, object>();
+                foreach (DataColumn col in currentRow.Table.Columns)
+                {
+                    originalData[col.ColumnName] = currentRow[col]; // Lấy giá trị hiện tại
+                }
+                action.DataList.Add(originalData);
+
+                // **THỰC HIỆN XÓA TRÊN BINDINGSOURCE VÀ DATABASE**
+                bdsDAUSACH.RemoveCurrent();
+                // Ghi thay đổi xuống Database (quan trọng: làm điều này trong try-catch)
+                this.tableAdapterDAUSACH.Update(this.qLTVDataSet.DAUSACH);
+
+                // **XÓA THÀNH CÔNG -> PUSH VÀO UNDO STACK**
+                undoStack.Push(action);
+                redoStack.Clear();  // Xóa redo stack khi có hành động mới
+                //XtraMessageBox.Show("Xóa đầu sách thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
             {
-                vitri = bdsDAUSACH.Position; // Lưu vị trí dòng sẽ xóa
-                LogAction action = null;    // Khai báo action để lưu thông tin undo
-                object deletedPrimaryKey = null; // Lưu khóa chính của dòng bị xóa
-                try
-                {   // Lấy dòng hiện tại từ BindingSource
-                    var currentRow = ((DataRowView)bdsDAUSACH.Current).Row;
-                    deletedPrimaryKey = currentRow[PK_COLUMN_NAME];
-
-                    // **CHUẨN BỊ DỮ LIỆU CHO UNDO (LogAction)**
-                    action = new LogAction
-                    {
-                        Type = LogAction.ActionType.Delete,
-                        TableName = TABLE_NAME,
-                        PrimaryKeyColumnName = PK_COLUMN_NAME,
-                        Positions = new List<int> { vitri }
-                        // Lưu lại toàn bộ dữ liệu của dòng SẮP BỊ XÓA vào DataList để có thể khôi phục (INSERT lại) khi Undo
-                    };
-                    var originalData = new Dictionary<string, object>();
-                    foreach (DataColumn col in currentRow.Table.Columns)
-                    {
-                        originalData[col.ColumnName] = currentRow[col]; // Lấy giá trị hiện tại
-                    }
-                    action.DataList.Add(originalData);
-
-                    // **THỰC HIỆN XÓA TRÊN BINDINGSOURCE VÀ DATABASE**
-                    bdsDAUSACH.RemoveCurrent();
-                    // Ghi thay đổi xuống Database (quan trọng: làm điều này trong try-catch)
-                    this.tableAdapterDAUSACH.Update(this.qLTVDataSet.DAUSACH);
-
-                    // **XÓA THÀNH CÔNG -> PUSH VÀO UNDO STACK**
-                    undoStack.Push(action);
-                    redoStack.Clear();  // Xóa redo stack khi có hành động mới
-                    XtraMessageBox.Show("Xóa đầu sách thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    // **XÓA THẤT BẠI**
-                    XtraMessageBox.Show("Lỗi xóa đầu sách: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.tableAdapterDAUSACH.Fill(this.qLTVDataSet.DAUSACH);
-                    // Cố gắng đặt lại vị trí con trỏ
-                    int foundPos = bdsDAUSACH.Find(PK_COLUMN_NAME, deletedPrimaryKey);
-                    if (foundPos >= 0) bdsDAUSACH.Position = foundPos;
-                    else bdsDAUSACH.Position = vitri; // Về vị trí cũ nếu không tìm thấy
-                    return;
-                }
-                finally
-                {
-                    UpdateButtonStates();
-                }
+                // **XÓA THẤT BẠI**
+                XtraMessageBox.Show("Lỗi xóa đầu sách: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.tableAdapterDAUSACH.Fill(this.qLTVDataSet.DAUSACH);
+                // Cố gắng đặt lại vị trí con trỏ
+                int foundPos = bdsDAUSACH.Find(PK_COLUMN_NAME, deletedPrimaryKey);
+                if (foundPos >= 0) bdsDAUSACH.Position = foundPos;
+                else bdsDAUSACH.Position = vitri; // Về vị trí cũ nếu không tìm thấy
+                return;
+            }
+            finally
+            {
+                UpdateButtonStates();
+                ResetOriginalUI();
             }
         }
 
@@ -373,6 +537,11 @@ namespace AppLibrary
                 return;
             }
             var currentRow = currentView.Row;
+            // **CHUẨN HÓA TÊN ĐẦU SÁCH**
+            if (currentRow["TENSACH"] != null && !string.IsNullOrEmpty(currentRow["TENSACH"].ToString()))
+            {
+                currentRow["TENSACH"] = ChuanHoaTenDauSach(currentRow["TENSACH"].ToString());
+            }
             object newPkValue = currentRow[PK_COLUMN_NAME];
             // 3. Xử lý theo chế độ (Thêm mới hoặc Chỉnh sửa)
             try
@@ -461,6 +630,15 @@ namespace AppLibrary
                         return;
                     }
 
+                    // **CHUẨN HÓA TÊN ĐẦU SÁCH CHO TẤT CẢ DÒNG ĐÃ SỬA**
+                    foreach (var row in changedRows)
+                    {
+                        if (row["TENSACH"] != null && !string.IsNullOrEmpty(row["TENSACH"].ToString()))
+                        {
+                            row["TENSACH"] = ChuanHoaTenDauSach(row["TENSACH"].ToString());
+                        }
+                    }
+
                     // Thu thập dữ liệu gốc và hiện tại cho các dòng đã thay đổi
                     foreach (DataRow row in changedRows)
                     {
@@ -513,7 +691,6 @@ namespace AppLibrary
                         // Cân nhắc ReloadData() để lấy dữ liệu mới nhất
                         ReloadData();
                     }
-                    // Nếu rowsAffected < 0 là lỗi, nhưng Update thường ném Exception
                 }
                 // 4. Reset UI sau khi Ghi thành công
                 ResetOriginalUI();
@@ -616,7 +793,7 @@ namespace AppLibrary
                 {
                     redoStack.Push(action); // Đưa hành động vào redo stack nếu thành công
                     ReloadData();          // Tải lại dữ liệu để cập nhật Grid
-                    XtraMessageBox.Show("Hoàn tác thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //XtraMessageBox.Show("Hoàn tác thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // UNDO VỊ TRÍ CON TRỎ
                     try
@@ -722,7 +899,7 @@ namespace AppLibrary
                 {
                     undoStack.Push(action); // Đưa hành động trở lại undo stack
                     ReloadData();          // Tải lại dữ liệu
-                    XtraMessageBox.Show("Làm lại thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //XtraMessageBox.Show("Làm lại thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // KHÔI PHỤC VỊ TRÍ CON TRỎ
                     try
@@ -771,15 +948,7 @@ namespace AppLibrary
 
         private void btnREFRESH_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if (!isNhanVien && bdsDAUSACH.Count >= 0)
-            {
-                if (XtraMessageBox.Show("Bạn có muốn làm mới không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    bdsDAUSACH.Position = 0;
-                    return;
-                }
-            }
-            if (editedRows.Count > 0)
+            if (modifiedRows.Count > 0)
             {
                 if (XtraMessageBox.Show("Bạn có muốn hủy bỏ các thay đổi chưa lưu?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
@@ -790,12 +959,17 @@ namespace AppLibrary
             ResetOriginalUI();
             UpdateButtonStates();
             btnGHI.Enabled = btnREFRESH.Enabled = false;
-
+            if (bdsDAUSACH.Count >= 0)
+            {
+                bdsDAUSACH.Position = 0;
+                btnREFRESH.Enabled = false;
+                return;
+            }
         }
 
         private void btnTHOAT_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {   // Kiểm tra nếu có thay đổi chưa lưu trước khi thoát
-            if (editedRows.Count > 0)
+            if (modifiedRows.Count > 0)
             {
                 if (XtraMessageBox.Show("Bạn có thay đổi chưa lưu. Bạn có chắc chắn muốn thoát?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 { return; }
@@ -804,7 +978,7 @@ namespace AppLibrary
         }
         #endregion
 
-        #region *** HÀM HỖ TRỢ NÚT CHỨC NĂNG **************************************************
+        #region *** HÀM HỖ TRỢ NÚT CHỨC NĂNG ***********************************************************
         // Hàm hủy thao tác Thêm đang thực hiện
         private void CancelAddAction()
         {
@@ -820,19 +994,29 @@ namespace AppLibrary
             }
             ResetOriginalUI(); // cancel
         }
-        
+
         private void setUIForAddMode(bool isAdd)
         {
             isAddMode = isAdd;
             gcDAUSACH.Enabled = !isAddMode; // Kích hoạt GridControl nếu không ở chế độ thêm mới
             UpdateButtonStates(); // Cập nhật trạng thái nút
             txtTENSACH.Focus();
+            txtISBN.Enabled = isAdd;
+            btnREFRESH.Enabled = !isAdd;
+            this.contextMenuStripSACH.Enabled = this.contextMenuStripTACGIA.Enabled = !isAdd;
+            HienThiAnhTheoTenFile();
         }
         private void ResetOriginalUI()
         {
             isAddMode = false;      // Tắt chế độ Thêm
             editedRows.Clear();     // Xóa danh sách dòng đang sửa
+            modifiedRows.Clear(); // Xóa danh sách màu đã chỉnh sửa
             gcDAUSACH.Enabled = !isAddMode; // Kích hoạt GridControl nếu không ở chế độ thêm mới
+            KiemTraVaToMauDauSachMoCoi();
+            // Vẽ lại toàn bộ Grid để xóa hết các highlight màu vàng
+            gridViewDAUSACH.RefreshData();
+            txtISBN.Enabled = false; // Tắt chỉnh sửa ISBN khi không ở chế độ thêm mới
+            this.contextMenuStripSACH.Enabled = this.contextMenuStripTACGIA.Enabled = isNhanVien;
         }
         // Hàm tải lại dữ liệu cho các BindingSource chính
         private void ReloadData()
@@ -877,6 +1061,21 @@ namespace AppLibrary
             }
         }
 
+        public string ChuanHoaTenDauSach(string tenDauSach)
+        {
+            // Kiểm tra trường hợp null hoặc rỗng
+            if (string.IsNullOrEmpty(tenDauSach))
+            {
+                return string.Empty;
+            }
+
+            // Xóa khoảng trắng đầu/cuối và thay nhiều khoảng trắng bằng một khoảng trắng
+            string result = System.Text.RegularExpressions.Regex.Replace(tenDauSach.Trim(), @"\s+", " ");
+
+            return result;
+        }
+
+        //Kiểm tra dữ liệu đầu vào
         private bool checkValidInput()
         {
             // Kiểm tra Tên sách
@@ -923,7 +1122,7 @@ namespace AppLibrary
                 }
                 else
                 {
-                    query = "SELECT COUNT(*) FROM DAUSACH WHERE (ISBN = @iSBN) AND MATL != @iSBNCurrent";
+                    query = "SELECT COUNT(*) FROM DAUSACH WHERE (ISBN = @iSBN) AND ISBN != @iSBNCurrent";
                 }
 
                 using (SqlCommand cmd = new SqlCommand(query, Program.conn))
@@ -951,41 +1150,34 @@ namespace AppLibrary
                 return false;
             }
 
-            // Kiểm tra Nội dung
-            if (string.IsNullOrWhiteSpace(txtNOIDUNG.Text.Trim()))
-            {
-                XtraMessageBox.Show("Nội dung sách không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNOIDUNG.Focus();
-                return false;
-            }
-
-            // Kiểm tra Giá
-            if (speGIA.Value <= 0)
-            {
-                XtraMessageBox.Show("Giá sách phải lớn hơn 0!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                speGIA.Focus();
-                return false;
-            }
-
             // Kiểm tra Ngày xuất bản
-            if (dteNGAYXB.EditValue == null)
+            if (dteNGAYXB.EditValue == null || dteNGAYXB.EditValue == DBNull.Value)
             {
                 XtraMessageBox.Show("Ngày xuất bản không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 dteNGAYXB.Focus();
                 return false;
             }
-            else if (((DateTime)dteNGAYXB.EditValue) > DateTime.Now)
+
+            if (!DateTime.TryParse(dteNGAYXB.EditValue.ToString(), out DateTime ngayXB))
             {
-                XtraMessageBox.Show("Ngày xuất bản không thể ở tương lai!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("Giá trị ngày xuất bản không hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 dteNGAYXB.Focus();
                 return false;
             }
 
-            // Kiểm tra Hình ảnh (nếu bắt buộc nhập hình)
-            if (string.IsNullOrWhiteSpace(txtHinhAnh.Text.Trim()))
+            // Kiểm tra Lần xuất bản
+            if (string.IsNullOrWhiteSpace(speLANXB.Text))
             {
-                XtraMessageBox.Show("Đường dẫn hình ảnh không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtHinhAnh.Focus();
+                XtraMessageBox.Show("Lần xuất bản không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                speLANXB.Focus();
+                return false;
+            }
+
+            // Kiểm tra Số trang
+            if (string.IsNullOrWhiteSpace(speSOTRANG.Text))
+            {
+                XtraMessageBox.Show("Số trang không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                speSOTRANG.Focus();
                 return false;
             }
 
@@ -1012,11 +1204,35 @@ namespace AppLibrary
                 cbKHOSACH.Focus();
                 return false;
             }
+
+            // Kiểm tra Giá
+            if (speGIA.Value <= 0)
+            {
+                XtraMessageBox.Show("Giá sách phải lớn hơn 0!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                speGIA.Focus();
+                return false;
+            }
+
+            // Kiểm tra Hình ảnh (nếu bắt buộc nhập hình)
+            if (string.IsNullOrWhiteSpace(txtHinhAnh.Text.Trim()))
+            {
+                XtraMessageBox.Show("Đường dẫn hình ảnh không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtHinhAnh.Focus();
+                return false;
+            }
+
+            // Kiểm tra Nội dung
+            if (string.IsNullOrWhiteSpace(txtNOIDUNG.Text.Trim()))
+            {
+                XtraMessageBox.Show("Nội dung sách không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNOIDUNG.Focus();
+                return false;
+            }
             return true;
         }
         #endregion
 
-        #region *** HÀM HỖ TRỢ THỰC THI SQL **************************************************
+        #region *** HÀM HỖ TRỢ THỰC THI SQL *************************************************************
         // Hàm thực thi INSERT (dùng cho Undo Delete, Redo Add)
         private bool ExecuteInsert(string tableName, Dictionary<string, object> data)
         {
@@ -1141,7 +1357,137 @@ namespace AppLibrary
         }
         #endregion
 
-        #region *** PHẦN GRID VIEW SÁCH ***********************************************
+        #region *** BỔ SUNG XỬ LÝ SỰ KIỆN CHO GRIDVIEW DAUSACH *****************************************
+        private void gridViewDAUSACH_RowStyle(object sender, DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs e)
+        {
+            // Bỏ qua nếu là dòng không hợp lệ (ví dụ: dòng Thêm mới)
+            if (e.RowHandle < 0) return;
+
+            GridView view = sender as GridView;
+            if (view == null) return;
+
+            // Lấy DataRow tương ứng với dòng đang được vẽ
+            DataRow row = view.GetDataRow(e.RowHandle);
+
+            // Nếu không lấy được DataRow (có thể xảy ra với một số dòng đặc biệt) -> bỏ qua
+            if (row == null) return;
+
+            // Kiểm tra xem DataRow này có nằm trong danh sách các dòng đã chỉnh sửa không
+            if (isNhanVien && modifiedRows.Contains(e.RowHandle))
+            {
+                // Nếu có, thay đổi màu nền của dòng
+                e.Appearance.BackColor = Color.LightGoldenrodYellow;
+                e.Appearance.BackColor2 = Color.LightYellow;
+                e.HighPriority = true; // Đảm bảo style này được ưu tiên áp dụng
+            }
+            // Kiểm tra xem dòng này có phải là "mồ côi" (có thể xóa) không
+            if (isNhanVien && deletableRowHandles.Contains(e.RowHandle))
+            {
+                e.Appearance.BackColor = Color.LightGray;
+                e.Appearance.ForeColor = Color.DimGray;
+                e.HighPriority = true; // Ưu tiên style này nếu không có style nào khác
+            }
+        }
+
+        private void toolTipController1_GetActiveObjectInfo(object sender, ToolTipControllerGetActiveObjectInfoEventArgs e)
+        {
+            // Chỉ xử lý nếu control là gcDAUSACH
+            if (e.SelectedControl != gcDAUSACH) return;
+
+            // Tính toán vị trí chuột trên GridView
+            GridHitInfo hitInfo = gridViewDAUSACH.CalcHitInfo(e.ControlMousePosition);
+            if (hitInfo == null || !hitInfo.InRow || hitInfo.RowHandle < 0) return;
+
+            // Lấy DataRow tương ứng với dòng
+            DataRow row = gridViewDAUSACH.GetDataRow(hitInfo.RowHandle);
+            if (row == null) return;
+
+            // Tạo tooltip dựa trên trạng thái dòng
+            ToolTipControlInfo toolTipInfo = GetToolTipInfo(hitInfo.RowHandle);
+            if (toolTipInfo != null)
+            {
+                e.Info = toolTipInfo;
+            }
+        }
+
+        private ToolTipControlInfo GetToolTipInfo(int rowHandle)
+        {
+            // Trường hợp dòng đã chỉnh sửa (chưa lưu)
+            if (modifiedRows.Contains(rowHandle))
+            {
+                return new ToolTipControlInfo($"EditedRow_{rowHandle}", "Dòng này đã được chỉnh sửa và chưa được lưu.")
+                {
+                    IconType = ToolTipIconType.Warning,
+                    Title = "Thay đổi chưa lưu"
+                };
+            }
+
+            // Trường hợp dòng có thể xóa (đầu sách mồ côi)
+            if (deletableRowHandles.Contains(rowHandle))
+            {
+                return new ToolTipControlInfo($"DeletableRow_{rowHandle}", "Đầu sách này chưa có bản sao và chưa được gán tác giả. Có thể xóa.")
+                {
+                    IconType = ToolTipIconType.Information,
+                    Title = "Thông tin xóa"
+                };
+            }
+
+            // Không cần tooltip
+            return null;
+        }
+
+        #endregion
+
+        #region *** PHẦN GRID VIEW SÁCH ****************************************************************
+        private void gvSACH_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // === THÊM ĐIỀU KIỆN KIỂM TRA NÀY VÀO ===
+            // Bỏ qua nếu đang định dạng cho header của cột hoặc header của dòng
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            // Lấy tên cột đang được định dạng
+            // Dòng này bây giờ đã an toàn để thực thi
+            string columnName = gvSACH.Columns[e.ColumnIndex].Name;
+
+            // === Xử lý cho cột CHOMUON ===
+            if (columnName == "CHOMUON") // Sử dụng tên cột bạn đã đặt
+            {
+                // Kiểm tra giá trị của ô (giá trị gốc từ database)
+                if (e.Value != null && e.Value != DBNull.Value)
+                {
+                    try
+                    {
+                        // Ép kiểu giá trị về boolean
+                        bool isChoMuon = Convert.ToBoolean(e.Value);
+
+                        // Thay đổi giá trị hiển thị
+                        if (isChoMuon)
+                        {
+                            e.Value = "Đã cho mượn";
+                            // (Tùy chọn) Tô màu để nhấn mạnh
+                            e.CellStyle.ForeColor = Color.Red;
+                            e.CellStyle.Font = new Font(e.CellStyle.Font, FontStyle.Bold);
+                        }
+                        else
+                        {
+                            e.Value = "Chưa cho mượn";
+                            e.CellStyle.ForeColor = Color.Green;
+                        }
+
+                        // Đánh dấu là đã định dạng để tránh định dạng mặc định
+                        e.FormattingApplied = true;
+                    }
+                    catch (FormatException)
+                    {
+                        // Xử lý trường hợp giá trị không thể chuyển đổi sang boolean
+                        e.Value = "Không xác định";
+                    }
+                }
+            }
+        }
         //____________ BUTTON THÊM SÁCH ______________________________________________________________
         private void btnThemSach_Click(object sender, EventArgs e)
         {
@@ -1152,6 +1498,21 @@ namespace AppLibrary
             }
 
             bdsSACH.AddNew();
+
+            DataRowView newRow = bdsSACH.Current as DataRowView;
+            if (newRow != null)
+            {
+                newRow.BeginEdit(); // Bắt đầu chế độ sửa đổi cho dòng
+
+                newRow["TINHTRANG"] = true;
+                newRow["CHOMUON"] = false;
+
+                newRow.EndEdit(); // Kết thúc sửa đổi, commit giá trị
+
+                // === THÊM DÒNG NÀY VÀO ===
+                // Buộc BindingSource thông báo cho các control được liên kết
+                bdsSACH.EndEdit();
+            }
         }
         //____________ BUTTON LƯU SÁCH ______________________________________________________________
         private void btnGhiSach_Click(object sender, EventArgs e)
@@ -1172,6 +1533,7 @@ namespace AppLibrary
                 }
                 this.tableAdapterSACH.Update(this.qLTVDataSet.SACH);
                 XtraMessageBox.Show("Ghi sách thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                KiemTraVaToMauDauSachMoCoi();
                 btnGhiSach.Enabled = false;
             }
             catch (SqlException sqlEx) when (sqlEx.Number == 2627 || sqlEx.Number == 2601) // Lỗi Primary Key/Unique Constraint
@@ -1233,7 +1595,8 @@ namespace AppLibrary
                 {
                     bdsSACH.RemoveCurrent();
                     this.tableAdapterSACH.Update(qLTVDataSet.SACH);
-                    XtraMessageBox.Show("Xóa sách thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //XtraMessageBox.Show("Xóa sách thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    KiemTraVaToMauDauSachMoCoi();
                 }
                 catch (Exception ex)
                 {
@@ -1407,7 +1770,7 @@ namespace AppLibrary
         }
         #endregion
 
-        #region *** PHẦN GRID VIEW TÁC GIẢ_SÁCH *****************************************
+        #region *** PHẦN GRID VIEW TÁC GIẢ_SÁCH ********************************************************
         private void btnTG_SACH_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             bool on = (btnTG_SACH.Caption == "Cập nhật sách");
@@ -1417,7 +1780,7 @@ namespace AppLibrary
             btnTG_SACH.Caption = on ? "Cập nhật tác giả" : "Cập nhật sách";
 
         }
-        //______________ BUTTON THÊM TÁC GIẢ SÁCH ______________________________________________________________
+        //____________ BUTTON THÊM SÁCH ______________________________________________________________
         private void btnTHEM_TGS_Click(object sender, EventArgs e)
         {
             if (bdsDAUSACH.Current == null)
@@ -1426,8 +1789,8 @@ namespace AppLibrary
                 return;
             }
             bdsTACGIA_SACH.AddNew();
-
         }
+
         //______________ BUTTON LƯU TÁC GIẢ SÁCH ______________________________________________________________
         private void btnGHI_TGS_Click(object sender, EventArgs e)
         {
@@ -1443,6 +1806,7 @@ namespace AppLibrary
                 // Dùng TableAdapter để cập nhật thay đổi xuống DB
                 this.tableAdapterTACGIA_SACH.Update(this.qLTVDataSet.TACGIA_SACH);
                 XtraMessageBox.Show("Ghi tác giả sách thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                KiemTraVaToMauDauSachMoCoi();
                 btnGHI_TGS.Enabled = false;
             }
             catch (SqlException sqlEx) when (sqlEx.Number == 2627 || sqlEx.Number == 2601) // Lỗi Primary Key/Unique Constraint
@@ -1476,7 +1840,8 @@ namespace AppLibrary
                     bdsTACGIA_SACH.RemoveCurrent();
                     // Cập nhật thay đổi (xóa) xuống Database
                     this.tableAdapterTACGIA_SACH.Update(qLTVDataSet.TACGIA_SACH);
-                    XtraMessageBox.Show("Xóa tác giả thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //XtraMessageBox.Show("Xóa tác giả thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    KiemTraVaToMauDauSachMoCoi();
                     // Nút Ghi TGS có thể bị bật do ListChanged, nên tắt nó đi nếu xóa thành công
                     btnGHI_TGS.Enabled = false;
                 }
@@ -1598,8 +1963,6 @@ namespace AppLibrary
             btnGHI_TGS.Enabled = hasData;
             btnXOA_TGS.Enabled = hasData;
         }
-
-
         #endregion
 
     }

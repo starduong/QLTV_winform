@@ -44,7 +44,6 @@
             this.btnRedo = new DevExpress.XtraBars.BarButtonItem();
             this.btnRefresh = new DevExpress.XtraBars.BarButtonItem();
             this.btnThoat = new DevExpress.XtraBars.BarButtonItem();
-            this.btnIn = new DevExpress.XtraBars.BarButtonItem();
             this.bar3 = new DevExpress.XtraBars.Bar();
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
@@ -162,7 +161,6 @@
             this.btnDanhSach,
             this.btnThoat,
             this.barButtonItem9,
-            this.btnIn,
             this.btnRedo});
             this.barManager1.MainMenu = this.barChucNang;
             this.barManager1.MaxItemId = 12;
@@ -181,8 +179,7 @@
             new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.btnUndo, "", true, true, true, 0, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
             new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.btnRedo, "", true, true, true, 0, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
             new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.btnRefresh, "", true, true, true, 0, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
-            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.btnThoat, "", true, true, true, 0, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
-            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.btnIn, "", true, true, true, 0, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph)});
+            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.btnThoat, "", true, true, true, 0, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph)});
             this.barChucNang.OptionsBar.MultiLine = true;
             this.barChucNang.OptionsBar.UseWholeRow = true;
             this.barChucNang.Text = "Main menu";
@@ -243,14 +240,6 @@
             this.btnThoat.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnThoat.ImageOptions.SvgImage")));
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnThoat_ItemClick);
-            // 
-            // btnIn
-            // 
-            this.btnIn.Caption = "In";
-            this.btnIn.Id = 9;
-            this.btnIn.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnIn.ImageOptions.SvgImage")));
-            this.btnIn.Name = "btnIn";
-            this.btnIn.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnIn_ItemClick);
             // 
             // bar3
             // 
@@ -340,6 +329,7 @@
             this.tableAdapterManager.NHANVIENTableAdapter = null;
             this.tableAdapterManager.PHIEUMUONTableAdapter = null;
             this.tableAdapterManager.SACHTableAdapter = null;
+            this.tableAdapterManager.sp_DanhSachBackupTableAdapter = null;
             this.tableAdapterManager.TACGIA_SACHTableAdapter = null;
             this.tableAdapterManager.TACGIATableAdapter = this.tACGIATableAdapter;
             this.tableAdapterManager.THELOAITableAdapter = null;
@@ -606,10 +596,6 @@
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
             this.Controls.Add(this.barDockControlTop);
-            this.Controls.Add(this.barDockControlLeft);
-            this.Controls.Add(this.barDockControlRight);
-            //this.Controls.Add(this.barDockControl2);
-            //this.Controls.Add(this.barDockControl1);
             this.Name = "FormTacGia";
             this.Text = "Quản lý tác giả";
             this.Load += new System.EventHandler(this.FormTacGia_Load);
@@ -683,7 +669,6 @@
         private System.Windows.Forms.ToolStripMenuItem btnThemTGS;
         private System.Windows.Forms.ToolStripMenuItem btnGhiTGS;
         private System.Windows.Forms.ToolStripMenuItem btnXoaTGS;
-        private DevExpress.XtraBars.BarButtonItem btnIn;
         private DevExpress.XtraEditors.LabelControl lblMaTacGia;
         private DevExpress.XtraBars.BarButtonItem btnRedo;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewComboBoxColumn;

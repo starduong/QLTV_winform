@@ -60,7 +60,7 @@ namespace AppLibrary
             gvTacGia.OptionsFind.FindNullPrompt = "Nhập thông tin tìm kiếm..."; // Placeholder ô tìm kiếm
 
             // --- Phân quyền ---
-            btnThem.Enabled = btnGhi.Enabled = btnXoa.Enabled = btnUndo.Enabled = btnRedo.Enabled = btnIn.Enabled = isNhanVien;
+            btnThem.Enabled = btnGhi.Enabled = btnXoa.Enabled = btnUndo.Enabled = btnRedo.Enabled = isNhanVien;
             contextMenuStrip1.Enabled = isNhanVien;    // Cho phép menu chuột phải (nếu có)
             pnInputTacGia.Visible = isNhanVien;        // Cho phép nhập liệu vào panel input
             if (isNhanVien)
@@ -91,6 +91,7 @@ namespace AppLibrary
             tACGIA_SACHDataGridView.CellValueChanged += tACGIA_SACHDataGridView_CellValueChanged;
             tACGIA_SACHDataGridView.CurrentCellDirtyStateChanged += tACGIA_SACHDataGridView_CurrentCellDirtyStateChanged;
             bdsTacGia_Sach.ListChanged += bdsTacGia_Sach_ListChanged;
+            tACGIA_SACHDataGridView.ReadOnly = !isNhanVien; // Chỉ cho phép chỉnh sửa nếu là nhân viên
         }
 
         // Cập nhật trạng thái enable/disable của các nút trên thanh barManager
@@ -107,7 +108,6 @@ namespace AppLibrary
             btnUndo.Enabled = isAddMode || undoStack.Count > 0;
             btnRedo.Enabled = redoStack.Count > 0;
             btnRefresh.Enabled = !isAddMode && editedRows.Count > 0;
-            btnIn.Enabled = !isAddMode;
             btnThoat.Enabled = !isAddMode;
         }
 
@@ -651,11 +651,8 @@ namespace AppLibrary
         {
             if (!isNhanVien && bdsTacGia.Count >= 0)
             {
-                if (XtraMessageBox.Show("Bạn có muốn làm mới không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    bdsTacGia.Position = 0;
-                    return;
-                }
+                bdsTacGia.Position = 0;
+                return;
             }
 
             if (editedRows.Count > 0)
@@ -673,7 +670,13 @@ namespace AppLibrary
 
         // **** Sự kiện nút THOÁT *****
         private void btnThoat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {   // Kiểm tra nếu có thay đổi chưa lưu trước khi thoát
+        {
+            if (!isNhanVien)
+            {
+                this.Close();
+                return;
+            }
+            // Kiểm tra nếu có thay đổi chưa lưu trước khi thoát
             if (editedRows.Count > 0)
             {
                 if (XtraMessageBox.Show("Bạn có thay đổi chưa lưu. Bạn có chắc chắn muốn thoát?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
@@ -682,12 +685,6 @@ namespace AppLibrary
                 }
             }
             this.Close();
-        }
-
-        // **** Sự kiện nút IN *****
-        private void btnIn_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {   // TODO: Thêm code xử lý in danh sách tác giả (sử dụng XtraReport)
-            XtraMessageBox.Show("Chức năng In đang được phát triển.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
 
@@ -1001,7 +998,6 @@ namespace AppLibrary
             return rowsAffected;
         }
         #endregion
-
 
         #region *** PHẦN XỬ LÝ GRID VIEW TÁC GIẢ - SÁCH ***************************************
         // Các sự kiện này chủ yếu để bật nút Ghi TGS khi có thay đổi

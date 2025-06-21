@@ -1,4 +1,6 @@
-﻿namespace AppLibrary
+﻿using System.Windows.Forms;
+
+namespace AppLibrary
 {
     partial class FormDauSach
     {
@@ -69,7 +71,6 @@
             this.colTENSACH = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colKHOSACH = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colNOIDUNG = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colHINHANHPATH = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colNGAYXUATBAN = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colLANXUATBAN = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colSOTRANG = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -84,6 +85,7 @@
             this.bdsDSTheLoai = new System.Windows.Forms.BindingSource(this.components);
             this.repositoryItemGridLookUpEdit2View = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.toolTipController1 = new DevExpress.Utils.ToolTipController(this.components);
             this.tamDauSach = new AppLibrary.QLTVDataSetTableAdapters.TableAdapterManager();
             this.gcThongTinDauSach = new DevExpress.XtraEditors.GroupControl();
             this.pncINPUT = new DevExpress.XtraEditors.PanelControl();
@@ -118,13 +120,7 @@
             this.tableAdapterCTNGANTU = new AppLibrary.QLTVDataSetTableAdapters.CHITIETNGANTUTableAdapter();
             this.gcTABLESACH = new DevExpress.XtraEditors.GroupControl();
             this.gvSACH = new System.Windows.Forms.DataGridView();
-            this.MASACH = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ISBN = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TINHTRANG = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.tINHTRANG_SACHBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.CHOMUON = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.cHOMUON_SACHBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.NGANTU = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.gvTACGIA_SACH = new System.Windows.Forms.DataGridView();
             this.ISBN_TG = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MATACGIA = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -136,10 +132,18 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnXOA_TGS = new System.Windows.Forms.ToolStripMenuItem();
             this.bdsTACGIA_SACH = new System.Windows.Forms.BindingSource(this.components);
+            this.cHOMUON_SACHBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableAdapterTACGIA_SACH = new AppLibrary.QLTVDataSetTableAdapters.TACGIA_SACHTableAdapter();
             this.cHOMUON_SACHTableAdapter = new AppLibrary.QLTVDataSetTableAdapters.CHOMUON_SACHTableAdapter();
             this.tINHTRANG_SACHTableAdapter = new AppLibrary.QLTVDataSetTableAdapters.TINHTRANG_SACHTableAdapter();
             this.tACGIATableAdapter = new AppLibrary.QLTVDataSetTableAdapters.TACGIATableAdapter();
+            this.fKCTPHIEUMUONSACHBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.cT_PHIEUMUONTableAdapter = new AppLibrary.QLTVDataSetTableAdapters.CT_PHIEUMUONTableAdapter();
+            this.MASACH = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ISBN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TINHTRANG = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.CHOMUON = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NGANTU = new System.Windows.Forms.DataGridViewComboBoxColumn();
             mATLLabel = new System.Windows.Forms.Label();
             mANGONNGULabel = new System.Windows.Forms.Label();
             nHAXBLabel = new System.Windows.Forms.Label();
@@ -187,11 +191,12 @@
             this.gcTABLESACH.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvSACH)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tINHTRANG_SACHBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cHOMUON_SACHBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvTACGIA_SACH)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bdsTACGIA)).BeginInit();
             this.contextMenuStripTACGIA.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bdsTACGIA_SACH)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cHOMUON_SACHBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fKCTPHIEUMUONSACHBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // mATLLabel
@@ -506,8 +511,9 @@
             this.repositoryItemTextEdit1,
             this.repositoryItemGridLookUpEdit1,
             this.repositoryItemGridLookUpEdit2});
-            this.gcDAUSACH.Size = new System.Drawing.Size(1580, 333);
+            this.gcDAUSACH.Size = new System.Drawing.Size(1580, 412);
             this.gcDAUSACH.TabIndex = 12;
+            this.gcDAUSACH.ToolTipController = this.toolTipController1;
             this.gcDAUSACH.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewDAUSACH});
             // 
@@ -518,7 +524,6 @@
             this.colTENSACH,
             this.colKHOSACH,
             this.colNOIDUNG,
-            this.colHINHANHPATH,
             this.colNGAYXUATBAN,
             this.colLANXUATBAN,
             this.colSOTRANG,
@@ -532,6 +537,7 @@
             this.gridViewDAUSACH.OptionsBehavior.Editable = false;
             this.gridViewDAUSACH.OptionsDetail.EnableMasterViewMode = false;
             this.gridViewDAUSACH.OptionsEditForm.PopupEditFormWidth = 2700;
+            this.gridViewDAUSACH.RowStyle += new DevExpress.XtraGrid.Views.Grid.RowStyleEventHandler(this.gridViewDAUSACH_RowStyle);
             this.gridViewDAUSACH.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(this.gridViewDAUSACH_FocusedRowChanged);
             // 
             // colISBN
@@ -543,7 +549,7 @@
             this.colISBN.OptionsEditForm.Caption = "IBSN";
             this.colISBN.Visible = true;
             this.colISBN.VisibleIndex = 0;
-            this.colISBN.Width = 101;
+            this.colISBN.Width = 129;
             // 
             // colTENSACH
             // 
@@ -553,7 +559,7 @@
             this.colTENSACH.Name = "colTENSACH";
             this.colTENSACH.Visible = true;
             this.colTENSACH.VisibleIndex = 1;
-            this.colTENSACH.Width = 155;
+            this.colTENSACH.Width = 228;
             // 
             // colKHOSACH
             // 
@@ -573,17 +579,7 @@
             this.colNOIDUNG.Name = "colNOIDUNG";
             this.colNOIDUNG.Visible = true;
             this.colNOIDUNG.VisibleIndex = 3;
-            this.colNOIDUNG.Width = 101;
-            // 
-            // colHINHANHPATH
-            // 
-            this.colHINHANHPATH.Caption = "Hình ảnh";
-            this.colHINHANHPATH.FieldName = "HINHANHPATH";
-            this.colHINHANHPATH.MinWidth = 97;
-            this.colHINHANHPATH.Name = "colHINHANHPATH";
-            this.colHINHANHPATH.Visible = true;
-            this.colHINHANHPATH.VisibleIndex = 4;
-            this.colHINHANHPATH.Width = 101;
+            this.colNOIDUNG.Width = 318;
             // 
             // colNGAYXUATBAN
             // 
@@ -594,8 +590,8 @@
             this.colNGAYXUATBAN.MinWidth = 97;
             this.colNGAYXUATBAN.Name = "colNGAYXUATBAN";
             this.colNGAYXUATBAN.Visible = true;
-            this.colNGAYXUATBAN.VisibleIndex = 5;
-            this.colNGAYXUATBAN.Width = 101;
+            this.colNGAYXUATBAN.VisibleIndex = 4;
+            this.colNGAYXUATBAN.Width = 113;
             // 
             // colLANXUATBAN
             // 
@@ -604,8 +600,8 @@
             this.colLANXUATBAN.MinWidth = 50;
             this.colLANXUATBAN.Name = "colLANXUATBAN";
             this.colLANXUATBAN.Visible = true;
-            this.colLANXUATBAN.VisibleIndex = 6;
-            this.colLANXUATBAN.Width = 50;
+            this.colLANXUATBAN.VisibleIndex = 5;
+            this.colLANXUATBAN.Width = 90;
             // 
             // colSOTRANG
             // 
@@ -614,8 +610,8 @@
             this.colSOTRANG.MinWidth = 50;
             this.colSOTRANG.Name = "colSOTRANG";
             this.colSOTRANG.Visible = true;
-            this.colSOTRANG.VisibleIndex = 7;
-            this.colSOTRANG.Width = 50;
+            this.colSOTRANG.VisibleIndex = 6;
+            this.colSOTRANG.Width = 72;
             // 
             // colGIA
             // 
@@ -626,8 +622,8 @@
             this.colGIA.MinWidth = 97;
             this.colGIA.Name = "colGIA";
             this.colGIA.Visible = true;
-            this.colGIA.VisibleIndex = 8;
-            this.colGIA.Width = 127;
+            this.colGIA.VisibleIndex = 7;
+            this.colGIA.Width = 134;
             // 
             // colNHAXB
             // 
@@ -636,8 +632,8 @@
             this.colNHAXB.MinWidth = 97;
             this.colNHAXB.Name = "colNHAXB";
             this.colNHAXB.Visible = true;
-            this.colNHAXB.VisibleIndex = 9;
-            this.colNHAXB.Width = 127;
+            this.colNHAXB.VisibleIndex = 8;
+            this.colNHAXB.Width = 126;
             // 
             // colMANGONNGU
             // 
@@ -647,8 +643,8 @@
             this.colMANGONNGU.MinWidth = 97;
             this.colMANGONNGU.Name = "colMANGONNGU";
             this.colMANGONNGU.Visible = true;
-            this.colMANGONNGU.VisibleIndex = 10;
-            this.colMANGONNGU.Width = 118;
+            this.colMANGONNGU.VisibleIndex = 9;
+            this.colMANGONNGU.Width = 97;
             // 
             // repositoryItemGridLookUpEdit1
             // 
@@ -681,8 +677,8 @@
             this.colMATL.MinWidth = 97;
             this.colMATL.Name = "colMATL";
             this.colMATL.Visible = true;
-            this.colMATL.VisibleIndex = 11;
-            this.colMATL.Width = 150;
+            this.colMATL.VisibleIndex = 10;
+            this.colMATL.Width = 170;
             // 
             // repositoryItemGridLookUpEdit2
             // 
@@ -712,6 +708,10 @@
             this.repositoryItemTextEdit1.AutoHeight = false;
             this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
+            // toolTipController1
+            // 
+            this.toolTipController1.GetActiveObjectInfo += new DevExpress.Utils.ToolTipControllerGetActiveObjectInfoEventHandler(this.toolTipController1_GetActiveObjectInfo);
+            // 
             // tamDauSach
             // 
             this.tamDauSach.BackupDataSetBeforeUpdate = false;
@@ -735,9 +735,9 @@
             this.gcThongTinDauSach.Controls.Add(this.pncINPUT);
             this.gcThongTinDauSach.Controls.Add(this.picDauSach);
             this.gcThongTinDauSach.Dock = System.Windows.Forms.DockStyle.Left;
-            this.gcThongTinDauSach.Location = new System.Drawing.Point(0, 374);
+            this.gcThongTinDauSach.Location = new System.Drawing.Point(0, 453);
             this.gcThongTinDauSach.Name = "gcThongTinDauSach";
-            this.gcThongTinDauSach.Size = new System.Drawing.Size(1064, 386);
+            this.gcThongTinDauSach.Size = new System.Drawing.Size(1064, 307);
             this.gcThongTinDauSach.TabIndex = 17;
             this.gcThongTinDauSach.Text = "THÔNG TIN ĐẦU SÁCH";
             // 
@@ -774,7 +774,7 @@
             this.pncINPUT.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pncINPUT.Location = new System.Drawing.Point(241, 32);
             this.pncINPUT.Name = "pncINPUT";
-            this.pncINPUT.Size = new System.Drawing.Size(821, 352);
+            this.pncINPUT.Size = new System.Drawing.Size(821, 273);
             this.pncINPUT.TabIndex = 1;
             // 
             // cbKHOSACH
@@ -804,6 +804,7 @@
             // txtISBN
             // 
             this.txtISBN.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bdsDAUSACH, "ISBN", true));
+            this.txtISBN.Enabled = false;
             this.txtISBN.Location = new System.Drawing.Point(109, 36);
             this.txtISBN.MenuManager = this.barManager1;
             this.txtISBN.Name = "txtISBN";
@@ -1049,7 +1050,7 @@
             this.picDauSach.Name = "picDauSach";
             this.picDauSach.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
             this.picDauSach.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch;
-            this.picDauSach.Size = new System.Drawing.Size(239, 352);
+            this.picDauSach.Size = new System.Drawing.Size(239, 273);
             this.picDauSach.TabIndex = 0;
             // 
             // bdsSACH
@@ -1127,9 +1128,9 @@
             this.gcTABLESACH.Controls.Add(this.gvSACH);
             this.gcTABLESACH.Controls.Add(this.gvTACGIA_SACH);
             this.gcTABLESACH.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gcTABLESACH.Location = new System.Drawing.Point(1064, 374);
+            this.gcTABLESACH.Location = new System.Drawing.Point(1064, 453);
             this.gcTABLESACH.Name = "gcTABLESACH";
-            this.gcTABLESACH.Size = new System.Drawing.Size(516, 386);
+            this.gcTABLESACH.Size = new System.Drawing.Size(516, 307);
             this.gcTABLESACH.TabIndex = 22;
             this.gcTABLESACH.Text = "QUẢN LÍ SÁCH";
             // 
@@ -1153,77 +1154,15 @@
             this.gvSACH.RowTemplate.Height = 28;
             this.gvSACH.Size = new System.Drawing.Size(251, 181);
             this.gvSACH.TabIndex = 18;
+            this.gvSACH.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gvSACH_CellFormatting);
             this.gvSACH.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.gvSACH_CellValidating);
             this.gvSACH.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvSACH_CellValueChanged);
             this.gvSACH.CurrentCellDirtyStateChanged += new System.EventHandler(this.gvSACH_CurrentCellDirtyStateChanged);
-            // 
-            // MASACH
-            // 
-            this.MASACH.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.MASACH.DataPropertyName = "MASACH";
-            this.MASACH.FillWeight = 250F;
-            this.MASACH.HeaderText = "MÃ SÁCH";
-            this.MASACH.MinimumWidth = 100;
-            this.MASACH.Name = "MASACH";
-            // 
-            // ISBN
-            // 
-            this.ISBN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ISBN.DataPropertyName = "ISBN";
-            this.ISBN.FillWeight = 250F;
-            this.ISBN.HeaderText = "ISBN";
-            this.ISBN.MinimumWidth = 100;
-            this.ISBN.Name = "ISBN";
-            this.ISBN.ReadOnly = true;
-            // 
-            // TINHTRANG
-            // 
-            this.TINHTRANG.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.TINHTRANG.DataPropertyName = "TINHTRANG";
-            this.TINHTRANG.DataSource = this.tINHTRANG_SACHBindingSource;
-            this.TINHTRANG.DisplayMember = "TEXT";
-            this.TINHTRANG.FillWeight = 150F;
-            this.TINHTRANG.HeaderText = "TÌNH TRẠNG";
-            this.TINHTRANG.MinimumWidth = 100;
-            this.TINHTRANG.Name = "TINHTRANG";
-            this.TINHTRANG.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.TINHTRANG.ValueMember = "VALUE";
             // 
             // tINHTRANG_SACHBindingSource
             // 
             this.tINHTRANG_SACHBindingSource.DataMember = "TINHTRANG_SACH";
             this.tINHTRANG_SACHBindingSource.DataSource = this.qLTVDataSet;
-            // 
-            // CHOMUON
-            // 
-            this.CHOMUON.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.CHOMUON.DataPropertyName = "CHOMUON";
-            this.CHOMUON.DataSource = this.cHOMUON_SACHBindingSource;
-            this.CHOMUON.DisplayMember = "TEXT";
-            this.CHOMUON.FillWeight = 150F;
-            this.CHOMUON.HeaderText = "CHO MƯỢN";
-            this.CHOMUON.MinimumWidth = 100;
-            this.CHOMUON.Name = "CHOMUON";
-            this.CHOMUON.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.CHOMUON.ValueMember = "VALUE";
-            // 
-            // cHOMUON_SACHBindingSource
-            // 
-            this.cHOMUON_SACHBindingSource.DataMember = "CHOMUON_SACH";
-            this.cHOMUON_SACHBindingSource.DataSource = this.qLTVDataSet;
-            // 
-            // NGANTU
-            // 
-            this.NGANTU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.NGANTU.DataPropertyName = "MANGANTU";
-            this.NGANTU.DataSource = this.bdsChiTietNganTu;
-            this.NGANTU.DisplayMember = "MOTA";
-            this.NGANTU.FillWeight = 500F;
-            this.NGANTU.HeaderText = "NGĂN TỦ";
-            this.NGANTU.MinimumWidth = 200;
-            this.NGANTU.Name = "NGANTU";
-            this.NGANTU.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.NGANTU.ValueMember = "MANGANTU";
             // 
             // gvTACGIA_SACH
             // 
@@ -1322,6 +1261,11 @@
             this.bdsTACGIA_SACH.DataSource = this.bdsDAUSACH;
             this.bdsTACGIA_SACH.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.bdsTACGIA_SACH_ListChanged);
             // 
+            // cHOMUON_SACHBindingSource
+            // 
+            this.cHOMUON_SACHBindingSource.DataMember = "CHOMUON_SACH";
+            this.cHOMUON_SACHBindingSource.DataSource = this.qLTVDataSet;
+            // 
             // tableAdapterTACGIA_SACH
             // 
             this.tableAdapterTACGIA_SACH.ClearBeforeFill = true;
@@ -1337,6 +1281,72 @@
             // tACGIATableAdapter
             // 
             this.tACGIATableAdapter.ClearBeforeFill = true;
+            // 
+            // fKCTPHIEUMUONSACHBindingSource
+            // 
+            this.fKCTPHIEUMUONSACHBindingSource.DataMember = "FK_CTPHIEUMUON_SACH";
+            this.fKCTPHIEUMUONSACHBindingSource.DataSource = this.bdsSACH;
+            // 
+            // cT_PHIEUMUONTableAdapter
+            // 
+            this.cT_PHIEUMUONTableAdapter.ClearBeforeFill = true;
+            // 
+            // MASACH
+            // 
+            this.MASACH.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.MASACH.DataPropertyName = "MASACH";
+            this.MASACH.FillWeight = 250F;
+            this.MASACH.HeaderText = "MÃ SÁCH";
+            this.MASACH.MinimumWidth = 50;
+            this.MASACH.Name = "MASACH";
+            // 
+            // ISBN
+            // 
+            this.ISBN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ISBN.DataPropertyName = "ISBN";
+            this.ISBN.FillWeight = 250F;
+            this.ISBN.HeaderText = "ISBN";
+            this.ISBN.MinimumWidth = 100;
+            this.ISBN.Name = "ISBN";
+            this.ISBN.ReadOnly = true;
+            // 
+            // TINHTRANG
+            // 
+            this.TINHTRANG.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.TINHTRANG.DataPropertyName = "TINHTRANG";
+            this.TINHTRANG.DataSource = this.tINHTRANG_SACHBindingSource;
+            this.TINHTRANG.DisplayMember = "TEXT";
+            this.TINHTRANG.FillWeight = 150F;
+            this.TINHTRANG.HeaderText = "TÌNH TRẠNG";
+            this.TINHTRANG.MinimumWidth = 150;
+            this.TINHTRANG.Name = "TINHTRANG";
+            this.TINHTRANG.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.TINHTRANG.ValueMember = "VALUE";
+            // 
+            // CHOMUON
+            // 
+            this.CHOMUON.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.CHOMUON.DataPropertyName = "CHOMUON";
+            this.CHOMUON.FillWeight = 150F;
+            this.CHOMUON.HeaderText = "CHO MƯỢN";
+            this.CHOMUON.MinimumWidth = 110;
+            this.CHOMUON.Name = "CHOMUON";
+            this.CHOMUON.ReadOnly = true;
+            this.CHOMUON.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.CHOMUON.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // NGANTU
+            // 
+            this.NGANTU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.NGANTU.DataPropertyName = "MANGANTU";
+            this.NGANTU.DataSource = this.bdsChiTietNganTu;
+            this.NGANTU.DisplayMember = "MOTA";
+            this.NGANTU.FillWeight = 500F;
+            this.NGANTU.HeaderText = "NGĂN TỦ";
+            this.NGANTU.MinimumWidth = 220;
+            this.NGANTU.Name = "NGANTU";
+            this.NGANTU.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.NGANTU.ValueMember = "MANGANTU";
             // 
             // FormDauSach
             // 
@@ -1358,6 +1368,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormDauSach_FormClosing);
             this.Load += new System.EventHandler(this.FormDauSach_Load);
+            this.Shown += new System.EventHandler(this.FormDauSach_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.qLTVDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bdsDAUSACH)).EndInit();
@@ -1394,11 +1405,12 @@
             this.gcTABLESACH.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gvSACH)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tINHTRANG_SACHBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cHOMUON_SACHBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvTACGIA_SACH)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bdsTACGIA)).EndInit();
             this.contextMenuStripTACGIA.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bdsTACGIA_SACH)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cHOMUON_SACHBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fKCTPHIEUMUONSACHBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1432,7 +1444,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn colTENSACH;
         private DevExpress.XtraGrid.Columns.GridColumn colKHOSACH;
         private DevExpress.XtraGrid.Columns.GridColumn colNOIDUNG;
-        private DevExpress.XtraGrid.Columns.GridColumn colHINHANHPATH;
         private DevExpress.XtraGrid.Columns.GridColumn colNGAYXUATBAN;
         private DevExpress.XtraGrid.Columns.GridColumn colLANXUATBAN;
         private DevExpress.XtraGrid.Columns.GridColumn colSOTRANG;
@@ -1499,10 +1510,13 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ISBN_TG;
         private System.Windows.Forms.DataGridViewComboBoxColumn MATACGIA;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MASACH;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ISBN;
-        private System.Windows.Forms.DataGridViewComboBoxColumn TINHTRANG;
-        private System.Windows.Forms.DataGridViewComboBoxColumn CHOMUON;
-        private System.Windows.Forms.DataGridViewComboBoxColumn NGANTU;
+        private DevExpress.Utils.ToolTipController toolTipController1;
+        private System.Windows.Forms.BindingSource fKCTPHIEUMUONSACHBindingSource;
+        private QLTVDataSetTableAdapters.CT_PHIEUMUONTableAdapter cT_PHIEUMUONTableAdapter;
+        private DataGridViewTextBoxColumn MASACH;
+        private DataGridViewTextBoxColumn ISBN;
+        private DataGridViewComboBoxColumn TINHTRANG;
+        private DataGridViewTextBoxColumn CHOMUON;
+        private DataGridViewComboBoxColumn NGANTU;
     }
 }

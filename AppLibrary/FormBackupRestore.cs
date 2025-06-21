@@ -29,7 +29,7 @@ namespace AppLibrary
         }
 
         private string _DATABASE_NAME;
-        private bool _isLogTruncateOnly = false;
+        private bool _isLogTruncateOnly = true;
 
         private void FormBackupRestore_Load(object sender, EventArgs e)
         {   // ____TABLE DATABASE____

@@ -319,7 +319,7 @@ namespace AppLibrary
             }
             return true;
         }
-        
+
         private bool KiemTraLoginDaTonTai(string loginName)
         {
             // Chuỗi truy vấn SQL để kiểm tra login đã tồn tại chưa
@@ -331,15 +331,26 @@ namespace AppLibrary
                 Program.myReader.Close();
             }
 
-            // Sử dụng ExecuteSqlDataReader để thực hiện câu lệnh SQL
+            // Thực thi truy vấn
             Program.myReader = Program.ExecuteSqlDataReader(query);
 
             if (Program.myReader == null) return false;
+
+            bool result = false;
+
+            // Đọc kết quả
+            if (Program.myReader.Read())
+            {
+                // Nếu giá trị không phải DBNull thì login đã tồn tại
+                result = !Program.myReader.IsDBNull(0);
+            }
+
             Program.myReader.Close(); // Đóng lại reader sau khi dùng xong
 
-            return true; // Nếu login đã tồn tại trả về TRUE
+            return result;
         }
-        
+
+
 
     }
 }
