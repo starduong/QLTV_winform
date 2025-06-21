@@ -18,8 +18,8 @@ namespace AppLibrary
         public static SqlConnection conn = new SqlConnection();
         public static string connstr;
         public static SqlDataReader myReader;
-        //public static readonly string ServerName = "DESKTOP-GA0VKO6\\SQL2022"; // Tên server SQL
-        public static readonly string ServerName = "DESKTOP-8MGRMNI"; // Tên server SQL
+        public static readonly string ServerName = "DESKTOP-GA0VKO6\\SQL2022"; // Tên server SQL
+        //public static readonly string ServerName = "DESKTOP-8MGRMNI"; // Tên server SQL
         public static readonly string DatabaseName = "QLTV"; // Tên database cần làm việc
         public static string UserName = "";
         //public static string LoginName = "THAO"; // Tên đăng nhập vào SQL Server

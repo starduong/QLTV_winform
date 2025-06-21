@@ -87,45 +87,45 @@ namespace AppLibrary
             // mAPHIEULabel
             // 
             mAPHIEULabel.AutoSize = true;
-            mAPHIEULabel.Location = new System.Drawing.Point(33, 119);
+            mAPHIEULabel.Location = new System.Drawing.Point(29, 95);
             mAPHIEULabel.Name = "mAPHIEULabel";
-            mAPHIEULabel.Size = new System.Drawing.Size(69, 19);
+            mAPHIEULabel.Size = new System.Drawing.Size(62, 16);
             mAPHIEULabel.TabIndex = 0;
             mAPHIEULabel.Text = "Mã phiếu:";
             // 
             // mADGLabel
             // 
             mADGLabel.AutoSize = true;
-            mADGLabel.Location = new System.Drawing.Point(33, 322);
+            mADGLabel.Location = new System.Drawing.Point(29, 258);
             mADGLabel.Name = "mADGLabel";
-            mADGLabel.Size = new System.Drawing.Size(59, 19);
+            mADGLabel.Size = new System.Drawing.Size(54, 16);
             mADGLabel.TabIndex = 2;
             mADGLabel.Text = "Độc giả:";
             // 
             // hINHTHUCLabel
             // 
             hINHTHUCLabel.AutoSize = true;
-            hINHTHUCLabel.Location = new System.Drawing.Point(33, 388);
+            hINHTHUCLabel.Location = new System.Drawing.Point(29, 310);
             hINHTHUCLabel.Name = "hINHTHUCLabel";
-            hINHTHUCLabel.Size = new System.Drawing.Size(71, 19);
+            hINHTHUCLabel.Size = new System.Drawing.Size(67, 16);
             hINHTHUCLabel.TabIndex = 4;
             hINHTHUCLabel.Text = "Hình thức:";
             // 
             // mANVLabel
             // 
             mANVLabel.AutoSize = true;
-            mANVLabel.Location = new System.Drawing.Point(33, 190);
+            mANVLabel.Location = new System.Drawing.Point(29, 152);
             mANVLabel.Name = "mANVLabel";
-            mANVLabel.Size = new System.Drawing.Size(131, 19);
+            mANVLabel.Size = new System.Drawing.Size(121, 16);
             mANVLabel.TabIndex = 8;
             mANVLabel.Text = "Nhân viên lập phiếu:";
             // 
             // labelSach
             // 
             labelSach.AutoSize = true;
-            labelSach.Location = new System.Drawing.Point(33, 256);
+            labelSach.Location = new System.Drawing.Point(29, 205);
             labelSach.Name = "labelSach";
-            labelSach.Size = new System.Drawing.Size(111, 19);
+            labelSach.Size = new System.Drawing.Size(104, 16);
             labelSach.TabIndex = 13;
             labelSach.Text = "Sách cho mượn :";
             // 
@@ -177,29 +177,27 @@ namespace AppLibrary
             this.panelControl1.Controls.Add(mADGLabel);
             this.panelControl1.Controls.Add(mAPHIEULabel);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelControl1.Location = new System.Drawing.Point(0, 40);
-            this.panelControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panelControl1.Location = new System.Drawing.Point(0, 34);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(839, 546);
+            this.panelControl1.Size = new System.Drawing.Size(746, 432);
             this.panelControl1.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(204, 18);
+            this.label1.Location = new System.Drawing.Point(181, 14);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(409, 45);
+            this.label1.Size = new System.Drawing.Size(337, 37);
             this.label1.TabIndex = 21;
             this.label1.Text = "PHIẾU MƯỢN SÁCH";
             // 
             // mANVTextEdit
             // 
-            this.mANVTextEdit.Location = new System.Drawing.Point(212, 181);
-            this.mANVTextEdit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.mANVTextEdit.Location = new System.Drawing.Point(188, 145);
             this.mANVTextEdit.MenuManager = this.barManager1;
             this.mANVTextEdit.Name = "mANVTextEdit";
-            this.mANVTextEdit.Size = new System.Drawing.Size(588, 27);
+            this.mANVTextEdit.Size = new System.Drawing.Size(523, 23);
             this.mANVTextEdit.TabIndex = 20;
             // 
             // barManager1
@@ -280,35 +278,31 @@ namespace AppLibrary
             this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
             this.barDockControlTop.Manager = this.barManager1;
-            this.barDockControlTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.barDockControlTop.Size = new System.Drawing.Size(1644, 40);
+            this.barDockControlTop.Size = new System.Drawing.Size(1461, 34);
             // 
             // barDockControlBottom
             // 
             this.barDockControlBottom.CausesValidation = false;
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 586);
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 466);
             this.barDockControlBottom.Manager = this.barManager1;
-            this.barDockControlBottom.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.barDockControlBottom.Size = new System.Drawing.Size(1644, 24);
+            this.barDockControlBottom.Size = new System.Drawing.Size(1461, 22);
             // 
             // barDockControlLeft
             // 
             this.barDockControlLeft.CausesValidation = false;
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.barDockControlLeft.Location = new System.Drawing.Point(0, 40);
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 34);
             this.barDockControlLeft.Manager = this.barManager1;
-            this.barDockControlLeft.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 546);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 432);
             // 
             // barDockControlRight
             // 
             this.barDockControlRight.CausesValidation = false;
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControlRight.Location = new System.Drawing.Point(1644, 40);
+            this.barDockControlRight.Location = new System.Drawing.Point(1461, 34);
             this.barDockControlRight.Manager = this.barManager1;
-            this.barDockControlRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 546);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 432);
             // 
             // barButtonXPMS
             // 
@@ -320,44 +314,40 @@ namespace AppLibrary
             // 
             // mAPHIEUTextEdit
             // 
-            this.mAPHIEUTextEdit.Location = new System.Drawing.Point(212, 115);
-            this.mAPHIEUTextEdit.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.mAPHIEUTextEdit.Location = new System.Drawing.Point(188, 92);
             this.mAPHIEUTextEdit.MenuManager = this.barManager1;
             this.mAPHIEUTextEdit.Name = "mAPHIEUTextEdit";
-            this.mAPHIEUTextEdit.Size = new System.Drawing.Size(588, 27);
+            this.mAPHIEUTextEdit.Size = new System.Drawing.Size(523, 23);
             this.mAPHIEUTextEdit.TabIndex = 19;
             // 
             // comboBoxEditMaDG
             // 
-            this.comboBoxEditMaDG.Location = new System.Drawing.Point(212, 319);
-            this.comboBoxEditMaDG.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.comboBoxEditMaDG.Location = new System.Drawing.Point(188, 255);
             this.comboBoxEditMaDG.MenuManager = this.barManager1;
             this.comboBoxEditMaDG.Name = "comboBoxEditMaDG";
             this.comboBoxEditMaDG.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEditMaDG.Size = new System.Drawing.Size(588, 27);
+            this.comboBoxEditMaDG.Size = new System.Drawing.Size(523, 23);
             this.comboBoxEditMaDG.TabIndex = 18;
             this.comboBoxEditMaDG.EditValueChanged += new System.EventHandler(this.comboBoxEditMaDG_EditValueChanged);
             // 
             // comboBoxEditSach
             // 
-            this.comboBoxEditSach.Location = new System.Drawing.Point(212, 248);
-            this.comboBoxEditSach.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.comboBoxEditSach.Location = new System.Drawing.Point(188, 198);
             this.comboBoxEditSach.MenuManager = this.barManager1;
             this.comboBoxEditSach.Name = "comboBoxEditSach";
             this.comboBoxEditSach.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEditSach.Size = new System.Drawing.Size(588, 27);
+            this.comboBoxEditSach.Size = new System.Drawing.Size(523, 23);
             this.comboBoxEditSach.TabIndex = 17;
             // 
             // buttonLapPhieu
             // 
             this.buttonLapPhieu.BackColor = System.Drawing.Color.Blue;
             this.buttonLapPhieu.ForeColor = System.Drawing.SystemColors.Control;
-            this.buttonLapPhieu.Location = new System.Drawing.Point(212, 444);
-            this.buttonLapPhieu.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.buttonLapPhieu.Location = new System.Drawing.Point(188, 355);
             this.buttonLapPhieu.Name = "buttonLapPhieu";
-            this.buttonLapPhieu.Size = new System.Drawing.Size(588, 64);
+            this.buttonLapPhieu.Size = new System.Drawing.Size(523, 51);
             this.buttonLapPhieu.TabIndex = 12;
             this.buttonLapPhieu.Text = "Lập phiếu";
             this.buttonLapPhieu.UseVisualStyleBackColor = false;
@@ -366,10 +356,9 @@ namespace AppLibrary
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(325, 378);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.radioButton1.Location = new System.Drawing.Point(289, 302);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(79, 23);
+            this.radioButton1.Size = new System.Drawing.Size(71, 20);
             this.radioButton1.TabIndex = 10;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Tại chỗ";
@@ -378,10 +367,9 @@ namespace AppLibrary
             // hINHTHUCRadioButton
             // 
             this.hINHTHUCRadioButton.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.pHIEUMUONBindingSource, "HINHTHUC", true));
-            this.hINHTHUCRadioButton.Location = new System.Drawing.Point(212, 378);
-            this.hINHTHUCRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.hINHTHUCRadioButton.Location = new System.Drawing.Point(188, 302);
             this.hINHTHUCRadioButton.Name = "hINHTHUCRadioButton";
-            this.hINHTHUCRadioButton.Size = new System.Drawing.Size(117, 30);
+            this.hINHTHUCRadioButton.Size = new System.Drawing.Size(104, 24);
             this.hINHTHUCRadioButton.TabIndex = 5;
             this.hINHTHUCRadioButton.TabStop = true;
             this.hINHTHUCRadioButton.Text = "Mượn về";
@@ -400,23 +388,19 @@ namespace AppLibrary
             // gridControl1
             // 
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControl1.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gridControl1.Location = new System.Drawing.Point(839, 40);
+            this.gridControl1.Location = new System.Drawing.Point(746, 34);
             this.gridControl1.MainView = this.gridView1;
-            this.gridControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gridControl1.MenuManager = this.barManager1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(805, 546);
+            this.gridControl1.Size = new System.Drawing.Size(715, 432);
             this.gridControl1.TabIndex = 7;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
             // 
             // gridView1
             // 
-            this.gridView1.DetailHeight = 437;
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsEditForm.PopupEditFormWidth = 900;
             // 
             // qltvDataSet1
             // 
@@ -425,16 +409,15 @@ namespace AppLibrary
             // 
             // FormPHIEUMUONSACH
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1644, 610);
+            this.ClientSize = new System.Drawing.Size(1461, 488);
             this.Controls.Add(this.gridControl1);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.barDockControlLeft);
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
             this.Controls.Add(this.barDockControlTop);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FormPHIEUMUONSACH";
             this.Text = "FormPHIEUMUONSACH";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
