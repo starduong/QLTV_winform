@@ -29,7 +29,7 @@ namespace AppLibrary
         }
 
         private string _DATABASE_NAME;
-        private bool _isLogTruncateOnly = true;
+        private bool _isNoTruncateOn = true;
 
         private void FormBackupRestore_Load(object sender, EventArgs e)
         {   // ____TABLE DATABASE____
@@ -296,15 +296,15 @@ namespace AppLibrary
                                           "Hành động này sẽ ghi đè lên CSDL hiện tại!";
                 if (XtraMessageBox.Show(confirmMessagePITR, "Xác nhận Phục hồi Theo Thời Gian", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    if (_isLogTruncateOnly)
-                    {
-                        // ------- ALL BACKUP LOG DEFAULT (TRUNCATE_ONLY) --------
-                        ExecuteRestoreStopAt(deviceName, deviceNameLog, restoreTime);
-                    }
-                    else
+                    if (_isNoTruncateOn)
                     {
                         // -------- ALL BACKUP LOG USE NO_TRUNCATE --------
                         ExecuteRestoreStopAt_Simplified(deviceName, deviceNameLog, restoreTime);
+                    }
+                    else
+                    {
+                        // ------- ALL BACKUP LOG DEFAULT --------
+                        ExecuteRestoreStopAt(deviceName, deviceNameLog, restoreTime);
                     }
                 }
             }

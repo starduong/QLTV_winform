@@ -58,15 +58,37 @@ namespace AppLibrary
                 try
                 {
                     this.sp_GetSachDangMuon_ByDocGiaTableAdapter.Fill(this.qLTVDataSet.sp_GetSachDangMuon_ByDocGia, maDG);
+
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Lỗi tải sách đang mượn của độc giả: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                soSachCoTheMuon = 3 - sp_GetSachDangMuon_ByDocGiaBindingSource.Count;
-
-                if (soSachCoTheMuon > 0)
+                int countMuonVe = 0;
+                foreach (DataRowView row in sp_GetSachDangMuon_ByDocGiaBindingSource)
+                {
+                    if (row["HINHTHUC"].ToString() == "Mượn về")
+                        countMuonVe++;
+                }
+                soSachCoTheMuon = 3 - countMuonVe;
+                bool hasOverdueBook = false;
+                foreach (DataRowView row in sp_GetSachDangMuon_ByDocGiaBindingSource)
+                {
+                    string hinhThuc = row["HINHTHUC"].ToString();
+                    DateTime ngayMuon = Convert.ToDateTime(row["NGAYMUON"]);
+                    if (hinhThuc == "Mượn về" && ngayMuon.AddDays(15) < DateTime.Now)
+                    {
+                        hasOverdueBook = true;
+                        break;
+                    }
+                }
+                if (hasOverdueBook)
+                {
+                    lblThongBao.Text = "Độc giả có sách quá hạn nên không được mượn sách nữa.";
+                    soSachCoTheMuon = 0;
+                }
+                else if (soSachCoTheMuon > 0)
                 {
                     lblThongBao.Text = $"Độc giả này có thể mượn về thêm: {soSachCoTheMuon} quyển.";
                 }
@@ -282,7 +304,7 @@ namespace AppLibrary
                         }
 
                         // -- BƯỚC 2: INSERT CHI TIẾT PHIẾU MƯỢN VÀ UPDATE SÁCH (LẶP THEO SỐ SÁCH) --
-                        string sqlInsertCT = "INSERT INTO CT_PHIEUMUON (MAPHIEU, MASACH, TRA) VALUES (@MaPhieu, @MaSach, 0);";
+                        string sqlInsertCT = "INSERT INTO CT_PHIEUMUON (MAPHIEU, MASACH, TINHTRANG) VALUES (@MaPhieu, @MaSach, 1);";
                         string sqlUpdateSach = "UPDATE SACH SET CHOMUON = 1 WHERE MASACH = @MaSach;";
 
                         // Lặp qua danh sách sách đã chọn

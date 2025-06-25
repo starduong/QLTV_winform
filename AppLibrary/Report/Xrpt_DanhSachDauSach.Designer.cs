@@ -139,7 +139,7 @@
             this.xrPageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(299.9931F, 47.19433F);
             this.xrPageInfo1.Name = "xrPageInfo1";
             this.xrPageInfo1.PageInfo = DevExpress.XtraPrinting.PageInfo.DateTime;
-            this.xrPageInfo1.SizeF = new System.Drawing.SizeF(234.5204F, 23F);
+            this.xrPageInfo1.SizeF = new System.Drawing.SizeF(299.7981F, 23F);
             this.xrPageInfo1.StyleName = "PageInfo";
             this.xrPageInfo1.StylePriority.UseFont = false;
             this.xrPageInfo1.TextFormatString = "{0:dd/MM/yyyy}";
@@ -150,7 +150,7 @@
             this.lblNhanVienLbc.Multiline = true;
             this.lblNhanVienLbc.Name = "lblNhanVienLbc";
             this.lblNhanVienLbc.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.lblNhanVienLbc.SizeF = new System.Drawing.SizeF(149.34F, 23F);
+            this.lblNhanVienLbc.SizeF = new System.Drawing.SizeF(214.6178F, 23F);
             this.lblNhanVienLbc.Text = "HoVaTen";
             // 
             // xrLabel2

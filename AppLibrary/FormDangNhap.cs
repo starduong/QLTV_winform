@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Windows.Forms;
 using AppLibrary.ClassSupport;
 using DevExpress.CodeParser;
@@ -13,7 +14,7 @@ namespace AppLibrary
         public FormDangNhap(FormMain mainForm)
         {
             InitializeComponent();
-            this.mainForm = mainForm;       
+            this.mainForm = mainForm;
         }
         private void FormDangNhap_Load(object sender, EventArgs e)
         {
@@ -133,7 +134,12 @@ namespace AppLibrary
             Program.mGroup = Program.myReader.GetString(2);
 
             Program.myReader.Close();
-            Program.conn.Close();
+
+            // Gọi thủ tục cập nhật trạng thái độc giả quá hạn
+            string updateStatus = "EXEC sp_CapNhatHoatDongDocGia";
+            Program.ExecuteSqlNonQuery(updateStatus);
+            if (Program.conn.State == ConnectionState.Open)
+                Program.conn.Close();
 
             // Kích hoạt sự kiện đăng nhập thành công
             OnLoginSuccess?.Invoke(Program.mGroup);
@@ -160,7 +166,7 @@ namespace AppLibrary
         }
 
         private void btn_thoat_Click(object sender, EventArgs e)
-        {           
+        {
             //Đóng form đăng nhập
             this.Close();
         }

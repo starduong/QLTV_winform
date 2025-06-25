@@ -626,7 +626,7 @@
         private DevExpress.XtraEditors.LabelControl labelControl3;
         private System.Windows.Forms.RadioButton rbTAICHO;
         private System.Windows.Forms.RadioButton rbMUONVE;
-        private DevExpress.XtraEditors.SimpleButton btnTAOPHIEU;
+        //private DevExpress.XtraEditors.SimpleButton btnTAOPHIEU;
         private DevExpress.XtraEditors.LabelControl labelControl5;
         private System.Windows.Forms.BindingSource bdsDOCGIAHD;
         private QLTVDataSet qLTVDataSet;

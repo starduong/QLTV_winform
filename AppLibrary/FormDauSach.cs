@@ -1096,9 +1096,16 @@ namespace AppLibrary
 
             // Kiểm tra ISBN
             string iSBN = txtISBN.Text.Trim();
+
             if (string.IsNullOrWhiteSpace(iSBN))
             {
                 XtraMessageBox.Show("ISBN không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtISBN.Focus();
+                return false;
+            }
+            else if (iSBN.Contains(" "))
+            {
+                XtraMessageBox.Show("ISBN không được chứa dấu cách!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtISBN.Focus();
                 return false;
             }

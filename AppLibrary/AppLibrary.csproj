@@ -120,6 +120,12 @@
     <Compile Include="FormDocGia.Designer.cs">
       <DependentUpon>FormDocGia.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormDocGia2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDocGia2.Designer.cs">
+      <DependentUpon>FormDocGia2.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDoiMatKhau.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +143,12 @@
     </Compile>
     <Compile Include="FormNhanVien.Designer.cs">
       <DependentUpon>FormNhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormNhanVien2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNhanVien2.Designer.cs">
+      <DependentUpon>FormNhanVien2.cs</DependentUpon>
     </Compile>
     <Compile Include="FormPhieuMuon.cs">
       <SubType>Form</SubType>
@@ -185,6 +197,12 @@
     </Compile>
     <Compile Include="FormTraSach.Designer.cs">
       <DependentUpon>FormTraSach.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTraSach2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTraSach2.Designer.cs">
+      <DependentUpon>FormTraSach2.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -261,6 +279,9 @@
     <EmbeddedResource Include="FormDocGia.resx">
       <DependentUpon>FormDocGia.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormDocGia2.resx">
+      <DependentUpon>FormDocGia2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormDoiMatKhau.resx">
       <DependentUpon>FormDoiMatKhau.cs</DependentUpon>
     </EmbeddedResource>
@@ -269,6 +290,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormNhanVien.resx">
       <DependentUpon>FormNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNhanVien2.resx">
+      <DependentUpon>FormNhanVien2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPhieuMuon.resx">
       <DependentUpon>FormPhieuMuon.cs</DependentUpon>
@@ -293,6 +317,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormTraSach.resx">
       <DependentUpon>FormTraSach.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTraSach2.resx">
+      <DependentUpon>FormTraSach2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

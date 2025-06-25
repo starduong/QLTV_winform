@@ -145,9 +145,10 @@ namespace AppLibrary
             string newPassword = txtMatKhau.Text.Trim();
 
             // TRUYỀN CÁC THAM SỐ VÀ GỌI SP ĐỔI MẬT KHẨU
-            // Tạo câu lệnh SQL để gọi stored procedure
-            string sql = $"EXEC sp_DoiMatKhau @LGNAME = '{loginName.Replace("'", "''")}', " +
-                         $"@MKMOI = '{newPassword.Replace("'", "''")}'";
+            // Escape dấu nháy đơn trong mật khẩu
+            string escapedPassword = newPassword.Replace("'", "''");
+            // Câu lệnh ALTER LOGIN
+            string sql = $"ALTER LOGIN {loginName} WITH PASSWORD = N'{escapedPassword}'";
 
             try
             {

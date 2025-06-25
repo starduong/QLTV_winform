@@ -115,12 +115,12 @@ namespace AppLibrary
 
         private void btnNhanVien_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            OpenForm(typeof(FormNhanVien));
+            OpenForm(typeof(FormNhanVien2));
         }
 
         private void btnDocGia_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            OpenForm(typeof(FormDocGia));
+            OpenForm(typeof(FormDocGia2));
         }
 
         // *** REPORT ***************************************************************************
